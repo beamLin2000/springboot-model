@@ -1,11 +1,11 @@
-package com.gxa.modules.sys.service.Impl;
+package com.gxa.modules.login.service.Impl;
 
 import com.gxa.common.utils.Base64Utils;
 import com.gxa.common.utils.Result;
 import com.gxa.common.utils.TokenGenerator;
-import com.gxa.modules.sys.entity.User;
-import com.gxa.modules.sys.redis.SysUserRedis;
-import com.gxa.modules.sys.service.UserTokenService;
+import com.gxa.modules.login.entity.User;
+import com.gxa.modules.login.redis.SysUserRedis;
+import com.gxa.modules.login.service.UserTokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

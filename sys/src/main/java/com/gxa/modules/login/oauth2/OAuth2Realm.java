@@ -1,8 +1,7 @@
-package com.gxa.modules.sys.oauth2;
+package com.gxa.modules.login.oauth2;
 
-import com.gxa.common.utils.Base64Utils;
-import com.gxa.modules.sys.entity.User;
-import com.gxa.modules.sys.service.UserTokenService;
+import com.gxa.modules.login.entity.User;
+import com.gxa.modules.login.service.UserTokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -12,7 +11,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
 

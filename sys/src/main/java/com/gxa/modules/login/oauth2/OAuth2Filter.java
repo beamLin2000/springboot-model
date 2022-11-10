@@ -1,4 +1,4 @@
-package com.gxa.modules.sys.oauth2;
+package com.gxa.modules.login.oauth2;
 
 import com.google.gson.Gson;
 import com.gxa.common.utils.ErrorCode;

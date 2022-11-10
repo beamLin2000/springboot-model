@@ -1,13 +1,12 @@
-package com.gxa.modules.sys.service.Impl;
+package com.gxa.modules.login.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.gxa.modules.sys.entity.User;
-import com.gxa.modules.sys.mapper.UserMapper;
-import com.gxa.modules.sys.service.UserService;
+import com.gxa.modules.login.entity.User;
+import com.gxa.modules.login.mapper.UserMapper;
+import com.gxa.modules.login.service.UserService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
@@ -15,11 +14,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public User queryByUsername(String username) {
         User user = baseMapper.selectOne(new QueryWrapper<User>().eq("user_name", username));
         return user;
-    }
-
-    @Override
-    public List<User> queryUser() {
-        List<User> list = baseMapper.selectList(null);
-        return list;
     }
 }

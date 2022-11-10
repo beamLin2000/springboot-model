@@ -1,7 +1,7 @@
 package com.gxa.config;
 
-import com.gxa.modules.sys.oauth2.OAuth2Filter;
-import com.gxa.modules.sys.oauth2.OAuth2Realm;
+import com.gxa.modules.login.oauth2.OAuth2Filter;
+import com.gxa.modules.login.oauth2.OAuth2Realm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;

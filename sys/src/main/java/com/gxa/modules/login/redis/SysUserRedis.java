@@ -1,9 +1,9 @@
-package com.gxa.modules.sys.redis;
+package com.gxa.modules.login.redis;
 
 import com.gxa.common.utils.JsonUtils;
 import com.gxa.common.utils.RedisKeys;
 import com.gxa.common.utils.RedisUtils;
-import com.gxa.modules.sys.entity.User;
+import com.gxa.modules.login.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
