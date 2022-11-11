@@ -1,6 +1,7 @@
 package com.gxa.modules.login.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.gxa.modules.login.entity.SysUser;
 import com.gxa.modules.login.entity.User;
 
 import java.util.List;

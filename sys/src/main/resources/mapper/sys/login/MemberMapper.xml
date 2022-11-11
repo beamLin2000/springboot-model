@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxa.modules.login.mapper.MemberMapper">
+    <insert id="add">
+        insert into t_user_role(user_id,role_id) values (userId,roleId)
+    </insert>
+    <select id="queryAll" resultType="com.gxa.modules.login.dto.Member">
+        SELECT r.name as role,u.user_name,u.real_name,u.phone_number,u.status,u.create_time
+        FROM t_user_role ur,t_sys_user u,t_role r
+        WHERE u.id = ur.user_id and ur.role_id = r.id
+    </select>
+    <select id="queryAllByCondition" resultType="com.gxa.modules.login.dto.Member">
+        SELECT r.name as role,u.user_name,u.real_name,u.phone_number,u.status,u.create_time
+        FROM t_user_role ur,t_sys_user u,t_role r
+        <where>
+            u.id = ur.user_id and ur.role_id = r.id
+<!--        <if test="username != null and username != ''">-->
+<!--            and u.user_name like  "%" #{username} "%"-->
+<!--        </if>-->
+        <if test="role != null and role != ''">
+            and and r.name =#{role}
+        </if>
+        </where>
+    </select>
+    <select id="roleId" resultType="java.lang.Integer">
+        select id from t_role where name=#{username}
+    </select>
+    <select id="userId" resultType="java.lang.Integer">
+        select id from t_sys_user where usser_name=#{username}
+    </select>
+    <select id="queryA" resultType="com.gxa.modules.login.dto.Member">
+        SELECT r.name as role,u.user_name,u.real_name,u.phone_number,u.status,u.create_time
+        FROM t_user_role ur,t_sys_user u,t_role r
+        WHERE u.id = ur.user_id and ur.role_id = r.id
+    </select>
+</mapper>

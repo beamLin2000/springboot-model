@@ -22,13 +22,17 @@ import java.io.Serializable;
 public class User implements Serializable {
     private Integer id;
     @TableField("user_name")
-    @NotBlank(message="用户名不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String username;
-    @NotBlank(message="密码不能为空", groups = AddGroup.class)
-    @TableField("pwd")
-    private String pwd;
+    @TableField("password")
+    private String password;
     @TableField("salt")
     private String salt;
-
-
+    @TableField("real_name")
+    private String realName;
+    @TableField("phone_number")
+    private Integer phoneNumber;
+    @TableField("email")
+    private String email;
+    @TableField("loc")
+    private String loc;
 }

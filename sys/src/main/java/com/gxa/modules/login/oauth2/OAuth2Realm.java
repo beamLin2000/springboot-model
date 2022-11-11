@@ -59,7 +59,6 @@ public class OAuth2Realm extends AuthorizingRealm {
         //我们这里模拟具有权限
         if("zs".equals(user.getUsername())) {
             perms.add("sys:user:list");
-
         }
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();

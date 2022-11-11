@@ -3,6 +3,7 @@ package com.gxa.modules.login.service.Impl;
 import com.gxa.common.utils.Base64Utils;
 import com.gxa.common.utils.Result;
 import com.gxa.common.utils.TokenGenerator;
+import com.gxa.modules.login.entity.SysUser;
 import com.gxa.modules.login.entity.User;
 import com.gxa.modules.login.redis.SysUserRedis;
 import com.gxa.modules.login.service.UserTokenService;
@@ -30,10 +31,29 @@ public class UserTokenServiceImpl implements UserTokenService {
     }
 
     @Override
+    public Result createToken(SysUser sysUser) {
+        String token = TokenGenerator.generateValue(sysUser.getUsername());
+        String str = sysUser.getUsername()+":"+token;
+        String encodeToken = Base64Utils.encode(str);
+        sysUserRedis.addSysToken(token,sysUser);
+        Map map = new HashMap();
+        map.put("token",encodeToken);
+
+        return new Result().ok(map);
+    }
+
+    @Override
     public User validateToken(String token) {
         String decodeToken = Base64Utils.decode(token);
         log.info(decodeToken);
         User user = sysUserRedis.getUserByToken(decodeToken);
         return user;
+    }
+
+    @Override
+    public SysUser validateSysUserToken(String token) {
+        String decodeToken = Base64Utils.decode(token);
+        log.info(decodeToken);
+        return sysUserRedis.getSysUserByToken(decodeToken);
     }
 }
