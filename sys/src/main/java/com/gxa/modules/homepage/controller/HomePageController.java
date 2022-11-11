@@ -28,25 +28,18 @@ public class HomePageController {
     private TransactionStatisticsService transactionStatisticsService;
 
     @ApiOperation(value="商品总量的查询接口")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "today",value ="今天的日期",dataType ="string"),
-    }
-    )
-    @GetMapping("/getgetGoodsAndSales/{today}")
-    public Result<GoodsAndSales> getGoodsAndSales(@PathVariable("today") String today){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println(today);
-        Date date = null;
-        try {
-            date = simpleDateFormat.parse(today);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        long time = date.getTime();
+    @GetMapping("/getgetGoodsAndSales")
+    public Result<GoodsAndSales> getGoodsAndSales(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        Date today = calendar.getTime();
+        long time = today.getTime();
         time = time+24*60*60*1000;
         Date tomorrow = new Date(time);
-        System.out.println(date);
-        GoodsAndSales goodsAndSales = this.goodsAndSalesService.queryGoodsAndSalesByToday(date,tomorrow);
+        GoodsAndSales goodsAndSales = this.goodsAndSalesService.queryGoodsAndSalesByToday(today,tomorrow);
         return new Result<GoodsAndSales>().ok(goodsAndSales);
     }
 
