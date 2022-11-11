@@ -11,6 +11,8 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 public class UserController {
     @Autowired
@@ -18,8 +20,8 @@ public class UserController {
     @Autowired
     private UserTokenService userTokenService;
     @PostMapping("/sys/login")
-    public Result login(@RequestBody UserForm userForm){
-        User user = this.userService.queryByUsername(userForm.getUsername());
+    public Result login(@RequestBody UserForm userForm, HttpServletRequest request){
+       User user = this.userService.queryByUsername(userForm.getUsername());
         if (user==null){
             return new Result().error(ErrorCode.ACCOUNT_PASSWORD_ERROR,"用户名或密码错误");
         }

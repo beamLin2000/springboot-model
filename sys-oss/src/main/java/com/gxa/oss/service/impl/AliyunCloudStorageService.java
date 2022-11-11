@@ -1,6 +1,8 @@
 package com.gxa.oss.service.impl;
 
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.model.ObjectMetadata;
+import com.github.tobato.fastdfs.proto.mapper.ObjectMataData;
 import com.gxa.common.exception.ResultException;
 import com.gxa.oss.config.StorageConfig;
 import com.gxa.oss.service.AbstractStorageService;
@@ -29,7 +31,10 @@ public class AliyunCloudStorageService extends AbstractStorageService {
         OSSClient client = new OSSClient(config.getAliyunEndPoint(), config.getAliyunAccessKeyId(),
                 config.getAliyunAccessKeySecret());
         try {
-            client.putObject(config.getAliyunBucketName(), path, inputStream);
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType("image/jpg");
+            objectMetadata.setContentDisposition("inline");
+            client.putObject(config.getAliyunBucketName(), path, inputStream,objectMetadata);
             client.shutdown();
         } catch (Exception e){
             throw new ResultException("上传文件失败，请检查配置信息", e);
