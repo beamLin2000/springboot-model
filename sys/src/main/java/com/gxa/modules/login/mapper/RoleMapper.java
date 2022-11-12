@@ -10,5 +10,6 @@ import java.util.List;
 @Mapper
 public interface RoleMapper extends BaseMapper<Role> {
     List<Role> queryAll();
+    List<String> roleName();
     List<Role> queryByname(String name);
 }

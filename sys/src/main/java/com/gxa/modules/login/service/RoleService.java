@@ -8,5 +8,6 @@ import java.util.Map;
 
 public interface RoleService extends IService<Role> {
     List<Role> queryAll(Map<String,Object> params);
+    List<String> roleName();
     void del(String name);
 }

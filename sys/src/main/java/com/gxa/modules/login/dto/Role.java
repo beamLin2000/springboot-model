@@ -14,7 +14,6 @@ public class Role implements Serializable {
     @ApiModelProperty(name = "name",value = "角色名",required = true)
     @TableField("name")
     private String name;
-
     @ApiModelProperty(name = "desc",value = "描述",required = false)
     @TableField("desc")
     private String desc;

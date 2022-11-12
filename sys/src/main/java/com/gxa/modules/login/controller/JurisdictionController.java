@@ -58,12 +58,14 @@ public class JurisdictionController {
         return new Result<>().ok();
     }
     @GetMapping("/toMemberAdd")
-    @ApiOperation("成员管理添加获取8位随机密码")
+    @ApiOperation("成员管理添加获取8位随机密码及角色列表")
     public Result list01(){
         UUID id=UUID.randomUUID();
         String[] idd=id.toString().split("-");
+        List<String> roleNames = this.roleService.roleName();
         Map map = new HashMap();
         map.put("pwd",idd[0]);
+        map.put("roleName",roleNames);
         return new Result<>().ok(map);
     }
     @ApiOperation("成员管理添加")

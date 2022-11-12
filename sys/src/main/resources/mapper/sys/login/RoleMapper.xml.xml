@@ -12,4 +12,8 @@
         FROM t_role t
         where t.name=#{name}
     </select>
+    <select id="roleName" resultType="java.lang.String">
+        SELECT t.name
+        FROM t_role t
+    </select>
 </mapper>

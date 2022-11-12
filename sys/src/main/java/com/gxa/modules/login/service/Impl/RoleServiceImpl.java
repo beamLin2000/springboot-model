@@ -27,6 +27,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
+    public List<String> roleName() {
+        return this.roleMapper.roleName();
+    }
+
+    @Override
     public void del(String name) {
         this.baseMapper.delete(new QueryWrapper<Role>().eq("name",name));
     }
