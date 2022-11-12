@@ -27,7 +27,7 @@ import java.util.UUID;
 
 @RestController
 @Api(tags = "用户接口")
-public class UserController {
+public class LoginController {
     @Autowired
     private UserService userService;
     @Autowired
