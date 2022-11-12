@@ -38,18 +38,14 @@ public class UserController {
     @PostMapping("/login")
     public Result login(@RequestBody UserForm userForm){
         AssertUtils.isNull(userForm,"账号或密码不能为空");
-        //1、拿着用户名去 查询用户信息
         User user = this.userService.queryByUsername(userForm.getUsername());
         if(user == null){
             return new Result().error(ErrorCode.ACCOUNT_PASSWORD_ERROR,"用户名或密码不正确");
         }
-        //2、通过明文加密  对比  密文 是否一致
         String pwd = new SimpleHash("MD5", userForm.getPassword(), user.getSalt(), 1024).toString();
-        //3、不一致      返回Result.error()
         if(!pwd.equals(user.getPassword())){
             return new Result().error(ErrorCode.ACCOUNT_PASSWORD_ERROR,"用户名或密码不正确");
         }
-        //4、一致     生成token 保存redis中 返回Result.ok()
         Result result = this.userTokenService.createToken(user);
         Map map = new HashMap();
         map.put("token",result.getData());
@@ -59,19 +55,14 @@ public class UserController {
     @PostMapping("/sys/login")
     public Result sysLogin(@RequestBody UserForm userForm){
         AssertUtils.isNull(userForm,"账号或密码不能为空");
-        //1、拿着用户名去 查询用户信息
         SysUser sysUser = this.sysUserService.queryByUsername(userForm.getUsername());
-
         if(sysUser == null){
             return new Result().error(ErrorCode.ACCOUNT_PASSWORD_ERROR,"用户名或密码不正确");
         }
-        //2、通过明文加密  对比  密文 是否一致
         String pwd = new SimpleHash("MD5", userForm.getPassword(), sysUser.getSalt(), 1024).toString();
-        //3、不一致      返回Result.error()
         if(!pwd.equals(sysUser.getPassword())){
             return new Result().error(ErrorCode.ACCOUNT_PASSWORD_ERROR,"用户名或密码不正确");
         }
-        //4、一致     生成token 保存redis中 返回Result.ok()
         Result result = this.userTokenService.createToken(sysUser);
         String url = this.sysUserService.queryUrl(userForm.getUsername());
         Menu menu = JSON.parseObject(url, Menu.class);
@@ -80,7 +71,7 @@ public class UserController {
         map.put("menu",menu);
         return new Result().ok(map);
     }
-    @ApiOperation("账户设置")
+    @ApiOperation("后台账户设置")
     @GetMapping("/sysUser/preUpdate/{username}")
     @ApiImplicitParam(paramType = "query",name = "username",value ="用户名",dataType ="String",required = true)
     public Result<com.gxa.modules.login.dto.User> preUpdate(@RequestParam("username") String username){
@@ -88,7 +79,7 @@ public class UserController {
         com.gxa.modules.login.dto.User user = this.sysUserService.queryByRealname(username);
         return new Result<com.gxa.modules.login.dto.User>().ok(user);
     }
-    @ApiOperation("账号信息修改")
+    @ApiOperation("后台账号信息修改")
     @PutMapping("/sysUser/update")
     public Result update(@RequestBody SysUser sysUser){
         AssertUtils.isNull(sysUser,"账号或密码不能为空");

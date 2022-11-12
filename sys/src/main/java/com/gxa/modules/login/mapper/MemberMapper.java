@@ -16,7 +16,7 @@ public interface MemberMapper extends BaseMapper<Member> {
 
     List<Member> queryAll();
     Page<Member> queryAll(Page<Member> page);
-    List<Member> queryAllByCondition(@Param("username") String username, @Param("role")String role);
+    Page<Member> queryAllByCondition(Page<Member> page,@Param("username") String username, @Param("role")String role);
     void add(@Param("userId") Integer userId,@Param("roleId") Integer roleId);
     Integer roleId(String role);
     Integer userId(String username);

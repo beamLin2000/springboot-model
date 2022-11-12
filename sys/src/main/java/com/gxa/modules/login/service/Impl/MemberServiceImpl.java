@@ -4,6 +4,7 @@ package com.gxa.modules.login.service.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.gxa.common.utils.AssertUtils;
 import com.gxa.common.utils.Result;
 import com.gxa.modules.login.dto.Member;
 import com.gxa.modules.login.mapper.MemberMapper;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,26 +43,25 @@ public class MemberServiceImpl  extends ServiceImpl<MemberMapper, Member> implem
     public Result queryAll(Map<String,Object> params) {
         Object usernameObj = params.get("username");
         Object roleObj = params.get("role");
-        if ((usernameObj != null && usernameObj != "") || (roleObj != null && roleObj != "")){
+        if (!StringUtils.isEmpty(usernameObj) || !StringUtils.isEmpty(roleObj)){
             String username = "";
             String role = "";
-            if (usernameObj != null){
+            if (!StringUtils.isEmpty(usernameObj)){
                 username = usernameObj.toString();
             }
-            if (roleObj != null){
+            if (!StringUtils.isEmpty(roleObj)){
                 role = roleObj.toString();
             }
-//            Page<Member> page = new Page<>(Integer.parseInt(params.get("page").toString()),Integer.parseInt(params.get("limit").toString()));
-//            Page<Member> memberPage = (Page<Member>) memberMapper.queryAllByCondition(username, role);
-//            List<Member> members = memberPage.getRecords();
-//            Integer count = Math.toIntExact(memberPage.getTotal());
-//            Map map = new HashMap();
-//            map.put("count",count);
-//            map.put("currentPage",members);
-//            map.put("page",Integer.parseInt(params.get("page").toString()));
-//            map.put("limit",Integer.parseInt(params.get("limit").toString()));
-//            return new Result<>().ok(map);
-            return new Result<>().ok();
+            Page<Member> page = new Page<>(Integer.parseInt(params.get("page").toString()),Integer.parseInt(params.get("limit").toString()));
+            Page<Member> memberPage = memberMapper.queryAllByCondition(page,username, role);
+            List<Member> members = memberPage.getRecords();
+            Integer count = Math.toIntExact(memberPage.getTotal());
+            Map map = new HashMap();
+            map.put("count",count);
+            map.put("currentPage",members);
+            map.put("page",Integer.parseInt(params.get("page").toString()));
+            map.put("limit",Integer.parseInt(params.get("limit").toString()));
+            return new Result<>().ok(map);
         }
         Page<Member> page = new Page<>(Integer.parseInt(params.get("page").toString()),Integer.parseInt(params.get("limit").toString()));
         Page<Member> memberPage= memberMapper.queryAll(page);
