@@ -9,11 +9,8 @@ import com.gxa.modules.homepage.service.TransactionStatisticsService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 @Api(tags = "后台首页接口")
 @RestController
