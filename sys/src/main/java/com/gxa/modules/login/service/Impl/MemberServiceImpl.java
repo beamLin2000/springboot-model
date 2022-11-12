@@ -4,10 +4,8 @@ package com.gxa.modules.login.service.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Result;
 import com.gxa.modules.login.dto.Member;
-import com.gxa.modules.login.entity.SysUser;
 import com.gxa.modules.login.mapper.MemberMapper;
 import com.gxa.modules.login.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +24,9 @@ public class MemberServiceImpl  extends ServiceImpl<MemberMapper, Member> implem
     private MemberMapper memberMapper;
 
     @Override
-    public PageUtils queryAll(Map<String, Object> params) {
-        if (params.get("role") != "" && params.get("role") != null){
-            List<Member> members = this.memberMapper.queryAllByCondition(params.get("username").toString(),params.get("role").toString());
-            PageUtils pageUtils = new PageUtils(members, members.size(), Integer.parseInt(params.get("limit").toString()), Integer.parseInt(params.get("page").toString()));
-            return pageUtils;
-        }
-        List<Member> members = this.memberMapper.queryAll();
-        PageUtils pageUtils = new PageUtils(members, members.size(), Integer.parseInt(params.get("limit").toString()), Integer.parseInt(params.get("page").toString()));
-        return pageUtils;
-    }
-
-    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void delete(String username) {
+        this.memberMapper.deleteRole(this.memberMapper.userId(username));
         this.memberMapper.delete(new QueryWrapper<Member>().eq("user_name",username));
     }
 
@@ -46,18 +34,43 @@ public class MemberServiceImpl  extends ServiceImpl<MemberMapper, Member> implem
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void add(Member member) {
         this.memberMapper.insert(member);
-        this.memberMapper.add(this.memberMapper.userId(member.getUsername()),this.memberMapper.roleId(member.getUsername()));
+        this.memberMapper.add(this.memberMapper.userId(member.getUsername()),this.memberMapper.roleId(member.getRole()));
     }
 
     @Override
-    public Result queryA(Map<String,Object> params) {
+    public Result queryAll(Map<String,Object> params) {
+        Object usernameObj = params.get("username");
+        Object roleObj = params.get("role");
+        if ((usernameObj != null && usernameObj != "") || (roleObj != null && roleObj != "")){
+            String username = "";
+            String role = "";
+            if (usernameObj != null){
+                username = usernameObj.toString();
+            }
+            if (roleObj != null){
+                role = roleObj.toString();
+            }
+//            Page<Member> page = new Page<>(Integer.parseInt(params.get("page").toString()),Integer.parseInt(params.get("limit").toString()));
+//            Page<Member> memberPage = (Page<Member>) memberMapper.queryAllByCondition(username, role);
+//            List<Member> members = memberPage.getRecords();
+//            Integer count = Math.toIntExact(memberPage.getTotal());
+//            Map map = new HashMap();
+//            map.put("count",count);
+//            map.put("currentPage",members);
+//            map.put("page",Integer.parseInt(params.get("page").toString()));
+//            map.put("limit",Integer.parseInt(params.get("limit").toString()));
+//            return new Result<>().ok(map);
+            return new Result<>().ok();
+        }
         Page<Member> page = new Page<>(Integer.parseInt(params.get("page").toString()),Integer.parseInt(params.get("limit").toString()));
-        Page<Member> memberPage= memberMapper.queryA(page);
+        Page<Member> memberPage= memberMapper.queryAll(page);
         List<Member> members = memberPage.getRecords();
         Integer count = Math.toIntExact(memberPage.getTotal());
         Map map = new HashMap();
         map.put("count",count);
         map.put("currentPage",members);
+        map.put("page",Integer.parseInt(params.get("page").toString()));
+        map.put("limit",Integer.parseInt(params.get("limit").toString()));
         return new Result<>().ok(map);
     }
 

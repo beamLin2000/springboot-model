@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -39,8 +40,7 @@ public class JurisdictionController {
     )
     @GetMapping("/list")
     public Result queryList(@RequestParam @ApiIgnore Map<String,Object> params){
-        PageUtils pageUtils = this.memberService.queryAll(params);
-        Result result = this.memberService.queryA(params);
+        Result result = this.memberService.queryAll(params);
         return result;
     }
     @ApiOperation("成员删除")
@@ -65,9 +65,12 @@ public class JurisdictionController {
     @ApiOperation("添加")
     @PostMapping("/add")
     public Result add(@RequestBody Member member){
-
         ValidatorUtils.validateEntity(member, AddGroup.class);
-        this.memberService.save(member);
+        String uuid = String.valueOf(UUID.randomUUID());
+        member.setSalt(uuid);
+        String password = new SimpleHash("MD5", member.getPassword(), uuid, 1024).toString();
+        member.setPassword(password);
+        this.memberService.add(member);
         return new Result<>().ok();
     }
 }

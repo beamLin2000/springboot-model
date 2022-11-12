@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface MemberService extends IService<Member> {
-    PageUtils queryAll(Map<String,Object> params);
 
     void delete(String username);
     void add(Member member);
-    Result queryA(Map<String,Object> params);
+    Result queryAll(Map<String,Object> params);
 }
