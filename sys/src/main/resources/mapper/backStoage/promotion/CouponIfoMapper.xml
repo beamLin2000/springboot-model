@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxa.modules.sys.mapper.backStage.promotion.couponManagement.CouponMapper">
+    <insert id="add">
+        INSERT INTO promotion_coupon_management values
+                    (id, coupon_type, coupon_name, coupon_describe,coupon_money,
+                     expiration_date, use_threshold, total_circulation,limited_collar,use_members,usable_goods)
+    </insert>
+    <insert id="couponAddDrug">
+        INSERT INTO promotion_coupon_add_drug values (id,drug_code,drug_name,coupon_manager_id)
+    </insert>
+    <insert id="couponAddClass">
+        INSERT INTO promotion_coupon_add_class values (id,classification_name,level)
+    </insert>
+
+    <select id="queryById"
+            resultType="com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll">
+        SELECT
+            `coupon_name`,`coupon_money`,`coupon_type`,`use_threshold`,`status`,`amount_issued`,
+            `received`,`unclaimed`,`not_used`,`use_issued`
+        FROM promotion_coupon_management WHERE id = #{id}
+    </select>
+</mapper>
