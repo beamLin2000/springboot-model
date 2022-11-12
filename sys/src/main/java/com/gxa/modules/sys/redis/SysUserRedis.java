@@ -23,6 +23,7 @@ public class SysUserRedis {
          * sys:user:username:3333 ----user
          */
         this.redisUtils.set(RedisKeys.getSysUserTokenKey(user.getUsername(),token),user);
+
     }
 
     public User getUserByToken(String token){
@@ -31,4 +32,7 @@ public class SysUserRedis {
 
         return user;
     }
+
+
+
 }
