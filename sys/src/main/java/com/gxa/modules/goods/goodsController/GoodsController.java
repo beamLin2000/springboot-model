@@ -1,18 +1,20 @@
-package com.gxa.modules.sys.controller.goodsController;
+package com.gxa.modules.goods.goodsController;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Result;
-import com.gxa.modules.sys.entity.goods.Drug;
-import com.gxa.modules.sys.entity.goods.Medicinal;
-import com.gxa.modules.sys.entity.goods.Symptom;
-import com.gxa.modules.sys.form.goods.CheckForm;
-import com.gxa.modules.sys.form.goods.DrugForm;
-import com.gxa.modules.sys.form.goods.MedicinalForm;
-import com.gxa.modules.sys.form.goods.SymptomForm;
-import com.gxa.modules.sys.service.goods.DrugService;
-import com.gxa.modules.sys.service.goods.MedicinalService;
-import com.gxa.modules.sys.service.goods.SymptomService;
+import com.gxa.modules.goods.goodsEntity.Drug;
+import com.gxa.modules.goods.goodsEntity.Medicinal;
+import com.gxa.modules.goods.goodsEntity.Symptom;
+import com.gxa.modules.goods.goodsForm.CheckForm;
+import com.gxa.modules.goods.goodsForm.DrugForm;
+import com.gxa.modules.goods.goodsForm.MedicinalForm;
+import com.gxa.modules.goods.goodsForm.SymptomForm;
+import com.gxa.modules.goods.goodsService.DrugService;
+import com.gxa.modules.goods.goodsService.MedicinalService;
+import com.gxa.modules.goods.goodsService.SymptomService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -52,7 +54,7 @@ public class GoodsController {
     @GetMapping("/medicinal/list")
     public Result medicinalList(@RequestParam @ApiIgnore Map<String,Object> params){
 
-        PageUtils list = this.medicinalService.List(params);
+        PageUtils list = this.medicinalService.list(params);
         return new Result().ok(list);
     }
 
@@ -82,6 +84,7 @@ public class GoodsController {
         Date date = new Date();
         medicinal.setAddTime(date);
 
+        medicinal.setId(UUID.randomUUID().toString());
         medicinal.setRank("一级");
         this.medicinalService.save(medicinal);
 
@@ -96,6 +99,8 @@ public class GoodsController {
         medicinal.setAddTime(date);
         medicinal.setRank("二级");
 
+        medicinal.setId(UUID.randomUUID().toString());
+
         medicinal.setHigherLevel(medicinal.getId());
         this.medicinalService.save(medicinal);
 
@@ -106,18 +111,16 @@ public class GoodsController {
     @GetMapping("/medicinal/insertRank/select")
     public Result medicinalInsertRankSelect(){
 
-        Date date = new Date(2022 - 12 - 1);
-        List<Medicinal> medicinals = new ArrayList<>();
-        Medicinal medicinal = new Medicinal(1, "1", "1", "1", "1", "1", date,1,1);
-        boolean add = medicinals.add(medicinal);
-        return new Result().ok(add);
+
+        List<Medicinal> medicinals = this.medicinalService.list(new QueryWrapper<Medicinal>().eq("`rank`", "一级"));
+        return new Result().ok(medicinals);
     }
 
     @ApiOperation(value="药品分类，删除接口")
     @DeleteMapping("/medicinal/delete")
     public Result medicinalDelete(@RequestParam("id") int id){
 
-
+        this.medicinalService.removeById(id);
         return new Result().ok();
     }
 
@@ -125,8 +128,8 @@ public class GoodsController {
     @GetMapping("/medicinal/select")
     public Result medicinalSelect(@RequestParam("id") int id){
 
-        Date date = new Date(2022 - 12 - 1);
-        Medicinal medicinal = new Medicinal(1, "1", "1", "1", "1", "1", date,1,1);
+        Date date = new Date();
+        Medicinal medicinal = new Medicinal("1", "1", "1", "1", "1", "1", date,1,"1");
         Result<Medicinal> Result = new Result<>();
         return new Result().ok(medicinal);
     }
@@ -166,7 +169,7 @@ public class GoodsController {
     public Result medicinalTwoList(@RequestParam @ApiIgnore Map<String,Object> params){
 
         Date date = new Date(2022 - 12 - 1);
-        Medicinal medicinal = new Medicinal(1, "1", "1", "1", "1", "1", date,1,1);
+        Medicinal medicinal = new Medicinal("1", "1", "1", "1", "1", "1", date,1,"1");
         Result<Medicinal> Result = new Result<>();
         return Result.ok(medicinal);
     }
@@ -235,7 +238,7 @@ public class GoodsController {
     public Result symptomList(@RequestParam @ApiIgnore Map<String,Object> params){
 
         Date date = new Date(2022 - 12 - 1);
-        Symptom symptom = new Symptom(1, "1", "1", "1", "1", "1", date, 1);
+        Symptom symptom = new Symptom("1", "1", "1", "1", "1", "1", date, 1,"1");
         return new Result().ok(symptom);
     }
 
@@ -269,7 +272,7 @@ public class GoodsController {
 
         Date date = new Date(2022 - 12 - 1);
         List<Symptom> medicinals = new ArrayList<>();
-        Symptom symptom = new Symptom(1, "1", "1", "1", "1", "1", date, 1);
+        Symptom symptom = new Symptom("1", "1", "1", "1", "1", "1", date, 1,"1");
         boolean add = medicinals.add(symptom);
         return new Result().ok(add);
     }
@@ -288,7 +291,7 @@ public class GoodsController {
 
         Date date = new Date(2022 - 12 - 1);
 
-        Symptom symptom = new Symptom(1, "1", "1", "1", "1", "1", date, 1);
+        Symptom symptom = new Symptom("1", "1", "1", "1", "1", "1", date, 1,"1");
         return new Result().ok(symptom);
     }
 
@@ -330,7 +333,7 @@ public class GoodsController {
 
         Date date = new Date(2022 - 12 - 1);
 
-        Symptom symptom = new Symptom(1, "1", "1", "1", "1", "1", date, 1);
+        Symptom symptom = new Symptom("1", "1", "1", "1", "1", "1", date, 1,"1");
         return new Result().ok(symptom);
     }
 
@@ -398,7 +401,7 @@ public class GoodsController {
     public Result drugList(@RequestParam @ApiIgnore Map<String,Object> params){
 
         Date date = new Date(2022 - 12 - 1);
-        Drug drug = new Drug(1, "1", "1", 2.2, "1", "1", "1", "1", date, "1", "1", "1", 1, 1, "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
+        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
         return new Result().ok(drug);
     }
 
@@ -408,7 +411,7 @@ public class GoodsController {
 
 
         Date date = new Date(2022 - 12 - 1);
-        Drug drug = new Drug(1, "1", "1", 2.2, "1", "1", "1", "1", date, "1", "1", "1", 1, 1, "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
+        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
         return new Result().ok(drug);
     }
 
@@ -418,7 +421,7 @@ public class GoodsController {
 
 
         Date date = new Date(2022 - 12 - 1);
-        Drug drug = new Drug(1, "1", "1", 2.2, "1", "1", "1", "1", date, "1", "1", "1", 1, 1, "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
+        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
         return new Result().ok(drug);
     }
 
@@ -427,7 +430,7 @@ public class GoodsController {
     public Result drugSelect(@RequestParam("id") int id){
 
         Date date = new Date(2022 - 12 - 1);
-        Drug drug = new Drug(1, "1", "1", 2.2, "1", "1", "1", "1", date, "1", "1", "1", 1, 1, "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
+        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
         return new Result().ok(drug);
     }
 
@@ -509,7 +512,7 @@ public class GoodsController {
     public Result checkList(@RequestParam @ApiIgnore Map<String,Object> params){
 
         Date date = new Date(2022 - 12 - 1);
-        Drug drug = new Drug(1, "1", "1", 2.2, "1", "1", "1", "1", date, "1", "1", "1", 1, 1, "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
+        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
         return new Result().ok(drug);
     }
 
@@ -518,7 +521,7 @@ public class GoodsController {
     public Result checkSelect(@RequestParam("id") int id){
 
         Date date = new Date(2022 - 12 - 1);
-        Drug drug = new Drug(1, "1", "1", 2.2, "1", "1", "1", "1", date, "1", "1", "1", 1, 1, "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
+        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
         return new Result().ok(drug);
     }
 
@@ -527,7 +530,7 @@ public class GoodsController {
     public Result checkUpdate(@RequestBody CheckForm checkForm){
 
         Date date = new Date(2022 - 12 - 1);
-        Drug drug = new Drug(1, "1", "1", 2.2, "1", "1", "1", "1", date, "1", "1", "1", 1, 1, "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
+        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
         return new Result().ok(drug);
     }
 
@@ -537,7 +540,7 @@ public class GoodsController {
 
 
         Date date = new Date(2022 - 12 - 1);
-        Drug drug = new Drug(1, "1", "1", 2.2, "1", "1", "1", "1", date, "1", "1", "1", 1, 1, "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
+        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
         return new Result().ok(drug);
     }
 
@@ -546,7 +549,7 @@ public class GoodsController {
     public Result checkScreen(@RequestBody DrugForm drugForm){
 
         Date date = new Date(2022 - 12 - 1);
-        Drug drug = new Drug(1, "1", "1", 2.2, "1", "1", "1", "1", date, "1", "1", "1", 1, 1, "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
+        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
         return new Result().ok(drug);
     }
 

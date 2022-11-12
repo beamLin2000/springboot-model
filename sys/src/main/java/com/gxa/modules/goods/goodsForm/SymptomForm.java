@@ -1,4 +1,4 @@
-package com.gxa.modules.sys.form.goods;
+package com.gxa.modules.goods.goodsForm;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

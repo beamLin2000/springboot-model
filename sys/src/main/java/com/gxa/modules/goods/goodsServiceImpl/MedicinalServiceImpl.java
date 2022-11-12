@@ -1,19 +1,15 @@
-package com.gxa.modules.sys.service.Impl.goods;
+package com.gxa.modules.goods.goodsServiceImpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Query;
-import com.gxa.modules.sys.entity.User;
-import com.gxa.modules.sys.entity.goods.Medicinal;
-import com.gxa.modules.sys.mapper.UserMapper;
-import com.gxa.modules.sys.mapper.goods.MedicinalMapper;
-import com.gxa.modules.sys.service.goods.MedicinalService;
-import org.apache.commons.lang.StringUtils;
+import com.gxa.modules.goods.goodsEntity.Medicinal;
+import com.gxa.modules.goods.goodsMapper.MedicinalMapper;
+import com.gxa.modules.goods.goodsService.MedicinalService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -25,7 +21,7 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
      * @return
      */
     @Override
-    public PageUtils List(Map<String, Object> params) {
+    public PageUtils list(Map<String, Object> params) {
         IPage<Medicinal> page = this.page(new Query<Medicinal>().getPage(params),
                 new QueryWrapper<Medicinal>().eq("`rank`","一级"));
 

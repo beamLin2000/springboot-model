@@ -1,6 +1,6 @@
-package com.gxa.modules.sys.service.Impl.goods;
+package com.gxa.modules.goods.goodsServiceImpl;
 
-import com.gxa.modules.sys.service.goods.DrugService;
+import com.gxa.modules.goods.goodsService.DrugService;
 import org.springframework.stereotype.Service;
 
 @Service

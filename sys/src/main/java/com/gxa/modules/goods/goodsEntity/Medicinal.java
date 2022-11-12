@@ -1,4 +1,4 @@
-package com.gxa.modules.sys.entity.goods;
+package com.gxa.modules.goods.goodsEntity;
 
 
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -22,7 +22,7 @@ import java.util.Date;
 public class Medicinal {
 
     @ApiModelProperty("id")
-    private int id;//id
+    private String id;//id
 
     @ApiModelProperty("分类名称")
     @TableField("`category_name`")
@@ -51,7 +51,7 @@ public class Medicinal {
     private int version;//版本号
 
     @TableField("`higher_level`")
-    private int higherLevel;//上级编号
+    private String higherLevel;//上级编号
 
 
 }

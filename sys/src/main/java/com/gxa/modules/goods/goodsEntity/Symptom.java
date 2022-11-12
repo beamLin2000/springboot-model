@@ -1,5 +1,6 @@
-package com.gxa.modules.sys.entity.goods;
+package com.gxa.modules.goods.goodsEntity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Symptom {
 
-    private int id;
+    private String id;
     private String symptomName;//症状名称
     private String rank;//级别
     private String state;//状态
@@ -23,4 +24,6 @@ public class Symptom {
     private String upload;//上传人
     private Date addTime;//添加时间
     private int version;//版本号
+    @TableField("`higher_level`")
+    private String higherLevel;//上级编号
 }
