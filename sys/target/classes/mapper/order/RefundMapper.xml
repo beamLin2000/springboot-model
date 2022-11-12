@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxa.modules.order.mapper.RefundMapper">
+    <resultMap id="refundListDto" type="com.gxa.modules.order.dto.RefundListDto">
+        <result property="applicationNo" column="application_no"></result>
+        <result property="applicationTime" column="application_time"></result>
+        <result property="username" column="user_name"></result>
+        <result property="refundAmount" column="refund_amount"></result>
+        <result property="orderNo" column="order_no"></result>
+        <result property="refundStatus" column="refund_status"></result>
+        <result property="operationTime" column="operation_time"></result>
+    </resultMap>
+    <resultMap id="refundDetailDto" type="com.gxa.modules.order.dto.RefundDetailDto">
+        <result property="applicationNo" column="application_no"></result>
+        <result property="applicationTime" column="application_time"></result>
+        <result property="refundStatus" column="refund_status"></result>
+        <result property="username" column="user_name"></result>
+        <result property="orderNo" column="order_no"></result>
+        <result property="orderAmount" column="order_amount"></result>
+        <result property="refundAmount" column="refund_amount"></result>
+        <result property="refundMethod" column="refund_method"></result>
+        <result property="refundType" column="refund_type"></result>
+        <result property="refundReason" column="refund_reason"></result>
+        <result property="refundMark" column="refund_mark"></result>
+        <result property="operationPerson" column="operation_person"></result>
+    </resultMap>
+
+
+    <select id="queryRefundOrderByPage" resultMap="refundListDto">
+        SELECT r.application_no,r.application_time,u.user_name,r.refund_amount,r.order_no,r.refund_status,r.operation_time
+        FROM `order` r,t_user u
+        WHERE r.user_id=u.id
+        <choose>
+            <when test="refundStatus = null or refundStatus=''">
+                AND (r.refund_status='待处理' OR r.refund_status='已处理' or r.refund_status='已拒绝')
+            </when>
+            <otherwise>
+                AND r.refund_status=#{refundStatus}
+            </otherwise>
+        </choose>
+        <if test="orderNo != null and orderNo !=''">
+            AND r.order_no=#{orderNo}
+        </if>
+        <if test="startDate != null and endDate != null">
+            AND order_payTime BETWEEN #{startDate} AND #{endDate}
+        </if>
+    </select>
+    <select id="queryRefundDetailByApplicationNo" resultMap="refundDetailDto">
+        SELECT r.application_no,r.application_time,r.refund_status,u.user_name,r.order_no,r.order_amount,r.refund_amount,r.refund_method,r.refund_type,r.refund_reason,r.refund_mark,r.operation_person
+        FROM `order` r,t_user u
+        WHERE r.user_id=u.id AND r.application_no=#{applicationNo}
+    </select>
+</mapper>
