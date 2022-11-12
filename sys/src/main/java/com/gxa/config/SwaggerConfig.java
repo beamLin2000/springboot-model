@@ -39,9 +39,9 @@ public class SwaggerConfig implements WebMvcConfigurer {
     private Predicate<RequestHandler> getBasePackages() {
         Predicate<RequestHandler> predicate = Predicates.and(RequestHandlerSelectors.basePackage("com.gxa.modules.pay.controller"));
 
-        predicate = Predicates.or(RequestHandlerSelectors.basePackage("com.gxa.modules.sys.controller"), predicate);
+//        predicate = Predicates.or(RequestHandlerSelectors.basePackage("com.gxa.modules.sys.controller"), predicate);
         predicate = Predicates.or(RequestHandlerSelectors.basePackage("com.gxa.oss.controller"), predicate);
-        predicate = Predicates.or(RequestHandlerSelectors.basePackage("com.gxa.modules.excel.controller"), predicate);
+//        predicate = Predicates.or(RequestHandlerSelectors.basePackage("com.gxa.modules.excel.controller"), predicate);
         predicate = Predicates.or(RequestHandlerSelectors.basePackage("com.gxa.pay.controller"), predicate);
         predicate = Predicates.or(RequestHandlerSelectors.basePackage("com.gxa.modules"), predicate);
         return predicate;
