@@ -2,6 +2,7 @@ package com.gxa.modules.sys.form;
 
 import lombok.Data;
 
+
 @Data
 public class UserForm {
     private String username;
