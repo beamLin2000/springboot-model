@@ -1,7 +1,5 @@
 package com.gxa.modules.homepage.mapper;
 
-import com.gxa.modules.homepage.entity.CommodityPandent;
-import com.gxa.modules.homepage.entity.UserPandent;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

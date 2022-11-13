@@ -24,4 +24,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         map.put("goods",goods);
         return map;
     }
+
+    @Override
+    public List<Goods> queryRecommed() {
+        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+        List<Goods> goods = this.baseMapper.selectList(wrapper.eq("recommend", "是"));
+        return goods;
+    }
+
 }
