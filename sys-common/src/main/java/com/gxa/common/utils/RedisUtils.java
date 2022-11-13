@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -41,6 +40,9 @@ public class RedisUtils {
     public void set(String key, Object value){
         set(key, value, DEFAULT_EXPIRE);
     }
+
+
+
 
     public <T> T get(String key, Class<T> clazz, long expire) {
         String value = valueOperations.get(key);

@@ -60,13 +60,13 @@ public class XssUtils extends Whitelist {
             .addProtocols("embed", "src", "http", "https");
     }
 
-    public static void main(String[] args) {
-        StringBuilder html = new StringBuilder();
-//        html.append("<a href=\"https://www.baidu.com\" target=\"_blank\">百度</a>");
-        html.append("<script>alert(11)</script>");
-
-        System.out.println(filter(html.toString()));
-    }
+//    public static void main(String[] args) {
+//        StringBuilder html = new StringBuilder();
+////        html.append("<a href=\"https://www.baidu.com\" target=\"_blank\">百度</a>");
+//        html.append("<script>alert(11)</script>");
+//
+//        System.out.println(filter(html.toString()));
+//    }
 
 }
  
