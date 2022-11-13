@@ -1,4 +1,4 @@
-package com.gxa.modules.sys.entity.goods;
+package com.gxa.modules.sys.form.goods;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,14 +12,14 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Drug {
+public class DrugForm {
 
     private int id;
     private String drugName;//药品名称
     private String pictureUrl;//列表图
     private Double price;//价格
-    private String shelves;//是否   上架    用"0"表示未上架，"1"表示已上架
-    private String prescribe;//是否处方     是处方，用"是"表示，不是用"否"
+    private String shelves;//是否   上架
+    private String prescribe;//是否处方
     private String state;//审核状态
     private String stock;//库存
     private Date releaseTime;//发布时间
@@ -29,8 +29,8 @@ public class Drug {
     private String rotationalChartUrl;//轮播图   地址
     private String recommend;//是否推荐
 
-    private int medicinalId;//药品二级分类外键id
-    private int symptomId;//症状二级分类外键id
+    private int medicinalId;//药品分类外键id
+    private int symptomId;//症状分类外键id
 
     private String specifications;//规格
 
@@ -44,8 +44,6 @@ public class Drug {
     private String detailedIntroduction;//详细介绍
 
     private int version;//版本号
-
-    private String remarks;//备注
 
 
 
