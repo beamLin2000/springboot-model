@@ -26,7 +26,7 @@ public class Role implements Serializable {
     @TableField("create_time")
     private Date createTime;
 
-    @ApiModelProperty(name = "authority",value = "权限",required = true)
-    @TableField(exist = false)
-    private String authority;
+//    @ApiModelProperty(name = "authority",value = "权限",required = true)
+//    @TableField(exist = false)
+//    private String authority;
 }

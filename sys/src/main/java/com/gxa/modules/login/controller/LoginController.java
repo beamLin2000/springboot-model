@@ -56,6 +56,10 @@ public class LoginController {
     public Result sysLogin(@RequestBody UserForm userForm){
         AssertUtils.isNull(userForm,"账号或密码不能为空");
         SysUser sysUser = this.sysUserService.queryByUsername(userForm.getUsername());
+        System.out.println(sysUser.getStatus());
+        if (sysUser.getStatus() == 1){
+            return new Result().error(ErrorCode.ACCOUNT_DISABLE,"账户禁用");
+        }
         if(sysUser == null){
             return new Result().error(ErrorCode.ACCOUNT_PASSWORD_ERROR,"用户名或密码不正确");
         }

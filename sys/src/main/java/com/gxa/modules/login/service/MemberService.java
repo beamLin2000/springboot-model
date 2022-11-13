@@ -13,4 +13,5 @@ public interface MemberService extends IService<Member> {
     void delete(String username);
     void add(Member member);
     Result queryAll(Map<String,Object> params);
+    void updateStatus(Map<String,Object> params);
 }

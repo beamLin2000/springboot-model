@@ -75,4 +75,9 @@ public class MemberServiceImpl  extends ServiceImpl<MemberMapper, Member> implem
         return new Result<>().ok(map);
     }
 
+    @Override
+    public void updateStatus(Map<String, Object> params) {
+        this.memberMapper.updateStatus(Integer.parseInt(params.get("status").toString()), params.get("username").toString());
+    }
+
 }

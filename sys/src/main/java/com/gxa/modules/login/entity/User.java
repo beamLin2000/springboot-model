@@ -35,4 +35,6 @@ public class User implements Serializable {
     private String email;
     @TableField("loc")
     private String loc;
+    @TableField(exist = false)
+    private Integer status;
 }

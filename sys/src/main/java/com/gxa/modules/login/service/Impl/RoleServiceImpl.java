@@ -7,6 +7,7 @@ import com.gxa.modules.login.mapper.RoleMapper;
 import com.gxa.modules.login.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public List<Role> queryAll(Map<String,Object> params) {
-        if (params.get("name") == null){
+        if (StringUtils.isEmpty(params.get("name"))){
             return this.roleMapper.queryAll();
         }
         return this.roleMapper.queryByname(params.get("name").toString());
@@ -34,5 +35,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public void del(String name) {
         this.baseMapper.delete(new QueryWrapper<Role>().eq("name",name));
+    }
+
+    @Override
+    public void updateStatus(Map<String,Object> params) {
+        this.roleMapper.updateStatus(Integer.parseInt(params.get("status").toString()), params.get("name").toString());
     }
 }

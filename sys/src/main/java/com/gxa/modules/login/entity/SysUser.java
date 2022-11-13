@@ -54,4 +54,8 @@ public class SysUser implements Serializable {
     @ApiModelProperty(name = "email",value = "email",required = true)
     @TableField("email")
     private String email;
+
+    @TableField("status")
+    @ApiModelProperty(name = "status",value = "状态",hidden = true)
+    private Integer status;
 }
