@@ -2,6 +2,7 @@ package com.gxa.modules.login.controller;
 
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.gxa.common.utils.AssertUtils;
+import com.gxa.common.utils.ErrorCode;
 import com.gxa.common.utils.Result;
 import com.gxa.common.validator.ValidatorUtils;
 import com.gxa.common.validator.group.AddGroup;
@@ -83,6 +84,19 @@ public class JurisdictionController {
         this.memberService.add(member);
         return new Result<>().ok();
     }
+    @ApiOperation("修改成员启用状态")
+    @GetMapping("/updateMember")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query",name = "status",value ="状态",dataType ="int",required = true),
+            @ApiImplicitParam(paramType = "query",name = "username",value ="用户名",dataType ="String",required = true)
+
+    }
+    )
+    public Result updateMember(@RequestParam @ApiIgnore Map<String,Object> params){
+        AssertUtils.isNull(params, "状态或用户名不为能空");
+        this.memberService.updateStatus(params);
+        return new Result<>().ok();
+    }
     @ApiOperation(value="角色管理查询")
     @GetMapping("/roleList")
     @ApiImplicitParam(paramType = "query",name = "name",value ="角色名",dataType ="String")
@@ -97,7 +111,26 @@ public class JurisdictionController {
     @ApiImplicitParam(paramType = "query",name = "name",value ="角色名",dataType ="String",required = true)
     public Result delete(@RequestParam("name") String name){
         AssertUtils.isBlank(name, "角色名不为能空");
+        if (name.equals("管理员")){
+            return new Result().error(ErrorCode.FORBIDDEN,"禁止删除");
+        }
         this.roleService.del(name);
+        return new Result<>().ok();
+    }
+    @ApiOperation("修改角色启用状态")
+    @GetMapping("/updateRole")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query",name = "status",value ="状态",dataType ="int",required = true),
+            @ApiImplicitParam(paramType = "query",name = "name",value ="角色名",dataType ="String",required = true)
+
+    }
+    )
+    public Result updateRole(@RequestParam @ApiIgnore Map<String,Object> params){
+        AssertUtils.isNull(params, "状态或角色名不为能空");
+        if (params.get("name").toString().equals("管理员")){
+            return new Result().error(ErrorCode.FORBIDDEN,"禁止修改");
+        }
+        this.roleService.updateStatus(params);
         return new Result<>().ok();
     }
 }

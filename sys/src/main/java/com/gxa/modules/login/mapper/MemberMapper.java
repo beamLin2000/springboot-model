@@ -21,4 +21,5 @@ public interface MemberMapper extends BaseMapper<Member> {
     Integer roleId(String role);
     Integer userId(String username);
     void deleteRole(Integer userId);
+    void updateStatus(@Param("status")Integer status,@Param("username")String username);
 }
