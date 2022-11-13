@@ -27,4 +27,12 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
 
         return new PageUtils(page);
     }
+
+    @Override
+    public PageUtils listTwo(Map<String, Object> params) {
+        IPage<Medicinal> page = this.page(new Query<Medicinal>().getPage(params),
+                new QueryWrapper<Medicinal>().eq("`rank`","二级"));
+
+        return new PageUtils(page);
+    }
 }

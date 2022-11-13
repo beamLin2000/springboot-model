@@ -10,5 +10,6 @@ import java.util.Map;
 public interface MedicinalService extends IService<Medicinal> {
 
     PageUtils list(Map<String,Object> params);
+    PageUtils listTwo(Map<String,Object> params);
 
 }

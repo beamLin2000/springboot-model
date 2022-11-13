@@ -51,6 +51,7 @@ public class Medicinal {
     private int version;//版本号
 
     @TableField("`higher_level`")
+    @ApiModelProperty("上级编号")
     private String higherLevel;//上级编号
 
 
