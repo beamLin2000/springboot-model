@@ -120,8 +120,17 @@ public class MyInfoCortroller {
     public Result allAddress(HttpServletRequest request){
         String token = request.getHeader("token");
         User user = this.userTokenService.validateToken(token);
+        System.out.println(user);
         List<ShipToAddress> shipToAddresses = this.newAddressService.allAddress(user.getId().toString());
-
+        return new Result().ok(shipToAddresses);
+    }
+    @ApiOperation("优惠卷")
+    @GetMapping("/coupon")
+    public Result coupon(HttpServletRequest request){
+        String token = request.getHeader("token");
+        User user = this.userTokenService.validateToken(token);
+        System.out.println(user);
+        List<ShipToAddress> shipToAddresses = this.newAddressService.allAddress(user.getId().toString());
         return new Result().ok(shipToAddresses);
     }
 }

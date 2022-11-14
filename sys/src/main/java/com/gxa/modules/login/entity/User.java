@@ -20,6 +20,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @TableName("t_user")
 public class User implements Serializable {
+    @TableField(exist = false)
     private Integer id;
     @TableField("real_name")
     private String realName;

@@ -45,6 +45,9 @@ public class RedisKeys {
     public static String getSysUserTokenKey(String token){
         return "sys:user:"+token;
     }
+    public static String getUserTokenKey(String token){
+        return "user:"+token;
+    }
 
 }
  

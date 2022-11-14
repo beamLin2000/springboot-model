@@ -26,11 +26,11 @@ public class SysUserRedis {
         this.redisUtils.set(RedisKeys.getSysUserTokenKey(user.getPhoneNumber().toString(),token),user);
     }
     public void addToken(String captcha, String phone){
-        this.redisUtils.set(captcha,phone,300);
+        this.redisUtils.set(captcha,phone,240000);
     }
 
     public User getUserByToken(String token){
-        String userJsonStr = this.redisUtils.get(RedisKeys.getSysUserTokenKey(token));
+        String userJsonStr = this.redisUtils.get(RedisKeys.getUserTokenKey(token));
         User user = JsonUtils.parseObject(userJsonStr, User.class);
         return user;
     }
@@ -54,7 +54,7 @@ public class SysUserRedis {
          * sys:user:username:2222 ----user
          * sys:user:username:3333 ----user
          */
-        this.redisUtils.set(RedisKeys.getSysUserTokenKey(user.getPhoneNumber(),token),user);
+        this.redisUtils.set(RedisKeys.getUserTokenKey(token),user);
     }
 
     public SysUser getSysUserByToken(String token){
