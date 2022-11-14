@@ -5,11 +5,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Result;
-import com.gxa.modules.fristpage.entity.Cart;
-import com.gxa.modules.fristpage.entity.Goods;
-import com.gxa.modules.fristpage.entity.GoodsInfo;
-import com.gxa.modules.fristpage.entity.LimitedTimeGoods;
+import com.gxa.modules.fristpage.entity.*;
 import com.gxa.modules.fristpage.service.*;
+import com.gxa.modules.login.entity.User;
+import com.gxa.modules.login.service.UserTokenService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -18,11 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Api(tags = "前台首页接口")
 @RestController
 public class FristPageController {
+    @Autowired
+    private UserTokenService userTokenService;
     @Autowired
     private GoodsService goodsService;
     @Autowired
@@ -33,6 +35,8 @@ public class FristPageController {
     private CartService cartService;
     @Autowired
     private LimitedTimeGoodsService limitedTimeGoodsService;
+    @Autowired
+    private MsgService msgService;
     @ApiOperation(value="搜索接口")
     @GetMapping("/search")
     public Result search(@RequestParam("key") String key){
@@ -96,14 +100,12 @@ public class FristPageController {
         this.cartService.save(cart);
         return new Result().ok();
     }
-    @ApiOperation(value="药品详情里清单接口")
-    @GetMapping("/list")
-    public Result list(){
-
-        List list = new ArrayList();
-        list.add("sss");
-        return new Result().ok(list);
+  @ApiOperation(value="消息")
+    @GetMapping("/msg")
+    public Result msg(HttpServletRequest request){
+      String token = request.getHeader("token");
+      User user = this.userTokenService.validateToken(token);
+      List<Msg> msgs = this.msgService.queryAllMsg(user.getId());
+      return new Result().ok(msgs);
     }
-
-
 }

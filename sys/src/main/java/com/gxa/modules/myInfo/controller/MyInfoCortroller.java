@@ -5,13 +5,11 @@ import com.gxa.modules.confirmOrder.dto.OrderDto;
 import com.gxa.modules.login.entity.User;
 import com.gxa.modules.login.redis.SysUserRedis;
 import com.gxa.modules.login.service.UserTokenService;
+import com.gxa.modules.myInfo.entity.Coupon;
 import com.gxa.modules.myInfo.entity.MyInfo;
 import com.gxa.modules.myInfo.entity.ShipToAddress;
 import com.gxa.modules.myInfo.entity.WaitPayOrder;
-import com.gxa.modules.myInfo.service.CancelService;
-import com.gxa.modules.myInfo.service.MyInfoService;
-import com.gxa.modules.myInfo.service.MyOrderService;
-import com.gxa.modules.myInfo.service.NewAddressService;
+import com.gxa.modules.myInfo.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +34,8 @@ public class MyInfoCortroller {
     private CancelService cancelService;
     @Autowired
     private NewAddressService newAddressService;
+    @Autowired
+    private CouponService couponService;
     @ApiOperation("我的基本信息")
     @GetMapping("/myinfo")
     public Result confirmOrder(HttpServletRequest request){
@@ -126,11 +126,10 @@ public class MyInfoCortroller {
     }
     @ApiOperation("优惠卷")
     @GetMapping("/coupon")
-    public Result coupon(HttpServletRequest request){
+    public Result coupon(HttpServletRequest request,@RequestParam("status") String status){
         String token = request.getHeader("token");
         User user = this.userTokenService.validateToken(token);
-        System.out.println(user);
-        List<ShipToAddress> shipToAddresses = this.newAddressService.allAddress(user.getId().toString());
-        return new Result().ok(shipToAddresses);
+        List<Coupon> coupons = this.couponService.queryByStatus(user.getId().toString(), status);
+        return new Result().ok(coupons);
     }
 }

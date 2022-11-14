@@ -11,4 +11,6 @@ public class Coupon {
     private String name;
     private Double couponPrice;
     private String expirationDate;
+    private String usableGoods;
+    private String usethreshold;
 }
