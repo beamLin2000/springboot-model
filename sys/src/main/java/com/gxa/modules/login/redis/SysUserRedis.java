@@ -34,7 +34,7 @@ public class SysUserRedis {
          * sys:user:username:2222 ----user
          * sys:user:username:3333 ----user
          */
-        this.redisUtils.set(captcha,phone,240000);
+        this.redisUtils.set(captcha,phone,300);
     }
 
     public User getUserByToken(String token){
