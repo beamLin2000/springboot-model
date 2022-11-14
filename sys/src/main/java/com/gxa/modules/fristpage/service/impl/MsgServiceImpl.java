@@ -20,7 +20,9 @@ public class MsgServiceImpl implements MsgService {
     }
 
     @Override
-    public boolean saveMsg(Msg msg) {
-        return false;
+    public boolean saveMsg(Msg msg,Integer id) {
+        msg.setId(id);
+        this.msgMapper.insert(msg);
+        return true;
     }
 }
