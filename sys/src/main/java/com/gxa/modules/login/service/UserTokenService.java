@@ -7,9 +7,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserTokenService {
-    Result createToken(User user);
+    void createToken(String phone,String captcha);
     Result createToken(SysUser sysUser);
-
+    Result createToken(User user);
     User validateToken(String token);
     SysUser validateSysUserToken(String token);
+    String validateCaptcha(String phone);
 }

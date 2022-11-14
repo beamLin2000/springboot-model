@@ -23,7 +23,18 @@ public class SysUserRedis {
          * sys:user:username:2222 ----user
          * sys:user:username:3333 ----user
          */
-        this.redisUtils.set(RedisKeys.getSysUserTokenKey(user.getUsername(),token),user);
+        this.redisUtils.set(RedisKeys.getSysUserTokenKey(user.getPhoneNumber().toString(),token),user);
+    }
+    public void addToken(String captcha, String phone){
+
+        //token --- user
+        //1111--user
+        /**
+         * sys:user:username:1111  ---user
+         * sys:user:username:2222 ----user
+         * sys:user:username:3333 ----user
+         */
+        this.redisUtils.set(captcha,phone,240000);
     }
 
     public User getUserByToken(String token){
@@ -43,11 +54,27 @@ public class SysUserRedis {
          */
         this.redisUtils.set(RedisKeys.getSysUserTokenKey(sysUser.getUsername(),token),sysUser);
     }
+    public void addUserToken(String token, User user){
+
+        //token --- user
+        //1111--user
+        /**
+         * sys:user:username:1111  ---user
+         * sys:user:username:2222 ----user
+         * sys:user:username:3333 ----user
+         */
+        this.redisUtils.set(RedisKeys.getSysUserTokenKey(user.getPhoneNumber(),token),user);
+    }
 
     public SysUser getSysUserByToken(String token){
         String userJsonStr = this.redisUtils.get(RedisKeys.getSysUserTokenKey(token));
         SysUser sysUser = JsonUtils.parseObject(userJsonStr, SysUser.class);
 
         return sysUser;
+    }
+    public String getCaptcha(String phoneNum){
+        String userJsonStr = this.redisUtils.get(phoneNum);
+
+        return userJsonStr;
     }
 }

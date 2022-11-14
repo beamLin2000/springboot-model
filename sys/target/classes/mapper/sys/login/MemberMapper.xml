@@ -6,6 +6,11 @@
     <insert id="add">
         insert into t_user_role(user_id,role_id) values (#{userId},#{roleId})
     </insert>
+    <update id="updateStatus">
+        update t_sys_user
+        set status=#{status}
+        where user_name=#{username}
+    </update>
     <delete id="deleteRole">
         delete from t_user_role where user_id=#{userId}
     </delete>

@@ -16,4 +16,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = baseMapper.selectOne(new QueryWrapper<User>().eq("user_name", username));
         return user;
     }
+
+    @Override
+    public User queryByPhoneNum(String phoneNum) {
+        User user = baseMapper.selectOne(new QueryWrapper<User>().eq("phone_number", phoneNum));
+        return user;
+    }
+
+    @Override
+    public void add(User user) {
+        baseMapper.insert(user);
+    }
 }
