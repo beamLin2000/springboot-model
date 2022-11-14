@@ -52,14 +52,10 @@ public class OAuth2Realm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         User user = (User)principals.getPrimaryPrincipal();
-        Integer userId = user.getId();
 
         Set<String> perms = new HashSet<>();
         //调用数据库 或者从redis中获取该用户的权限
         //我们这里模拟具有权限
-        if("zs".equals(user.getUsername())) {
-            perms.add("sys:user:list");
-        }
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         simpleAuthorizationInfo.addStringPermissions(perms);

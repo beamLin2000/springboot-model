@@ -4,19 +4,25 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.gxa.common.utils.AssertUtils;
 import com.gxa.common.utils.ErrorCode;
+import com.gxa.common.utils.RedisUtils;
 import com.gxa.common.utils.Result;
 import com.gxa.common.validator.ValidatorUtils;
 import com.gxa.common.validator.group.UpdateGroup;
 import com.gxa.modules.login.entity.Menu;
+import com.gxa.modules.login.entity.Send;
 import com.gxa.modules.login.entity.SysUser;
 import com.gxa.modules.login.entity.User;
+import com.gxa.modules.login.form.NoseUserForm;
 import com.gxa.modules.login.form.UserForm;
+import com.gxa.modules.login.msg.SendCode;
+import com.gxa.modules.login.redis.SysUserRedis;
 import com.gxa.modules.login.service.SysUserService;
 import com.gxa.modules.login.service.UserService;
 import com.gxa.modules.login.service.UserTokenService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,17 +40,33 @@ public class LoginController {
     private SysUserService sysUserService;
     @Autowired
     private UserTokenService userTokenService;
+
+    @ApiOperation("验证码")
+    @GetMapping("/login/code/{phoneNum}")
+    @ApiImplicitParam(paramType = "query",name = "phoneNum",value ="手机号",dataType ="String",required = true)
+    public Result sendCode(@RequestParam("phoneNum") String phoneNum) throws Exception {
+        String captcha = SendCode.send(phoneNum);
+        userTokenService.createToken(phoneNum,captcha);
+        return new Result<>().ok();
+    }
     @ApiOperation(value="前端用户登录接口")
     @PostMapping("/login")
-    public Result login(@RequestBody UserForm userForm){
-        AssertUtils.isNull(userForm,"账号或密码不能为空");
-        User user = this.userService.queryByUsername(userForm.getUsername());
-        if(user == null){
-            return new Result().error(ErrorCode.ACCOUNT_PASSWORD_ERROR,"用户名或密码不正确");
+    public Result login(@RequestBody NoseUserForm noseUserForm) throws Exception {
+        AssertUtils.isNull(noseUserForm,"手机号或验证码不能为空");
+        String captcha = userTokenService.validateCaptcha(noseUserForm.getPhone());
+        if (StringUtils.isBlank(noseUserForm.getCaptcha())){
+            return new Result().error(ErrorCode.CAPTCHA_ERROR,"请输入验证码");
         }
-        String pwd = new SimpleHash("MD5", userForm.getPassword(), user.getSalt(), 1024).toString();
-        if(!pwd.equals(user.getPassword())){
-            return new Result().error(ErrorCode.ACCOUNT_PASSWORD_ERROR,"用户名或密码不正确");
+        if (!captcha.equals(noseUserForm.getCaptcha())){
+            return new Result().error(ErrorCode.CAPTCHA_ERROR,"验证码错误");
+        }
+        User u = this.userService.queryByPhoneNum(noseUserForm.getPhone());
+        User user = new User();
+        if(u == null){
+            user.setPhoneNumber(noseUserForm.getPhone());
+            System.out.println(user.getPhoneNumber());
+            System.out.println(user);
+            userService.add(user);
         }
         Result result = this.userTokenService.createToken(user);
         Map map = new HashMap();
@@ -56,7 +78,6 @@ public class LoginController {
     public Result sysLogin(@RequestBody UserForm userForm){
         AssertUtils.isNull(userForm,"账号或密码不能为空");
         SysUser sysUser = this.sysUserService.queryByUsername(userForm.getUsername());
-        System.out.println(sysUser.getStatus());
         if (sysUser.getStatus() == 1){
             return new Result().error(ErrorCode.ACCOUNT_DISABLE,"账户禁用");
         }

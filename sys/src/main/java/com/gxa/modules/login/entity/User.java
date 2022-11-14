@@ -20,17 +20,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @TableName("t_user")
 public class User implements Serializable {
-    private Integer id;
-    @TableField("user_name")
-    private String username;
-    @TableField("password")
-    private String password;
-    @TableField("salt")
-    private String salt;
     @TableField("real_name")
     private String realName;
     @TableField("phone_number")
-    private Integer phoneNumber;
+    private String phoneNumber;
     @TableField("email")
     private String email;
     @TableField("loc")

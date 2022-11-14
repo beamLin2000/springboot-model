@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface UserService extends IService<User> {
     User queryByUsername(String username);
+    User queryByPhoneNum(String phoneNum);
+    void add(User user);
 }
