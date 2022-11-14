@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxa.modules.fristpage.mapper.GoodsInfoMapper">
+    <resultMap id="goodsinfo" type="com.gxa.modules.fristpage.entity.GoodsInfo">
+        <result property="name" column="drug_name"></result>
+        <result property="imageUrl" column="rotational_chart_url"></result>
+        <result property="price" column="price"></result>
+        <result property="rx" column="prescribe"></result>
+        <result property="spec" column="specifications"></result>
+        <result property="approvalNum" column="document_number"></result>
+        <result property="mainFunction" column="main_function"></result>
+        <result property="usage" column="usage"></result>
+        <result property="instructionsUrl" column="instructions_url"></result>
+        <result property="detailsUrl" column="detailed_introduction"></result>
+    </resultMap>
+    <select id="queryByName" resultMap="goodsinfo">
+        select d.drug_name,d.rotational_chart_url,d.price,d.prescribe,d.specifications,
+               d.document_number,d.main_function,d.`usage`,d.instructions_url,
+               d.detailed_introduction
+        from drug d
+        where d.drug_name=#{name}
+    </select>
+    <select id="queryNum" resultType="java.lang.Integer">
+        select count(o.id)
+        from `order` o , drug d
+        where o.drug_id=d.id and d.drug_name=#{name} and o.order_createTime between #{fristDay} and #{lastDay}
+    </select>
+</mapper>
