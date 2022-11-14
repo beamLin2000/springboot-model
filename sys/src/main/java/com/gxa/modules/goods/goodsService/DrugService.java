@@ -9,4 +9,5 @@ import java.util.Map;
 
 public interface DrugService extends IService<Drug> {
     PageUtils list(Map<String,Object> params);
+    PageUtils listCheck(Map<String,Object> params);
 }

@@ -135,9 +135,9 @@ public class GoodsController {
 
     @ApiOperation(value="药品分类，批量删除接口")
     @DeleteMapping("/medicinal/deleteMore")
-    public Result medicinalDeleteMore(@RequestBody String[] id){
+    public Result medicinalDeleteMore(@RequestBody List<String> id){
 
-
+        this.medicinalService.removeByIds(id);
         return new Result().ok();
     }
 
@@ -226,9 +226,9 @@ public class GoodsController {
 
     @ApiOperation(value="药品分类，二级分类，批量删除接口")
     @DeleteMapping("/medicinal/two/deleteMore")
-    public Result medicinalTwoDeleteMore(@RequestBody String[] id){
+    public Result medicinalTwoDeleteMore(@RequestBody List<String> id){
 
-
+        this.medicinalService.removeByIds(id);
         return new Result().ok();
     }
 
@@ -342,9 +342,9 @@ public class GoodsController {
 
     @ApiOperation(value="症状分类，批量删除接口")
     @DeleteMapping("/Symptom/deleteMore")
-    public Result symptomDeleteMore(@RequestBody String[] id){
+    public Result symptomDeleteMore(@RequestBody List<String> id){
 
-
+        this.symptomService.removeByIds(id);
         return new Result().ok();
     }
 
@@ -431,9 +431,9 @@ public class GoodsController {
 
     @ApiOperation(value="症状分类，二级分类，批量删除接口")
     @DeleteMapping("/Symptom/two/deleteMore")
-    public Result symptomTwoDeleteMore(@RequestBody String[] id){
+    public Result symptomTwoDeleteMore(@RequestBody List<String> id){
 
-
+        this.symptomService.removeByIds(id);
         return new Result().ok();
     }
 
@@ -461,11 +461,11 @@ public class GoodsController {
             @ApiImplicitParam(paramType = "query",name = "limit",value ="每页显示多少条",dataType ="int"),
             @ApiImplicitParam(paramType = "query",name = "order",value ="升序asc，降序填desc",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "sidx",value ="排序字段",dataType ="String"),
-            @ApiImplicitParam(paramType = "query",name = "durgName",value ="药品名称,查询条件",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "drugName",value ="药品名称,查询条件",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "medicinalId",value ="药品分类ID，查询条件",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "symptomId",value ="症状分类ID，查询条件",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "shelves",value ="是否上架，0表示未上架，1表示已上架，查询条件",dataType ="String"),
-            @ApiImplicitParam(paramType = "query",name = "state",value ="是否审核，已审核，未审核，查询条件",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "state",value ="是否审核，未通过,查询条件",dataType ="String"),
     })
     @GetMapping("/drug/list")
     public Result drugList(@RequestParam @ApiIgnore Map<String,Object> params){
@@ -544,50 +544,51 @@ public class GoodsController {
 
     @ApiOperation(value="药品管理，编辑接口")
     @PostMapping("/drug/update")
-    public Result drugUpdate(@RequestBody DrugForm drugForm){
+    public Result drugUpdate(@RequestBody Drug drug){
 
-        Result<Medicinal> Result = new Result<>();
-        return Result.ok();
+        this.drugService.update(drug,new UpdateWrapper<Drug>().eq("id",drug.getId()).eq("`version`",drug.getVersion()));
+        drug.setVersion(drug.getVersion()+1);
+        this.drugService.update(drug,new UpdateWrapper<Drug>().eq("id",drug.getId()));
+        return new Result().ok();
     }
 
     @ApiOperation(value="药品管理，删除接口")
     @DeleteMapping("/drug/delete")
     public Result drugDelete(@RequestParam("id") int id){
 
-
+        this.drugService.removeById(id);
         return new Result().ok();
     }
 
     @ApiOperation(value="药品管理，新增药品接口")
     @PutMapping("/drug/insert")
-    public Result drugInsert(@RequestBody DrugForm drugForm){
+    public Result drugInsert(@RequestBody Drug drug){
 
-
-        return new Result().ok();
-    }
-
-
-    @ApiOperation(value="药品管理，筛选接口")
-    @GetMapping("/drug/screen")
-    public Result drugInsertRank(@RequestBody DrugForm drugForm){
-
-
+        drug.setId(UUID.randomUUID().toString());
+        drug.setState("待审核");
+        this.drugService.save(drug);
         return new Result().ok();
     }
 
     @ApiOperation(value="药品管理，批量删除接口")
     @DeleteMapping("/drug/deleteMore")
-    public Result drugDeleteMore(@RequestBody String[] id){
+    public Result drugDeleteMore(@RequestBody List<String> id){
 
-
+        this.drugService.removeByIds(id);
         return new Result().ok();
     }
 
-    @ApiOperation(value="药品管理，根据id修改上架状态接口")
+    @ApiOperation(value="药品管理，修改上架状态接口")
     @PostMapping("/drug/updateByid")
-    public Result drugUpdateByid(@RequestBody int id){
+    public Result drugUpdateByid(@RequestBody Drug drug){
 
-
+        if(drug.getShelves().equals("0")){
+            drug.setShelves("1");
+            this.drugService.update(drug,new UpdateWrapper<Drug>().eq("id",drug.getId()));
+        }else {
+            drug.setShelves("0");
+            this.drugService.update(drug,new UpdateWrapper<Drug>().eq("id",drug.getId()));
+        }
         return new Result().ok();
     }
 
@@ -611,61 +612,91 @@ public class GoodsController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query",name = "page",value ="当前是第几页",dataType ="int"),
             @ApiImplicitParam(paramType = "query",name = "limit",value ="每页显示多少条",dataType ="int"),
-            @ApiImplicitParam(paramType = "query",name = "username",value ="查询条件",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "order",value ="升序asc，降序填desc",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "sidx",value ="排序字段",dataType ="String"),
-
+            @ApiImplicitParam(paramType = "query",name = "drugName",value ="药品名称,查询条件",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "medicinalId",value ="药品分类ID，查询条件",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "symptomId",value ="症状分类ID，查询条件",dataType ="String")
     })
-    @GetMapping("/check/list")//查询的数据是未审核的
+    @GetMapping("/check/list")//查询的数据是待审核的
     public Result checkList(@RequestParam @ApiIgnore Map<String,Object> params){
 
-//        Date date = new Date(2022 - 12 - 1);
-//        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
-        return new Result().ok();
+        PageUtils list = this.drugService.list(params);
+        return new Result().ok(list);
     }
 
     @ApiOperation(value="药品审核，查看接口")//可以直接调药品查看的接口
     @GetMapping("/check/select")
-    public Result checkSelect(@RequestParam("id") int id){
+    public Result checkSelect(@RequestParam("id") String id){
 
-//        Date date = new Date(2022 - 12 - 1);
-//        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
-        return new Result().ok();
+        Drug drug = this.drugService.getOne(new QueryWrapper<Drug>().eq("id", id));
+
+        //找到药品分类，拼成字符串
+        Medicinal medicinal = this.medicinalService.getById(drug.getMedicinalId());
+        String categoryName1 = medicinal.getCategoryName();
+        Medicinal medicinalServiceById = this.medicinalService.getById(medicinal.getHigherLevel());
+        String categoryName = medicinalServiceById.getCategoryName();
+        drug.setMedicinal(categoryName+">"+categoryName1);
+
+        //找到症状分类，拼成字符串
+        Symptom symptom = this.symptomService.getById(drug.getSymptomId());
+        String symptomName1 = symptom.getSymptomName();
+        Symptom byId = this.symptomService.getById(symptom.getHigherLevel());
+        String symptomName = byId.getSymptomName();
+        drug.setSymptom(symptomName+">"+symptomName1);
+
+        return new Result().ok(drug);
     }
 
     @ApiOperation(value="药品审核，审核接口")
     @PostMapping("/check/update")
-    public Result checkUpdate(@RequestBody CheckForm checkForm){
+    public Result checkUpdate(@RequestBody Drug drug){
 
-//        Date date = new Date(2022 - 12 - 1);
-//        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
+        this.drugService.update(drug,new UpdateWrapper<Drug>().eq("`state`",drug.getState())
+                .eq(StringUtils.isNotEmpty(drug.getRemarks()),"remarks",drug.getRemarks()));
         return new Result().ok();
     }
 
-    @ApiOperation(value="药品审核，筛选下拉框接口")//可以直接调药品管理的下拉框接口
-    @GetMapping("/check/screenSelect")
-    public Result checkScreenSelect(){
+
+    @ApiOperation(value="药品审核，筛选，症状分类的下拉框接口")
+    @GetMapping("/check/symptom/screenSelect")
+    public Result checkSymptomScreenSelect(){
 
 
-//        Date date = new Date(2022 - 12 - 1);
-//        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
-        return new Result().ok();
+        List<Symptom> symptoms = this.symptomService.list(new QueryWrapper<Symptom>().eq("`rank`", "一级"));
+        return new Result().ok(symptoms);
     }
 
-    @ApiOperation(value="药品审核，筛选接口")//要加一个条件，，，，，审核状态是未审核
-    @GetMapping("/check/screen")
-    public Result checkScreen(@RequestBody DrugForm drugForm){
+    @ApiOperation(value="药品审核，筛选，二级症状分类的下拉框接口")
+    @GetMapping("/check/two/symptom/screenSelect")
+    public Result checkTwoSymptomScreenSelect(@RequestParam("id") int id){
 
-//        Date date = new Date(2022 - 12 - 1);
-//        Drug drug = new Drug("1", "1", "1", 2.2, "1", "1", "1", 1, date, "1", "1", "1", "1", "1", "1", 1, "1", "1", "1", "1", "1", "1", "1", 1,"1");
-        return new Result().ok();
+        List<Symptom> list = this.symptomService.list(new QueryWrapper<Symptom>().eq("higher_level", id));
+        return new Result().ok(list);
+    }
+
+    @ApiOperation(value="药品审核，筛选，药品分类的下拉框接口")
+    @GetMapping("/check/medicinal/screenSelect")
+    public Result checkMedicinalScreenSelect(){
+
+
+        List<Medicinal> medicinals = this.medicinalService.list(new QueryWrapper<Medicinal>().eq("`rank`", "一级"));
+        return new Result().ok(medicinals);
+    }
+
+    @ApiOperation(value="药品管理，二级药品分类的下拉框接口")
+    @GetMapping("/check/two/medicinal/screenSelect")
+    public Result checkTwoMedicinalScreenSelect(@RequestParam("id") int id){
+
+        List<Symptom> list = this.symptomService.list(new QueryWrapper<Symptom>().eq("higher_level", id));
+        return new Result().ok(list);
     }
 
     @ApiOperation(value="药品审核，批量删除接口")
     @DeleteMapping("/check/deleteMore")
-    public Result checkDeleteMore(@RequestBody String[] id){
+    public Result checkDeleteMore(@RequestBody List<String> id){
 
-
+        this.drugService.removeByIds(id);
         return new Result().ok();
     }
 

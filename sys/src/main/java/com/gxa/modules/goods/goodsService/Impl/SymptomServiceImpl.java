@@ -1,12 +1,10 @@
-package com.gxa.modules.goods.goodsServiceImpl;
+package com.gxa.modules.goods.goodsService.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Query;
-import com.gxa.modules.goods.goodsEntity.Medicinal;
 import com.gxa.modules.goods.goodsEntity.Symptom;
 import com.gxa.modules.goods.goodsMapper.SymptomMapper;
 import com.gxa.modules.goods.goodsService.SymptomService;

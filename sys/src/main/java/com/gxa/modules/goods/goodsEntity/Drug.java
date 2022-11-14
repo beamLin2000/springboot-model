@@ -43,7 +43,7 @@ public class Drug {
     @TableField("`prescribe`")
     private String prescribe;//是否处方     是处方，用"是"表示，不是用"否"
 
-    @ApiModelProperty("审核状态，未通过，已通过")
+    @ApiModelProperty("审核状态，三种状态，待审核，未通过，已通过")
     @TableField("`state`")
     private String state;//审核状态
 
@@ -86,9 +86,9 @@ public class Drug {
     @TableField("`stock_warning`")
     private int stockWarning;//库存预警
 
-    @ApiModelProperty("是否免运费")
+    @ApiModelProperty("是否免运费，是或否")
     @TableField("`free_shipping`")
-    private String freeShipping;//是否免运费
+    private String freeShipping;//是否免运费,是或否
 
     @ApiModelProperty("批准文号")
     @TableField("`document_number`")
