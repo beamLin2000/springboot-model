@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gxa.common.utils.Result;
 import com.gxa.modules.order.dto.*;
 
+import com.gxa.modules.order.entity.ExpressDetail;
 import com.gxa.modules.order.service.OrderService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -161,20 +162,69 @@ public class OrderController {
     @ApiOperation(value="订单发货接口")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query",name = "orderNo",value ="订单编号",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "expressId",value ="物流公司编号",dataType ="int"),
+            @ApiImplicitParam(paramType = "query",name = "expressNo",value ="物流编号",dataType ="String"),
     }
     )
     @PostMapping("/orderShip")
     public Result orderShipment(@RequestParam @ApiIgnore Map<String,Object> params){
 
         String orderNo = params.get("orderNo").toString();
+        Integer expressId = Integer.parseInt(params.get("expressId").toString());
+        String expressNo = params.get("expressNo").toString();
+        Date date = new Date();
+        Date expressDate = new Date(date.getTime());
 
+        try {
+            this.orderService.orderShipment(orderNo,expressDate,expressId,expressNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result().error();
+        }
+
+        return new Result().ok();
+    }
+
+
+    @ApiOperation(value="订单追踪接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query",name = "orderNo",value ="订单编号",dataType ="String"),
+    }
+    )
+    @PostMapping("/orderTracking")
+    public Result orderTracking(@RequestParam @ApiIgnore Map<String,Object> params){
+
+        String orderNo = params.get("orderNo").toString();
+
+        ExpressDetail expressDetail = this.orderService.queryExpressDetailByOrderNo(orderNo);
 
         Map map = new HashMap();
-
+        map.put("expressDetail",expressDetail);
 
         return new Result().ok(map);
     }
 
+    @ApiOperation(value="退款详情操作接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query",name = "applicationNo",value ="服务编号",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "refundMark",value ="处理备注",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "refundStatus",value ="退款操作(给值已处理或已拒绝)",dataType ="String"),
+    }
+    )
+    @PostMapping("/refundDetailsProcessing")
+    public Result refundDetailsProcessing(@RequestParam @ApiIgnore Map<String,Object> params){
 
+        String applicationNo = params.get("applicationNo").toString();
+        String refundMark = params.get("refundMark").toString();
+        String refundStatus = params.get("refundStatus").toString();
+
+        try {
+            this.orderService.updateRefundStatusByApplicationNo(applicationNo,refundMark,refundStatus);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result().error();
+        }
+        return new Result().ok();
+    }
 
 }

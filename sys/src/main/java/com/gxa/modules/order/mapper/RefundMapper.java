@@ -13,4 +13,5 @@ import java.util.Date;
 public interface RefundMapper extends BaseMapper<RefundListDto> {
     Page<RefundListDto> queryRefundOrderByPage(Page<RefundListDto> refundListDtoPage, @Param("refundStatus") String refundStatus, @Param("orderNo") String orderNo, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
     RefundDetailDto queryRefundDetailByApplicationNo(String applicationNo);
+    void updateRefundStatusByApplicationNo(@Param("applicationNo") String applicationNo,@Param("refundMark") String refundMark,@Param("refundStatus") String refundStatus,@Param("orderStatus") String orderStatus);
 }

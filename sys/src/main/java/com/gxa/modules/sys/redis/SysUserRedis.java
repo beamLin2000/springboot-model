@@ -31,4 +31,6 @@ public class SysUserRedis {
 
         return user;
     }
+
+
 }

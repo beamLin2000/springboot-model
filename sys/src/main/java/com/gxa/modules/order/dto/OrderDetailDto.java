@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,14 +27,7 @@ public class OrderDetailDto {
     private String payMethod;
     @ApiModelProperty(value = "订单支付时间")
     private Date order_payTime;
-    @ApiModelProperty(value = "药品名称")
-    private String drug_name;
-    @ApiModelProperty(value = "药品图片地址")
-    private String pictureUrl;
-    @ApiModelProperty(value = "药品规格")
-    private String specifications;
-    @ApiModelProperty(value = "药品价格")
-    private BigDecimal price;
+
     @ApiModelProperty(value = "收货人姓名")
     private String realName;
     @ApiModelProperty(value = "收货人电话")
@@ -53,4 +47,5 @@ public class OrderDetailDto {
     @ApiModelProperty(value = "病历图片地址")
     private String medicalRecord;
 
+    private List<DrugDto> drugDtos;
 }
