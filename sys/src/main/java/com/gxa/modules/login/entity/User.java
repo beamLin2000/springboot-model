@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 
 @Data
@@ -20,6 +20,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @TableName("t_user")
 public class User implements Serializable {
+    @TableField(exist = false)
+    private Integer id;
     @TableField("real_name")
     private String realName;
     @TableField("phone_number")

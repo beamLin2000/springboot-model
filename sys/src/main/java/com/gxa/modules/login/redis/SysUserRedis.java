@@ -30,7 +30,7 @@ public class SysUserRedis {
     }
 
     public User getUserByToken(String token){
-        String userJsonStr = this.redisUtils.get(RedisKeys.getSysUserTokenKey(token));
+        String userJsonStr = this.redisUtils.get(RedisKeys.getUserTokenKey(token));
         User user = JsonUtils.parseObject(userJsonStr, User.class);
 
         return user;
@@ -55,7 +55,7 @@ public class SysUserRedis {
          * sys:user:username:2222 ----user
          * sys:user:username:3333 ----user
          */
-        this.redisUtils.set(RedisKeys.getSysUserTokenKey(user.getPhoneNumber(),token),user);
+        this.redisUtils.set(RedisKeys.getUserTokenKey(token),user);
     }
 
     public SysUser getSysUserByToken(String token){

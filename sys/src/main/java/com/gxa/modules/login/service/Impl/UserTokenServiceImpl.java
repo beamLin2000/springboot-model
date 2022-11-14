@@ -27,9 +27,8 @@ public class UserTokenServiceImpl implements UserTokenService {
     }
     @Override
     public Result createToken(User user) {
-        String token = TokenGenerator.generateValue(user.getPhoneNumber());
         String encodeToken = Base64Utils.encode(user.getPhoneNumber());
-        sysUserRedis.addUserToken(token,user);
+        sysUserRedis.addUserToken(user.getPhoneNumber(),user);
         Map map = new HashMap();
         map.put("token",encodeToken);
         return new Result().ok(map);
