@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class LimitedTimeGoodsServiceImpl implements LimitedTimeGoodsService {
    @Autowired
     private LimitedTimeGoodsMapper limitedTimeGoodsMapper;
+
+
     @Override
     public List<LimitedTimeGoods> queryoen() {
         List<LimitedTimeGoods> queryone = this.limitedTimeGoodsMapper.queryone();
@@ -25,8 +28,8 @@ public class LimitedTimeGoodsServiceImpl implements LimitedTimeGoodsService {
             }else {
                 goods.setStock("0%");
             }
-
         }
+
         return queryone;
     }
 }

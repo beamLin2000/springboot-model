@@ -4,7 +4,8 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.domain.AlipayTradePagePayModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.gxa.pay.config.AliPayProperties;
-import com.gxa.pay.entity.Order;
+import com.gxa.pay.entity.WaitPayOrder;
+import com.gxa.pay.service.OrderPayService;
 import com.ijpay.alipay.AliPayApi;
 import com.ijpay.alipay.AliPayApiConfig;
 import com.ijpay.alipay.AliPayApiConfigKit;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -28,7 +28,8 @@ import java.util.Map;
 public class AliPayController extends AbstractAliPayApiController {
     @Autowired
     private AliPayProperties properties;
-
+    @Autowired
+    private OrderPayService orderPayService;
     @Override
     public AliPayApiConfig getApiConfig() throws AlipayApiException {
         AliPayApiConfig aliPayApiConfig;
@@ -57,44 +58,20 @@ public class AliPayController extends AbstractAliPayApiController {
      * Web支付
      */
     @RequestMapping(value = "/webPay")
-    public void webPay(HttpServletResponse response, Long orderId) throws Exception {
+    public void webPay(HttpServletResponse response, WaitPayOrder order) throws Exception {
         //demo
-        Order order = new Order();
-        order.setId(String.valueOf(orderId));
-        order.setName("测试支付");
-        order.setPrice(new BigDecimal("20"));
-        order.setDesc("测试测试");
-
-
         AlipayTradePagePayModel model = new AlipayTradePagePayModel();
-        model.setOutTradeNo(order.getId());
+        model.setOutTradeNo(order.getOrderNo());
         model.setProductCode("FAST_INSTANT_TRADE_PAY");
-        model.setTotalAmount("2");
-        model.setSubject("中华牙膏");
+        model.setTotalAmount(order.getOrderAmount().toString());
+        model.setSubject("待支付订单");
 
-        //1、根据订单号 到数据库查询 相关的订单信息
-//        OrderEntity order = orderService.getByOrderId(orderId);
-//        if(order == null){
-//            throw new ResultException("订单不存在");
-//        }
-
-        //2、判断订单的状态 是否是待支付状态，只要不是待支付状态就说明订单失效
-//        if(order.getStatus() != OrderStatusEnum.WAITING.getValue()){
-//            throw new ResultException("订单已失效");
-//        }
-
-//        AlipayTradePagePayModel model = new AlipayTradePagePayModel();
-        //设置订单号
-//        model.setOutTradeNo(order.getOrderId() + "");
-
-        //固定值 代号 ，数量 商品
-//        model.setProductCode("FAST_INSTANT_TRADE_PAY");
-//        model.setTotalAmount(order.getPayAmount().toString());
-//        model.setSubject(order.getProductName());
-        //公用回传参数，没有则无需设置
-        //model.setPassbackParams("passback_params");
-
-        AliPayApi.tradePage(response, model, properties.getNotifyUrl(), properties.getReturnUrl());
+        try {
+            AliPayApi.tradePage(response, model, properties.getNotifyUrl(), properties.getReturnUrl());
+            this.orderPayService.updataForPay(order.getOrderNo());
+        }catch (Exception e){
+            throw new RuntimeException("支付失败");
+        }
     }
 
 

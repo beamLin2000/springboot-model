@@ -37,4 +37,6 @@ public class User implements Serializable {
     private String loc;
     @TableField(exist = false)
     private Integer status;
+    @TableField("head_portrait")
+    private String headPortrait;
 }

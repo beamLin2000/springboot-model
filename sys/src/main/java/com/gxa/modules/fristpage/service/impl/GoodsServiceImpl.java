@@ -1,7 +1,10 @@
 package com.gxa.modules.fristpage.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.gxa.common.utils.PageUtils;
+import com.gxa.common.utils.Query;
 import com.gxa.modules.fristpage.entity.Goods;
 import com.gxa.modules.fristpage.mapper.GoodsMapper;
 import com.gxa.modules.fristpage.service.GoodsService;
@@ -26,10 +29,10 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public List<Goods> queryRecommed() {
-        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
-        List<Goods> goods = this.baseMapper.selectList(wrapper.eq("recommend", "是"));
-        return goods;
+    public PageUtils queryRecommed(Map<String, Object> param) {
+        IPage<Goods> page = this.page(new Query<Goods>().getPage(param), new QueryWrapper<Goods>().eq("recommend", "是"));
+        return new PageUtils(page);
     }
+
 
 }

@@ -1,7 +1,11 @@
 com\gxa\pay\config\AlipayConfig.class
 com\gxa\pay\controller\AbstractAliPayApiController.class
+com\gxa\pay\entity\OrderTemp.class
 com\gxa\pay\interceptor\AliPayInterceptor.class
+com\gxa\pay\mapper\OrderPayMapper.class
+com\gxa\pay\service\impl\OrderPayServiceImpl.class
 com\gxa\pay\config\AliPayProperties.class
+com\gxa\pay\service\OrderPayService.class
 com\gxa\pay\controller\AliPayController.class
-com\gxa\pay\entity\Order.class
+com\gxa\pay\entity\WaitPayOrder.class
 META-INF\spring-configuration-metadata.json

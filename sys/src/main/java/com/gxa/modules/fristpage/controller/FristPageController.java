@@ -1,6 +1,9 @@
 package com.gxa.modules.fristpage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Result;
 import com.gxa.modules.fristpage.entity.Cart;
 import com.gxa.modules.fristpage.entity.Goods;
@@ -8,9 +11,12 @@ import com.gxa.modules.fristpage.entity.GoodsInfo;
 import com.gxa.modules.fristpage.entity.LimitedTimeGoods;
 import com.gxa.modules.fristpage.service.*;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.*;
 
@@ -48,6 +54,7 @@ public class FristPageController {
     }
     @ApiOperation(value="限时购接口")
     @GetMapping("/limitedTimePurchase")
+
     public Result limitedTimePurchase(){
         List<LimitedTimeGoods> queryoen = this.limitedTimeGoodsService.queryoen();
 
@@ -55,9 +62,13 @@ public class FristPageController {
     }
     @ApiOperation(value="好物推荐接口")
     @GetMapping("/goodMedicineRecommendation")
-    public Result goodMedicineRecommendation(){
-        List<Goods> goods = this.goodsService.queryRecommed();
-        return new Result().ok(goods);
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query",name = "page",value ="当前页",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "limit",value ="一页多少条数据",dataType ="String")
+    })
+    public Result goodMedicineRecommendation(@RequestParam @ApiIgnore Map<String,Object>param){
+        PageUtils pageUtils = this.goodsService.queryRecommed(param);
+        return new Result().ok(pageUtils);
     }
     @ApiOperation(value="药品详情接口")
     @GetMapping("/drugDetails")
