@@ -10,9 +10,11 @@ com\gxa\modules\confirmOrder\mapper\ConfirmOrderMapper.class
 com\gxa\modules\order\controller\OrderController.class
 com\gxa\modules\confirmOrder\entity\Prescription.class
 com\gxa\modules\fristpage\mapper\PollGraphMapper.class
+com\gxa\modules\login\msg\MobileMessageCheck.class
 com\gxa\modules\sys\mapper\backStage\promotion\couponManagement\CouponInfoMapper.class
 com\gxa\modules\goods\goodsService\MedicinalService.class
 com\gxa\modules\content\carousel\mapper\CarouselMapper.class
+com\gxa\modules\login\msg\SendCode.class
 com\gxa\modules\homepage\entity\CommodityPandent.class
 com\gxa\modules\login\oauth2\OAuth2Realm.class
 com\gxa\modules\sys\service\promotion\EventService.class
@@ -54,6 +56,7 @@ com\gxa\config\CorsConfig.class
 com\gxa\modules\sys\service\promotion\CouponUsageInfoService.class
 com\gxa\modules\sys\form\backstage\promotion\eventManagement\AddEvent.class
 com\gxa\modules\sys\controller\backStage\promotion\couponManagement\CouponManagementController.class
+com\gxa\modules\login\form\NoseUserForm.class
 com\gxa\modules\sys\controller\backStage\promotion\eventManagement\EventController.class
 com\gxa\modules\shoppingCart\entity\Drug.class
 com\gxa\modules\order\dto\RefundDetailDto.class
@@ -62,6 +65,7 @@ com\gxa\modules\homepage\controller\HomePageController.class
 com\gxa\modules\order\mapper\RefundMapper.class
 com\gxa\modules\login\mapper\UserMapper.class
 com\gxa\modules\myInfo\entity\MyInfo.class
+com\gxa\modules\login\msg\CheckSumBuilder.class
 com\gxa\modules\fristpage\service\impl\PollGraphServiceImpl.class
 com\gxa\modules\goods\goodsForm\CheckForm.class
 com\gxa\modules\myInfo\mapper\MyInfoMapper.class
@@ -113,6 +117,7 @@ com\gxa\modules\login\service\UserTokenService.class
 com\gxa\modules\sys\form\backstage\promotion\timeLimitedSecondKill\AddTimeLimitedSecondKill.class
 com\gxa\modules\login\entity\SysUser.class
 com\gxa\modules\sys\service\user\AddressService.class
+com\gxa\modules\login\entity\Send.class
 com\gxa\modules\login\redis\SysUserRedis.class
 com\gxa\modules\login\entity\User.class
 com\gxa\modules\sys\entity\goods\Drug.class

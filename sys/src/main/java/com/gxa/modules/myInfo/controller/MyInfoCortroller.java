@@ -16,10 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -46,7 +43,7 @@ public class MyInfoCortroller {
         User user = this.userTokenService.validateToken(token);
         MyInfo myInfo = this.myInfoService.queryMyinfo(user.getId());
         myInfo.setHeadPortrait(user.getHeadPortrait());
-        myInfo.setPhone(user.getPhoneNumber());
+        myInfo.setPhone(Integer.parseInt(user.getPhoneNumber()));
         return new Result().ok(myInfo);
     }
     @ApiOperation("我的订单")
@@ -103,11 +100,12 @@ public class MyInfoCortroller {
         return new Result().error(408,"申请失败");
     }
     @ApiOperation("新增地址")
-    @GetMapping("/newAddress")
+    @PostMapping("/newAddress")
     public Result newAddress(HttpServletRequest request, @RequestBody ShipToAddress shipToAddress){
 
         String token = request.getHeader("token");
         User user = this.userTokenService.validateToken(token);
+        System.out.println(user);
         shipToAddress.setId(UUID.randomUUID().toString());
         shipToAddress.setUserId(user.getId());
         shipToAddress.setVersion(1);
@@ -115,7 +113,7 @@ public class MyInfoCortroller {
         if (b){
             return new Result().ok();
         }
-        return new Result().error(408,"申请失败");
+        return new Result().error(408,"新增失败");
     }
     @ApiOperation("地址管理")
     @GetMapping("/allAddress")

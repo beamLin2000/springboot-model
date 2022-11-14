@@ -68,7 +68,7 @@ public class LoginController {
             System.out.println(user);
             userService.add(user);
         }
-        Result result = this.userTokenService.createToken(user);
+        Result result = this.userTokenService.createToken(u);
         Map map = new HashMap();
         map.put("token",result.getData());
         return new Result().ok(map);

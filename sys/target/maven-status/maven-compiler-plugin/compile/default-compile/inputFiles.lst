@@ -1,6 +1,7 @@
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\goods\goodsEntity\Medicinal.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\myInfo\mapper\CancelMapper.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\sys\controller\backStage\user\userManagement\UserController.java
+D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\login\entity\Send.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\order\mapper\RefundMapper.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\homepage\mapper\TransactionStatisticsMapper.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\sys\entity\goods\Drug.java
@@ -28,6 +29,7 @@ D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\goods\goodsService\Sympt
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\homepage\entity\TransactionStatistics.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\sys\service\promotion\TimeLimitedSecondKillService.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\goods\goodsServiceImpl\SymptomServiceImpl.java
+D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\login\msg\CheckSumBuilder.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\myInfo\service\impl\CancelServiceImpl.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\sys\entity\backStage\user\Address.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\fristpage\service\LimitedTimeGoodsService.java
@@ -65,6 +67,7 @@ D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\sys\form\backstage\promo
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\fristpage\mapper\PollGraphMapper.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\homepage\entity\GoodsAndSales.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\order\mapper\ExpressMapper.java
+D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\login\form\NoseUserForm.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\config\RedisConfig.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\goods\goodsEntity\Drug.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\fristpage\mapper\GoodsInfoMapper.java
@@ -96,6 +99,7 @@ D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\sys\controller\backStage
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\homepage\controller\HomePageController.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\sys\service\user\AddressService.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\fristpage\controller\FristPageController.java
+D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\login\msg\MobileMessageCheck.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\login\mapper\BasicInstallMapper.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\sys\entity\backStage\promotion\couponManagement\CouponType.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\goods\goodsServiceImpl\DrugServiceImpl.java
@@ -141,6 +145,7 @@ D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\sys\mapper\backStage\pro
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\order\dto\RefundListDto.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\sys\entity\backStage\promotion\couponManagement\CouponManagement.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\homepage\service\impl\PendingServiceImpl.java
+D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\login\msg\SendCode.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\shoppingCart\dto\ShoppingCartDto.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\confirmOrder\service\ConfirmOrderService.java
 D:\git-demo\医疗app\sys\src\main\java\com\gxa\modules\sys\service\user\impl\DrugUserInformationServiceImpl.java
