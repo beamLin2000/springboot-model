@@ -26,14 +26,6 @@ public class SysUserRedis {
         this.redisUtils.set(RedisKeys.getSysUserTokenKey(user.getPhoneNumber().toString(),token),user);
     }
     public void addToken(String captcha, String phone){
-
-        //token --- user
-        //1111--user
-        /**
-         * sys:user:username:1111  ---user
-         * sys:user:username:2222 ----user
-         * sys:user:username:3333 ----user
-         */
         this.redisUtils.set(captcha,phone,300);
     }
 
