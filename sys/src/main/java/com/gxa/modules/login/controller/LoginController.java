@@ -60,6 +60,7 @@ public class LoginController {
         if (!captcha.equals(noseUserForm.getCaptcha())){
             return new Result().error(ErrorCode.CAPTCHA_ERROR,"验证码错误");
         }
+        Result result = null;
         User u = this.userService.queryByPhoneNum(noseUserForm.getPhone());
         User user = new User();
         if(u == null){
@@ -67,8 +68,10 @@ public class LoginController {
             System.out.println(user.getPhoneNumber());
             System.out.println(user);
             userService.add(user);
+            result = this.userTokenService.createToken(user);
+        }else {
+            result = this.userTokenService.createToken(u);
         }
-        Result result = this.userTokenService.createToken(user);
         Map map = new HashMap();
         map.put("token",result.getData());
         return new Result().ok(map);
