@@ -3,6 +3,7 @@ package com.gxa.modules.sys.controller.backStage.promotion.couponManagement;
 
 import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Result;
+import com.gxa.modules.goods.goodsEntity.Drug;
 import com.gxa.modules.login.entity.User;
 import com.gxa.modules.login.service.UserTokenService;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll;
@@ -33,11 +34,11 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/couponManger")
-@Api(tags = "后台:优惠券管理")
+@Api(tags = "优惠券管理")
 public class CouponManagementController {
 
-
-
+    @Autowired
+    private UserTokenService userTokenService;
     @Autowired
     private CouponManagementService couponManagementService;
 
@@ -76,9 +77,10 @@ public class CouponManagementController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "page", value = "当前是第几页", dataType = "int"),
             @ApiImplicitParam(paramType = "query", name = "limit", value = "每页显示多少条", dataType = "int"),
-            @ApiImplicitParam(paramType = "query", name = "id", value = "id", dataType = "Integer")
+            @ApiImplicitParam(paramType = "query", name = "id", value = "id", dataType = "String")
     })
     public Result<CouponManagementAll> searchById(@RequestParam @ApiIgnore Map<String,Object> params){
+
         //获取params中的id
         String id = (String) params.get("id");
         //根据id查询优惠券信息
@@ -142,4 +144,27 @@ public class CouponManagementController {
         String s = this.couponManagementService.addPre();
         return new Result().ok(s);
     }
+
+    @PostMapping("/useCoupon")
+    @ApiOperation(value = "查看可用的优惠券")
+    public Result useCopon(@RequestBody  List<Drug> drugs,HttpServletRequest request){
+        String token = request.getHeader("token");
+        User user = this.userTokenService.validateToken(token);
+        List<CouponManagementAll> couponManagementAlls = this.couponUsageInfoService.queryUseCoupon(drugs, user.getId().toString());
+        return new Result().ok(couponManagementAlls);
+    }
+
+
+//    @GetMapping("/searchCouponInfo")
+//    @ApiOperation(value = "查看优惠券使用信息")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(paramType = "query", name = "page", value = "当前是第几页", dataType = "int"),
+//            @ApiImplicitParam(paramType = "query", name = "limit", value = "每页显示多少条", dataType = "int"),
+//            @ApiImplicitParam(paramType = "query", name = "id", value = "id", dataType = "String")
+//
+//    })
+//    public Result<PageUtils> searchCouponInfo(@RequestParam @ApiIgnore Map<String, Object> params){
+//        PageUtils pageUtils = this.couponUsageInfoService.searchCouponUsageInfo(params);
+//        return new Result<PageUtils>().ok(pageUtils);
+//    }
 }

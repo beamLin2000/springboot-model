@@ -64,9 +64,11 @@ public class CouponUsageInformation {
     @ApiModelProperty(name = "versionId",value = "版本号，保证幂等",dataType = "Integer")
     private Integer versionId;
 
+    @TableField(exist = false)
     @ApiModelProperty(name = "couponManagements",value = "优惠券种类",dataType = "List")
     private List<CouponManagement> couponManagements;
 
+    @TableField(exist = false)
     @ApiModelProperty(name = "users",value = "用户",dataType = "List")
     private List<User> users;
 

@@ -21,7 +21,7 @@ import java.util.List;
 public interface CouponInfoMapper extends BaseMapper<CouponUsageInformation> {
 
     void addCoupons(@Param("couponManagements") List<CouponManagement> couponManagements,
-                    @Param("users") List<User> users,
+                    @Param("users")List<User> users,
                     @Param("couponUsageInformation") CouponUsageInformation couponUsageInformation);
 
     void editCoupons(CouponUsageInformation couponUsageInformation);

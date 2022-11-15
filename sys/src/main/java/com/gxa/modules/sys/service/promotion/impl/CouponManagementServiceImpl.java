@@ -44,6 +44,7 @@ public class CouponManagementServiceImpl extends ServiceImpl<CouponMapper, Coupo
         String couponName = (String) params.get("couponName");
         String couponType = (String) params.get("couponType");
 
+
         IPage<CouponManagement> couponManagementIPage = this.page(new Query<CouponManagement>().getPage(params),
                 new QueryWrapper<CouponManagement>().like(StringUtils.isNotEmpty(couponName), "coupon_name", couponName)
                         .like(StringUtils.isNotEmpty(couponType), "coupon_type", couponType).orderByDesc("id"));
@@ -53,7 +54,6 @@ public class CouponManagementServiceImpl extends ServiceImpl<CouponMapper, Coupo
     @Override
     public CouponManagementAll searchById(String id) {
         CouponManagementAll couponManagementAll = couponMapper.queryById(id);
-
         return couponManagementAll;
     }
 
@@ -100,7 +100,6 @@ public class CouponManagementServiceImpl extends ServiceImpl<CouponMapper, Coupo
 
         if (couponManagementAll.getUsableGoods().equals("指定商品")){
             List<CouponAddDrug> couponAddDrug = this.couponMapper.selectDrugById(id);
-
             couponManagementAll.setSpecifyProduct(couponAddDrug);
         }else if (couponManagementAll.getUsableGoods().equals("指定分类")){
             List<CouponAddClass> couponAddClass = this.couponMapper.selectClassById(id);

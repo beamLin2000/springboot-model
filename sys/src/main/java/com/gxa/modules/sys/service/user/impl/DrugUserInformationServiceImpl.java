@@ -22,7 +22,7 @@ public class DrugUserInformationServiceImpl extends ServiceImpl<DrugUserInformat
     //根据用户id查询
     @Override
     public List<DrugUserInformation> queryDrugUserInformation(String id) {
-        List<DrugUserInformation> t_user_id = drugUserInformationMapper.selectList(new QueryWrapper<DrugUserInformation>().eq(true, "user_id", id));
+        List<DrugUserInformation> t_user_id = drugUserInformationMapper.queryDrugUserInformation(id);//selectList(new QueryWrapper<DrugUserInformation>().eq(true, "user_id", id));
         return t_user_id;
     }
 }

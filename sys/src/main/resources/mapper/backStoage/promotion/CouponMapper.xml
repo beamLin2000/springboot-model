@@ -40,6 +40,7 @@
             `coupon_type` = #{couponType},
             `use_threshold` = #{useThreshold},
             `status` = #{status},
+            `get_threshold` = #{getThreshold},
             `amount_issued` = #{amountIssued},
             `received` = #{received},
             `usable_goods` = #{usableGoods},
@@ -56,6 +57,7 @@
     <delete id="deleteClassById">
         DELETE FROM promotion_coupon_add_class WHERE coupon_manager_id = #{id}
     </delete>
+
 
     <select id="queryById"
             resultType="com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll">

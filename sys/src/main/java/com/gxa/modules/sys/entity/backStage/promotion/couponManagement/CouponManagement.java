@@ -23,7 +23,7 @@ import java.util.List;
 @ApiModel("优惠券管理")
 @TableName("promotion_coupon_management")
 public class CouponManagement {
-    @TableId(value = "id",type = IdType.AUTO)
+    @TableId(value = "id")
     @ApiModelProperty(name = "id",value = "id",dataType = "String")
     private String id;
 
@@ -76,8 +76,8 @@ public class CouponManagement {
     private Integer useMembers;
 
     @TableField(value = "usable_goods")
-    @ApiModelProperty(name = "usableGoods",value = "可使用商品",dataType = "Integer")
-    private Integer usableGoods;
+    @ApiModelProperty(name = "usableGoods",value = "可使用商品",dataType = "String")
+    private String usableGoods;
 
     /**
      * 查看详细的优惠券信息添加实体类

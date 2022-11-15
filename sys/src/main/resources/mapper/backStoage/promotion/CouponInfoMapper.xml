@@ -36,8 +36,17 @@
             resultType="com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponUsageInformation">
         SELECT * FROM promotion_couponUsageInformation WHERE t_user_id =#{userId}
     </select>
+    
+    <resultMap id="queryUseCoupons" type="com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll">
+        <result property="couponName" column="coupon_name"/>
+        <result property="money" column="coupon_money"/>
+        <result property="expirationDate" column="expiration_date"/>
+        <result property="couponDescribe" column="coupon_describe"/>
+        <collection property="drugNames" ofType="string">
+        </collection>
+    </resultMap>
     <select id="queryUseCoupon"
-            resultType="com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponUsageInformation">
+            resultMap="queryUseCoupons">
         SELECT d.drug_name,m.coupon_name,m.coupon_money,m.expiration_date,m.coupon_describe,m.coupon_type FROM `promotion_coupon_add_drug` AS d , `promotion_coupon_management` AS m , `promotion_couponUsageInformation` AS c
         WHERE d.coupon_manager_id = m.id AND c.coupon_management_id = m.id and t_user_id = #{userID}
     </select>

@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Transient;
 
 import java.util.List;
 
@@ -73,6 +74,10 @@ public class CouponManagementAll {
     @ApiModelProperty(name = "totalCirculation",value = "总发行量",dataType = "Integer")
     private Integer totalCirculation;
 
+    @TableField(value = "get_threshold")
+    @ApiModelProperty(name = "getThreshold",value = "获取门槛",dataType = "String")
+    private String getThreshold;
+
     @TableField(value = "limited_collar")
     @ApiModelProperty(name = "limitedCollar",value = "每人限领",dataType = "String")
     private String limitedCollar;
@@ -117,8 +122,7 @@ public class CouponManagementAll {
     /**
      * 药品
      */
-    private List<Drug> drugList;
-
+    private List<String> drugNames;
     /**
      * 版本号，保证幂等性
      */

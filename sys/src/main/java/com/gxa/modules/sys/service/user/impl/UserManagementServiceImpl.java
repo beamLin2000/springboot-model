@@ -36,11 +36,12 @@ public class UserManagementServiceImpl extends ServiceImpl<UserManagementMapper,
         String username = (String)map.get("username");
         String createTime = (String)map.get("createTime");
         Integer page = (Integer.parseInt(String.valueOf(map.get("page")))-1)*10;
+        Integer limit = Integer.parseInt((String) map.get("limit"));
 //        IPage page = page(new Query<UserManagement>().getPage(map),
 //                new QueryWrapper<UserManagement>().like(StringUtils.isNotEmpty(username),"user_name",username)
 //                        .le(StringUtils.isNotEmpty(addTime),"create_time",addTime)
 //        .orderByDesc("id"));
-        List<UserManagement> search = userManagementMapper.search(username, createTime, page);
+        List<UserManagement> search = userManagementMapper.search(username, createTime, page,limit);
         Integer pageSizeInteger = search.size()/10;
         Double pageSizeDouble = search.size()/(double)page;
         return new PageUtils(search,search.size(),pageSizeDouble>pageSizeInteger?pageSizeInteger+1:pageSizeInteger,page);
@@ -68,9 +69,14 @@ public class UserManagementServiceImpl extends ServiceImpl<UserManagementMapper,
     }
 
     @Override
-    public Integer updateStatus(Integer id, Integer status,Integer version) {
+    public Integer updateStatus(String id, Integer status,Integer version) {
         Integer integer = addressMapper.updateStatus(id, status,version);
         return integer;
+    }
+
+    @Override
+    public UserManagement queryById(String id, Integer version) {
+        return userManagementMapper.queryById(id,version);
     }
 
 }
