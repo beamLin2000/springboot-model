@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxa.modules.homepage.mapper.PandentMapper">
+
+    <select id="queryCommodityTodayNewAdded" resultType="java.lang.Integer">
+        select count(id) from drug where release_time between #{today} and #{tomorrow}
+    </select>
+    <select id="queryCommodityYesterdayNewAdded" resultType="java.lang.Integer">
+        select count(id) from drug where release_time between #{yesterday} and #{today}
+    </select>
+    <select id="queryCommodityMonthNewAdded" resultType="java.lang.Integer">
+        select count(id) from drug where release_time between #{firstday} and #{lastday}
+    </select>
+    <select id="queryCommodityTotalGoodsNum" resultType="java.lang.Integer">
+        select count(id) from drug
+    </select>
+    <select id="queryUserTodayNewAdded" resultType="java.lang.Integer">
+        select count(id) from t_user where create_time between #{today} and #{tomorrow}
+    </select>
+    <select id="queryUserYesterdayNewAdded" resultType="java.lang.Integer">
+        select count(id) from t_user where create_time between #{yesterday} and #{today}
+    </select>
+    <select id="queryUserMonthNewAdded" resultType="java.lang.Integer">
+        select count(id) from t_user where create_time between #{firstday} and #{lastday}
+    </select>
+    <select id="queryUserTotalGoodsNum" resultType="java.lang.Integer">
+        select count(id) from t_user
+    </select>
+</mapper>

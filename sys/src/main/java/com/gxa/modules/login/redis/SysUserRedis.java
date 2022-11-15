@@ -88,7 +88,7 @@ public class SysUserRedis {
     public void addAssortGoods(String drugType, List<Goods> goods){
         List<String> list = new ArrayList<>();
         for (Goods good:goods){
-            String drugStr = JsonUtils.toJsonString(goods);
+            String drugStr = JsonUtils.toJsonString(good);
             list.add(drugStr);
         }
 

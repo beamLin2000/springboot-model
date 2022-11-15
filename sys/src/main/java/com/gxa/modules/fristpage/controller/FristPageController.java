@@ -76,19 +76,16 @@ public class FristPageController {
     @ApiOperation(value="对症找药接口")
     @GetMapping("/findMedicineForSymptoms")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "start",value ="数据从第几条开始",dataType ="int"),
-            @ApiImplicitParam(paramType = "query",name = "end",value ="数据从第几条结束",dataType ="int"),
             @ApiImplicitParam(paramType = "query",name = "drugType",value ="药品类型",dataType ="String"),
     }
     )
     public Result findMedicineForSymptoms(@RequestParam @ApiIgnore Map<String,Object> params){
-        Integer start = Integer.parseInt(params.get("start").toString());
-        Integer end = Integer.parseInt(params.get("end").toString());
+
         Map map = new HashMap();
 
         String drugType = params.get("drugType").toString();
         System.out.println(drugType);
-        List<DrugDto> drugDtos = this.sysUserRedis.getDrugList(drugType,start,end);
+        List<DrugDto> drugDtos = this.sysUserRedis.getDrugList(drugType,0,-1);
         map.put("goods",drugDtos);
         System.out.println(drugDtos);
         if (drugDtos.size()==0||drugDtos==null){

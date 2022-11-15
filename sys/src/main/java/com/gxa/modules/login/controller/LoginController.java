@@ -97,6 +97,7 @@ public class LoginController {
         Map map = new HashMap();
         map.put("token",result.getData());
         map.put("menu",menu);
+        map.put("user",sysUser);
         return new Result().ok(map);
     }
     @ApiOperation("后台账户设置")
