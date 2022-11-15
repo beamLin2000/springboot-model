@@ -3,6 +3,8 @@ package com.gxa.modules.sys.controller.backStage.promotion.couponManagement;
 
 import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Result;
+import com.gxa.modules.fristpage.entity.Msg;
+import com.gxa.modules.fristpage.service.MsgService;
 import com.gxa.modules.login.entity.User;
 import com.gxa.modules.login.service.UserTokenService;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll;
@@ -24,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @Author LXD
@@ -36,13 +39,16 @@ import java.util.Map;
 @Api(tags = "优惠券管理")
 public class CouponManagementController {
 
-
+    @Autowired
+    private UserTokenService userTokenService;
 
     @Autowired
     private CouponManagementService couponManagementService;
 
     @Autowired
     private CouponUsageInfoService couponUsageInfoService;
+    @Autowired
+    private MsgService msgService;
 
     @GetMapping("/search")
     @ApiOperation(value = "筛选")
@@ -131,8 +137,11 @@ public class CouponManagementController {
 
     @PostMapping("/editCoupon")
     @ApiOperation(value = "用户获取优惠券，添加优惠券")
-    public Result getCoupons(@RequestBody CouponUsageInformation couponUsageInformation){
+    public Result getCoupons(HttpServletRequest request,@RequestBody CouponUsageInformation couponUsageInformation){
+
         this.couponUsageInfoService.addCoupons(couponUsageInformation);
+        this.msgService.saveMsg(new Msg(Integer.parseInt(couponUsageInformation.getUserId()),null,"消息通知","你有新的优惠卷请在我的-优惠卷查看"),UUID.randomUUID().toString());
+
         return new Result().ok();
     }
 

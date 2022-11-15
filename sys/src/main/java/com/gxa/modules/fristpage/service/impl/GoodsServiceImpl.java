@@ -21,12 +21,26 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     private GoodsMapper goodsMapper;
 
     @Override
-    public Map queryByStr(String str) {
-        List<Goods> goods = this.baseMapper.selectList(new QueryWrapper<Goods>().like("drug_name",str));
-        Map map = new HashMap();
-        map.put("goods",goods);
-        return map;
+    public PageUtils queryByStr(Map<String,Object>param) {
+        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+        wrapper.like("drug_name", param.get("str"));
+        IPage<Goods> page = this.page(new Query<Goods>().getPage(param), wrapper);
+
+        PageUtils p = new PageUtils(page);
+        return p;
     }
+
+    @Override
+    public PageUtils queryByin(Map<String, Object> param) {
+        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+        wrapper.eq("shelves","1");
+        wrapper.like("main_function", param.get("str"));
+        IPage<Goods> page = this.page(new Query<Goods>().getPage(param), wrapper);
+
+        PageUtils p = new PageUtils(page);
+        return p;
+    }
+
 
     @Override
     public PageUtils queryRecommed(Map<String, Object> param) {

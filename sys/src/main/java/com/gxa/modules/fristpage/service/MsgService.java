@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface MsgService {
     List<Msg> queryAllMsg(Integer id);
-    boolean saveMsg(Msg msg,Integer id);
+    boolean saveMsg(Msg msg,String id);
 }

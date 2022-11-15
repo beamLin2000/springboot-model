@@ -1,6 +1,7 @@
 package com.gxa.modules.myInfo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.gxa.modules.myInfo.entity.ShipToAddress;
 import com.gxa.modules.myInfo.mapper.NewAddressMapper;
 import com.gxa.modules.myInfo.service.NewAddressService;
@@ -15,6 +16,12 @@ public class NewAddressServiceImpl implements NewAddressService {
     private NewAddressMapper newAddressMapper;
     @Override
     public boolean addAddress(ShipToAddress shipToAddress) {
+        if (shipToAddress.getIsDefault().equals("1")){
+            UpdateWrapper wrapper = new UpdateWrapper();
+            wrapper.set("default_address","0");
+            wrapper.eq("default_address","1");
+            this.newAddressMapper.update(null,wrapper);
+        }
         this.newAddressMapper.insert(shipToAddress);
         return true;
     }

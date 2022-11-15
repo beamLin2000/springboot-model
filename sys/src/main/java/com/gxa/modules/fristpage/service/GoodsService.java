@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface GoodsService extends IService<Goods> {
-    Map queryByStr(String str);
+    PageUtils queryByStr(Map<String,Object>param);
+    PageUtils queryByin(Map<String,Object>param);
     PageUtils queryRecommed(Map<String,Object>param);
 }

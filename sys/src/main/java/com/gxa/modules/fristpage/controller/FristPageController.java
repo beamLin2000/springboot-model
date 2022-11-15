@@ -37,11 +37,31 @@ public class FristPageController {
     private LimitedTimeGoodsService limitedTimeGoodsService;
     @Autowired
     private MsgService msgService;
-    @ApiOperation(value="搜索接口")
+    @ApiOperation(value="关键词搜索接口")
     @GetMapping("/search")
-    public Result search(@RequestParam("key") String key){
-        Map map = this.goodsService.queryByStr(key);
-        return new Result().ok(map);
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query",name = "page",value ="当前页",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "limit",value ="一页多少条数据",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "str",value ="查询关键字",dataType ="String")
+    })
+    public Result<PageUtils> search(@RequestParam @ApiIgnore Map<String,Object> param){
+        PageUtils pageUtils = this.goodsService.queryByStr(param);
+        return new Result<PageUtils>().ok(pageUtils);
+    }
+    @ApiOperation(value="条件查询接口")
+    @GetMapping("/searchin")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query",name = "page",value ="当前页",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "limit",value ="一页多少条数据",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "sidx",value ="查询关键字,销售量传sales_volume，价格传price",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "order",value ="升序asc，降序填desc",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "str",value ="当前模块",dataType ="String")
+    })
+    public Result<PageUtils> searchin(@RequestParam @ApiIgnore Map<String,Object>param){
+        System.out.println(param);
+        PageUtils pageUtils = this.goodsService.queryByin(param);
+
+        return new Result<PageUtils>().ok(pageUtils);
     }
     @ApiOperation(value="轮插图接口")
     @GetMapping("/pollingGraph")

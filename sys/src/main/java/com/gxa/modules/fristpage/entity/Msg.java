@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName("msg")
 public class Msg {
-    private Integer id;
+    private Integer uId;
+    private String id;
     private String header;
     private String body;
 }
