@@ -35,7 +35,9 @@ public class SysUserRedis {
     }
 
     public User getUserByToken(String token){
-        String userJsonStr = this.redisUtils.get(RedisKeys.getUserTokenKey(token));
+        System.out.println("sssss" + token);
+        String userJsonStr = this.redisUtils.get(RedisKeys.getSysUserTokenKey(token));
+        System.out.println(userJsonStr);
         User user = JsonUtils.parseObject(userJsonStr, User.class);
         return user;
     }

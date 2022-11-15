@@ -1,13 +1,8 @@
 package com.gxa.modules.login.entity;
 
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.gxa.common.validator.group.AddGroup;
-import com.gxa.common.validator.group.UpdateGroup;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,4 +29,10 @@ public class User implements Serializable {
     private Integer status;
     @TableField("head_portrait")
     private String headPortrait;
+    @TableField("open_id")
+    private String openId;
+    @TableField("user_name")
+    private String username;
+    @TableField("avatar")
+    private String avatar;
 }

@@ -10,6 +10,8 @@ public interface UserTokenService {
     void createToken(String phone,String captcha);
     Result createToken(SysUser sysUser);
     Result createToken(User user);
+    Result createWeiToken(User user);
+    Result createSessionId(String openId);
     User validateToken(String token);
     SysUser validateSysUserToken(String token);
     String validateCaptcha(String phone);

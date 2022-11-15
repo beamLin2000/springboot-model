@@ -33,6 +33,26 @@ public class UserTokenServiceImpl implements UserTokenService {
         map.put("token",encodeToken);
         return new Result().ok(map);
     }
+
+    @Override
+    public Result createWeiToken(User user) {
+        String encodeToken = Base64Utils.encode(user.getOpenId());
+        sysUserRedis.addUserToken(user.getOpenId(),user);
+        Map map = new HashMap();
+        map.put("token",encodeToken);
+        return new Result().ok(map);
+    }
+
+    @Override
+    public Result createSessionId(String openId) {
+        UUID uuid = UUID.randomUUID();
+        String key = uuid.toString();
+        new RedisUtils().set(key,openId);
+        Map map = new HashMap();
+        map.put("sessionId",key);
+        return new Result().ok(map);
+    }
+
     @Override
     public Result createToken(SysUser sysUser) {
         String token = TokenGenerator.generateValue(sysUser.getUsername());
