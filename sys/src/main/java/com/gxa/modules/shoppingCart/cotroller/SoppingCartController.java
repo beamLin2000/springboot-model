@@ -27,7 +27,10 @@ public class SoppingCartController {
     private ShoppingCartService shoppingCartService;
 
 
-
+    /**
+     *
+     * @return
+     */
     //购物车查询
     @ApiOperation("购物车查询接口")
     @GetMapping("/shoppingcart/list")
@@ -36,7 +39,11 @@ public class SoppingCartController {
         return new Result().ok(shoppingCarts);
     }
 
-
+    /**
+     *
+     * @param shoppingCart
+     * @return
+     */
     @ApiOperation("购物车编辑接口")
     @PutMapping("/shoppingcart/update")
     public Result shoppingcartUpdate(@RequestBody ShoppingCart shoppingCart){
@@ -44,7 +51,11 @@ public class SoppingCartController {
         return new Result().ok();
     }
 
-
+    /**
+     *
+     * @param userId
+     * @return
+     */
     @ApiOperation("购物车详情接口")
     @GetMapping("/shoppingcart/list01")
     public Result shoppingCartSelect(@RequestParam("userId") Integer userId){
@@ -52,7 +63,11 @@ public class SoppingCartController {
         return new Result().ok(shoppingCarts);
     }
 
-
+    /**
+     *
+     * @param shoppingCarts
+     * @return
+     */
     @ApiOperation("购物车删除接口")
     @DeleteMapping("/shoppingcart/delete")
     public Result shoppingCartDelete(@RequestBody List<ShoppingCart>shoppingCarts){
