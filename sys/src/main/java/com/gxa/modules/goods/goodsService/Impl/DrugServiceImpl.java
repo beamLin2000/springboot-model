@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Query;
 import com.gxa.modules.goods.goodsEntity.Drug;
-import com.gxa.modules.goods.goodsMapper.DrugMapper;
+import com.gxa.modules.goods.goodsMapper.DrugGoodsMapper;
 import com.gxa.modules.goods.goodsService.DrugService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class DrugServiceImpl extends ServiceImpl<DrugMapper, Drug> implements DrugService {
+public class DrugServiceImpl extends ServiceImpl<DrugGoodsMapper, Drug> implements DrugService {
     @Override
     public PageUtils list(Map<String, Object> params) {
         IPage<Drug> page = this.page(new Query<Drug>().getPage(params),

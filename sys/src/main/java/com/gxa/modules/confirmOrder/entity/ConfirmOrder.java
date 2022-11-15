@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("购买的商品集合")
 //确认的商品有哪些
 public class ConfirmOrder {
     @ApiModelProperty(name = "id",value = "id",dataType = "Integer",required = false)

@@ -76,16 +76,7 @@
 
 
 
-    <insert id="addDrugUserInformation">
 
-    </insert>
-
-
-    <select id="shoppingAll" resultType="com.gxa.modules.confirmOrder.dto.ConfirmShoppCart">
-        SELECT
-        FROM t_confirm_order c,t_shopping_cart s,drug d
-        WHERE
-    </select>
 
 
 </mapper>

@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
@@ -31,7 +32,6 @@ public class ConfirmOrderController {
     @ApiOperation("确认订单接口")
     @PostMapping("/confirmOrder/from")
     public Result confirmOrder(@RequestBody OrderForm form){
-
         Date date01 = new Date();
         //设置要获取到什么样的时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
