@@ -3,7 +3,9 @@ package com.gxa.modules.goods.goodsController;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.gxa.common.utils.Base64Utils;
 import com.gxa.common.utils.PageUtils;
+import com.gxa.common.utils.RedisUtils;
 import com.gxa.common.utils.Result;
 import com.gxa.modules.goods.goodsEntity.Drug;
 import com.gxa.modules.goods.goodsEntity.Medicinal;
@@ -11,10 +13,7 @@ import com.gxa.modules.goods.goodsEntity.Symptom;
 import com.gxa.modules.goods.goodsService.DrugService;
 import com.gxa.modules.goods.goodsService.MedicinalService;
 import com.gxa.modules.goods.goodsService.SymptomService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.*;
 
-@Api(tags = "商品接口")
+@Api(tags = "后台——商品接口")
 @RestController
 @Slf4j
 public class GoodsController {
@@ -38,6 +37,9 @@ public class GoodsController {
     @Autowired
     private MedicinalService medicinalService;
 
+    @Autowired
+    private RedisUtils redisUtils;
+
 
     @ApiOperation(value="药品分类，全部数据，分页查询接口")
     @ApiImplicitParams({
@@ -47,6 +49,9 @@ public class GoodsController {
             @ApiImplicitParam(paramType = "query",name = "order",value ="升序asc，降序填desc",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "sidx",value ="排序字段",dataType ="String"),
 
+    })
+    @ApiResponses({
+            @ApiResponse( code = 200,message = "ok",response = Medicinal.class)
     })
     @GetMapping("/medicinal/list")
     public Result medicinalList(@RequestParam @ApiIgnore Map<String,Object> params){
@@ -68,11 +73,25 @@ public class GoodsController {
         return new Result().ok();
     }
 
+    @ApiOperation(value="药品分类，新增分类时返回id，接口")
+    @GetMapping("/medicinal/insertBackId")
+    public Result medicinalInsertBackId(){
+        String string = UUID.randomUUID().toString();
+        return new Result().ok(string);
+    }
+
     @ApiOperation(value="药品分类，新增下级接口")//新增的时候，上级id可能产生问题，字段不一致
     @PutMapping("/medicinal/insertRank")
     public Result medicinalInsertRank(@RequestBody Medicinal medicinal){
         this.medicinalService.medicinalInsertRank(medicinal);
         return new Result().ok();
+    }
+
+    @ApiOperation(value="药品分类，新增下级分类时返回id，接口")
+    @GetMapping("/medicinal/insertRankBackId")
+    public Result medicinalInsertRankBackId(){
+        String string = UUID.randomUUID().toString();
+        return new Result().ok(string);
     }
 
     @ApiOperation(value="药品分类，新增下级下拉框接口")
@@ -88,6 +107,13 @@ public class GoodsController {
         this.medicinalService.removeById(id);
         this.medicinalService.remove(new QueryWrapper<Medicinal>().eq("higher_level",id));
         this.drugService.remove(new QueryWrapper<Drug>().eq("medicinal_id",id));
+
+        //删除Redis中的数据
+        List<Medicinal> medicinals = this.medicinalService.list(new QueryWrapper<Medicinal>().eq("higher_level", id));
+        for (Medicinal i:medicinals
+             ) {
+            redisUtils.delete("Assort:"+ Base64Utils.encode(i.getCategoryName()));
+        }
         return new Result().ok();
     }
 
@@ -109,6 +135,15 @@ public class GoodsController {
              ) {
             this.medicinalService.remove(new QueryWrapper<Medicinal>().eq("higher_level",i));
             this.drugService.remove(new QueryWrapper<Drug>().eq("medicinal_id",i));
+        }
+
+        //删除Redis中的数据
+        for (int i=0;i<=id.size();i++){
+            List<Medicinal> medicinals = this.medicinalService.list(new QueryWrapper<Medicinal>().eq("higher_level", id.get(i)));
+            for (Medicinal a:medicinals
+                 ) {
+                redisUtils.delete("Assort:"+ Base64Utils.encode(a.getCategoryName()));
+            }
         }
 
         return new Result().ok();
@@ -137,6 +172,9 @@ public class GoodsController {
             @ApiImplicitParam(paramType = "query",name = "sidx",value ="排序字段",dataType ="String"),
 
     })
+    @ApiResponses({
+            @ApiResponse( code = 200,message = "ok",response = Medicinal.class)
+    })
     @GetMapping("/medicinal/two/list")
     public Result medicinalTwoList(@RequestParam @ApiIgnore Map<String,Object> params){
         PageUtils pageUtils = this.medicinalService.listTwo(params);
@@ -157,6 +195,13 @@ public class GoodsController {
         return new Result().ok();
     }
 
+    @ApiOperation(value="药品分类，二级分类，新增分类时返回id，接口")
+    @GetMapping("/medicinal/two/insertBackId")
+    public Result medicinalTwoInsertBackId(){
+        String string = UUID.randomUUID().toString();
+        return new Result().ok(string);
+    }
+
     @ApiOperation(value="药品分类，二级分类，编辑接口")//提醒前端传过来的上级id字段名写成higher_level
     @PostMapping("/medicinal/two/update")
     public Result medicinalTwoUpdate(@RequestBody Medicinal medicinal){
@@ -169,6 +214,13 @@ public class GoodsController {
     public Result medicinalTwoDelete(@RequestParam("id") String id){
         this.medicinalService.removeById(id);
         this.drugService.remove(new QueryWrapper<Drug>().eq("medicinal_id",id));
+
+        //删除Redis中的数据
+        List<Medicinal> medicinals = this.medicinalService.list(new QueryWrapper<Medicinal>().eq("id", id));
+        for (Medicinal i:medicinals
+        ) {
+            redisUtils.delete("Assort:"+ Base64Utils.encode(i.getCategoryName()));
+        }
         return new Result().ok();
     }
 
@@ -182,6 +234,15 @@ public class GoodsController {
         for (String i:id
              ) {
             this.drugService.remove(new QueryWrapper<Drug>().eq("medicinal_id",i));
+        }
+
+        //删除Redis中的数据
+        for (int i=0;i<=id.size();i++){
+            List<Medicinal> medicinals = this.medicinalService.list(new QueryWrapper<Medicinal>().eq("id", id.get(i)));
+            for (Medicinal a:medicinals
+            ) {
+                redisUtils.delete("Assort:"+ Base64Utils.encode(a.getCategoryName()));
+            }
         }
         return new Result().ok();
     }
@@ -211,6 +272,9 @@ public class GoodsController {
             @ApiImplicitParam(paramType = "query",name = "order",value ="升序asc，降序填desc",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "sidx",value ="排序字段",dataType ="String"),
     })
+    @ApiResponses({
+            @ApiResponse( code = 200,message = "ok",response = Symptom.class)
+    })
     @GetMapping("/Symptom/list")
     public Result symptomList(@RequestParam @ApiIgnore Map<String,Object> params){
         PageUtils list = this.symptomService.list(params);
@@ -231,11 +295,25 @@ public class GoodsController {
         return new Result().ok();
     }
 
+    @ApiOperation(value="症状分类，新增分类时返回id，接口")
+    @GetMapping("/Symptom/insertBackId")
+    public Result symptomInsertBackId(){
+        String string = UUID.randomUUID().toString();
+        return new Result().ok(string);
+    }
+
     @ApiOperation(value="症状分类，新增下级接口")
     @PutMapping("/Symptom/insertRank")
     public Result symptomInsertRank(@RequestBody Symptom symptom){
         this.symptomService.symptomInsertRank(symptom);
         return new Result().ok();
+    }
+
+    @ApiOperation(value="症状分类，新增下级，分类时返回id，接口")
+    @GetMapping("/Symptom/insertRankBackId")
+    public Result symptomInsertRankBackId(){
+        String string = UUID.randomUUID().toString();
+        return new Result().ok(string);
     }
 
     @ApiOperation(value="症状分类，新增下级下拉框接口")
@@ -295,6 +373,9 @@ public class GoodsController {
             @ApiImplicitParam(paramType = "query",name = "order",value ="升序asc，降序填desc",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "sidx",value ="排序字段",dataType ="String")
     })
+    @ApiResponses({
+            @ApiResponse( code = 200,message = "ok",response = Symptom.class)
+    })
     @GetMapping("/Symptom/two/list")
     public Result symptomTwoList(@RequestParam @ApiIgnore Map<String,Object> params){
         PageUtils pageUtils = this.symptomService.listTwo(params);
@@ -306,6 +387,13 @@ public class GoodsController {
     public Result symptomTwoInsert(@RequestBody Symptom symptom){
         this.symptomService.symptomTwoInsert(symptom);
         return new Result().ok();
+    }
+
+    @ApiOperation(value="症状分类，二级分类，新增分类时返回id，接口")
+    @GetMapping("/Symptom/two/insertBackId")
+    public Result symptomTwoInsertBackId(){
+        String string = UUID.randomUUID().toString();
+        return new Result().ok(string);
     }
 
     @ApiOperation(value="症状分类，二级分类，新增分类下拉框接口")
@@ -329,7 +417,6 @@ public class GoodsController {
         this.drugService.remove(new QueryWrapper<Drug>().eq("symptom_id",id));
         return new Result().ok();
     }
-
 
     @ApiOperation(value="症状分类，二级分类，批量删除接口")
     @DeleteMapping("/Symptom/two/deleteMore")
@@ -371,6 +458,9 @@ public class GoodsController {
             @ApiImplicitParam(paramType = "query",name = "symptomId",value ="症状分类ID，查询条件",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "shelves",value ="是否上架，0表示未上架，1表示已上架，查询条件",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "state",value ="是否审核，未通过,查询条件",dataType ="String"),
+    })
+    @ApiResponses({
+            @ApiResponse( code = 200,message = "ok",response = Drug.class)
     })
     @GetMapping("/drug/list")
     public Result drugList(@RequestParam @ApiIgnore Map<String,Object> params){
@@ -419,23 +509,7 @@ public class GoodsController {
     @ApiOperation(value="药品管理，查看接口")
     @GetMapping("/drug/select")
     public Result drugSelect(@RequestParam("id") String id){
-
-        Drug drug = this.drugService.getOne(new QueryWrapper<Drug>().eq("id", id));
-
-        //找到药品分类，拼成字符串
-        Medicinal medicinal = this.medicinalService.getById(drug.getMedicinalId());
-        String categoryName1 = medicinal.getCategoryName();
-        Medicinal medicinalServiceById = this.medicinalService.getById(medicinal.getHigherLevel());
-        String categoryName = medicinalServiceById.getCategoryName();
-        drug.setMedicinal(categoryName+">"+categoryName1);
-
-        //找到症状分类，拼成字符串
-        Symptom symptom = this.symptomService.getById(drug.getSymptomId());
-        String symptomName1 = symptom.getSymptomName();
-        Symptom byId = this.symptomService.getById(symptom.getHigherLevel());
-        String symptomName = byId.getSymptomName();
-        drug.setSymptom(symptomName+">"+symptomName1);
-
+        Drug drug = this.drugService.drugSelect(id);
         return new Result().ok(drug);
     }
 
@@ -445,6 +519,10 @@ public class GoodsController {
         this.drugService.update(drug,new UpdateWrapper<Drug>().eq("id",drug.getId()).eq("`version`",drug.getVersion()));
         drug.setVersion(drug.getVersion()+1);
         this.drugService.update(drug,new UpdateWrapper<Drug>().eq("id",drug.getId()));
+
+        //删除Redis中的数据
+        String categoryName = this.medicinalService.getById(drug.getMedicinalId()).getCategoryName();
+        redisUtils.delete("Assort:"+ Base64Utils.encode(categoryName));
         return new Result().ok();
     }
 
@@ -452,36 +530,52 @@ public class GoodsController {
     @DeleteMapping("/drug/delete")
     public Result drugDelete(@RequestParam("id") String id){
         this.drugService.removeById(id);
+
+        //删除Redis中的数据
+        String medicinalId = this.drugService.getById(id).getMedicinalId();
+        redisUtils.delete("Assort:"+ Base64Utils.encode(this.medicinalService.getById(medicinalId).getCategoryName()));
         return new Result().ok();
     }
 
     @ApiOperation(value="药品管理，新增药品接口")
     @PutMapping("/drug/insert")
     public Result drugInsert(@RequestBody Drug drug){
-        drug.setId(UUID.randomUUID().toString());
         drug.setState("待审核");
         this.drugService.save(drug);
+
+        //删除Redis中的数据
+        Medicinal medicinal = this.medicinalService.getById(drug.getMedicinalId());
+        redisUtils.delete("Assort:"+ Base64Utils.encode(medicinal.getCategoryName()));
         return new Result().ok();
+    }
+
+    @ApiOperation(value="药品管理，新增药品时返回id，接口")
+    @GetMapping("/drug/insertBackId")
+    public Result drugInsertBackId(){
+        String string = UUID.randomUUID().toString();
+        return new Result().ok(string);
     }
 
     @ApiOperation(value="药品管理，批量删除接口")
     @DeleteMapping("/drug/deleteMore")
     public Result drugDeleteMore(@RequestBody List<String> id){
         this.drugService.removeByIds(id);
+
+        //删除Redis中的数据
+        for (String i:id
+             ) {
+            redisUtils.delete("Assort:"+ Base64Utils.encode(this.medicinalService.getById(i).getCategoryName()));
+        }
         return new Result().ok();
     }
 
     @ApiOperation(value="药品管理，修改上架状态接口")
     @PostMapping("/drug/updateByid")
     public Result drugUpdateByid(@RequestBody Drug drug){
+        this.drugService.drugUpdateByid(drug);
 
-        if(drug.getShelves().equals("0")){
-            drug.setShelves("1");
-            this.drugService.update(drug,new UpdateWrapper<Drug>().eq("id",drug.getId()));
-        }else {
-            drug.setShelves("0");
-            this.drugService.update(drug,new UpdateWrapper<Drug>().eq("id",drug.getId()));
-        }
+        //删除Redis中的数据
+        redisUtils.delete("Assort:"+ Base64Utils.encode(this.medicinalService.getById(drug.getMedicinalId()).getCategoryName()));
         return new Result().ok();
     }
 
@@ -511,6 +605,9 @@ public class GoodsController {
             @ApiImplicitParam(paramType = "query",name = "medicinalId",value ="药品分类ID，查询条件",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "symptomId",value ="症状分类ID，查询条件",dataType ="String")
     })
+    @ApiResponses({
+            @ApiResponse( code = 200,message = "ok",response = Drug.class)
+    })
     @GetMapping("/check/list")//查询的数据是待审核的
     public Result checkList(@RequestParam @ApiIgnore Map<String,Object> params){
         PageUtils list = this.drugService.list(params);
@@ -520,35 +617,20 @@ public class GoodsController {
     @ApiOperation(value="药品审核，查看接口")//可以直接调药品查看的接口
     @GetMapping("/check/select")
     public Result checkSelect(@RequestParam("id") String id){
-
-        Drug drug = this.drugService.getOne(new QueryWrapper<Drug>().eq("id", id));
-
-        //找到药品分类，拼成字符串
-        Medicinal medicinal = this.medicinalService.getById(drug.getMedicinalId());
-        String categoryName1 = medicinal.getCategoryName();
-        Medicinal medicinalServiceById = this.medicinalService.getById(medicinal.getHigherLevel());
-        String categoryName = medicinalServiceById.getCategoryName();
-        drug.setMedicinal(categoryName+">"+categoryName1);
-
-        //找到症状分类，拼成字符串
-        Symptom symptom = this.symptomService.getById(drug.getSymptomId());
-        String symptomName1 = symptom.getSymptomName();
-        Symptom byId = this.symptomService.getById(symptom.getHigherLevel());
-        String symptomName = byId.getSymptomName();
-        drug.setSymptom(symptomName+">"+symptomName1);
-
+        Drug drug = this.drugService.checkSelect(id);
         return new Result().ok(drug);
     }
 
     @ApiOperation(value="药品审核，审核接口")
     @PostMapping("/check/update")
     public Result checkUpdate(@RequestBody Drug drug){
-
         this.drugService.update(drug,new UpdateWrapper<Drug>().eq("`state`",drug.getState())
                 .eq(StringUtils.isNotEmpty(drug.getRemarks()),"remarks",drug.getRemarks()));
+
+        //删除Redis中的数据
+        redisUtils.delete("Assort:"+ Base64Utils.encode(this.medicinalService.getById(drug.getMedicinalId()).getCategoryName()));
         return new Result().ok();
     }
-
 
     @ApiOperation(value="药品审核，筛选，症状分类的下拉框接口")
     @GetMapping("/check/symptom/screenSelect")
@@ -582,9 +664,15 @@ public class GoodsController {
     @DeleteMapping("/check/deleteMore")
     public Result checkDeleteMore(@RequestBody List<String> id){
         this.drugService.removeByIds(id);
+
+        //删除Redis中的数据
+        for (String i:id
+             ) {
+            String medicinalId = this.drugService.getById(i).getMedicinalId();
+            String categoryName = this.medicinalService.getById(medicinalId).getCategoryName();
+            redisUtils.delete("Assort:"+ Base64Utils.encode(categoryName));
+        }
+
         return new Result().ok();
     }
-
-
-
 }

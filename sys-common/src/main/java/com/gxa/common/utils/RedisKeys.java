@@ -35,6 +35,8 @@ public class RedisKeys {
         return "sys:user:permissions:" + userId;
     }
 
+
+
     /**
      * 用户登录的key
      * @return

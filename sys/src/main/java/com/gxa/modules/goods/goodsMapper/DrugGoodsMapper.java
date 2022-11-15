@@ -5,5 +5,5 @@ import com.gxa.modules.goods.goodsEntity.Drug;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface DrugMapper extends BaseMapper<Drug> {
+public interface DrugGoodsMapper extends BaseMapper<Drug> {
 }
