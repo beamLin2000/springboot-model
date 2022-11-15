@@ -9,8 +9,11 @@ import com.gxa.modules.homepage.service.TransactionStatisticsService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 @Api(tags = "后台首页接口")
 @RestController
@@ -76,13 +79,14 @@ public class HomePageController {
 
     @ApiOperation(value="交易统计的查询接口")
      @GetMapping("/getTransactionStatistics")
-    public Result getTransactionStatistics(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        Date today = calendar.getTime();
+    public Result getTransactionStatistics(@RequestParam("date") String date){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+        Date today = null;
+        try {
+            today = format.parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         List<TransactionStatistics> transactionStatistics = this.transactionStatisticsService.queryTransaction(today);
         Map map = new HashMap();
         map.put("list",transactionStatistics);

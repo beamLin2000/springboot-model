@@ -43,9 +43,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
 
     @Override
-    public PageUtils queryRecommed(Map<String, Object> param) {
-        IPage<Goods> page = this.page(new Query<Goods>().getPage(param), new QueryWrapper<Goods>().eq("recommend", "是"));
-        return new PageUtils(page);
+    public List<Goods> queryRecommed() {
+        List<Goods> goods = this.baseMapper.selectList(new QueryWrapper<Goods>().eq("recommend", "是"));
+        return goods;
     }
 
 

@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -82,7 +84,12 @@ public class RedisUtils {
         }
         return gson.toJson(object);
     }
+    public List<Object> getList(String key, Integer start, Integer end){
+        System.out.println(key);
+        List<Object> range = listOperations.range(key, start, end > 0 ? end - 1 : 0);
 
+        return range;
+    }
     /**
      * JSON数据，转成Object
      */

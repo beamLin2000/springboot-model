@@ -48,6 +48,9 @@ public class RedisKeys {
     public static String getUserTokenKey(String token){
         return "user:"+token;
     }
+    public static String getAssortDrugKey(String drugType){
+        return "Assort:"+Base64Utils.encode(drugType);
+    }
 
 }
  

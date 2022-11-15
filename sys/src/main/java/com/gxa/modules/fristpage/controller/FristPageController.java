@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Result;
+import com.gxa.modules.assort.dto.DrugDto;
 import com.gxa.modules.fristpage.entity.*;
 import com.gxa.modules.fristpage.service.*;
 import com.gxa.modules.login.entity.User;
+import com.gxa.modules.login.redis.SysUserRedis;
 import com.gxa.modules.login.service.UserTokenService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -37,6 +39,8 @@ public class FristPageController {
     private LimitedTimeGoodsService limitedTimeGoodsService;
     @Autowired
     private MsgService msgService;
+    @Autowired
+    private SysUserRedis sysUserRedis;
     @ApiOperation(value="关键词搜索接口")
     @GetMapping("/search")
     @ApiImplicitParams({
@@ -71,10 +75,31 @@ public class FristPageController {
     }
     @ApiOperation(value="对症找药接口")
     @GetMapping("/findMedicineForSymptoms")
-    public Result findMedicineForSymptoms(@RequestParam("str") String str){
-        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
-        List<Goods> goods = this.goodsService.getBaseMapper().selectList(wrapper.like("main_function",str));
-        return new Result().ok(goods);
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query",name = "start",value ="数据从第几条开始",dataType ="int"),
+            @ApiImplicitParam(paramType = "query",name = "end",value ="数据从第几条结束",dataType ="int"),
+            @ApiImplicitParam(paramType = "query",name = "drugType",value ="药品类型",dataType ="String"),
+    }
+    )
+    public Result findMedicineForSymptoms(@RequestParam @ApiIgnore Map<String,Object> params){
+        Integer start = Integer.parseInt(params.get("start").toString());
+        Integer end = Integer.parseInt(params.get("end").toString());
+        Map map = new HashMap();
+
+        String drugType = params.get("drugType").toString();
+        System.out.println(drugType);
+        List<DrugDto> drugDtos = this.sysUserRedis.getDrugList(drugType,start,end);
+        map.put("goods",drugDtos);
+        System.out.println(drugDtos);
+        if (drugDtos.size()==0||drugDtos==null){
+            QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+            List<Goods> goods = this.goodsService.getBaseMapper().selectList(wrapper.like("main_function",drugType));
+
+            this.sysUserRedis.addAssortGoods(drugType,goods);
+            map.put("goods",goods);
+        }
+
+        return new Result().ok(map);
     }
     @ApiOperation(value="限时购接口")
     @GetMapping("/limitedTimePurchase")
@@ -86,13 +111,10 @@ public class FristPageController {
     }
     @ApiOperation(value="好物推荐接口")
     @GetMapping("/goodMedicineRecommendation")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "page",value ="当前页",dataType ="String"),
-            @ApiImplicitParam(paramType = "query",name = "limit",value ="一页多少条数据",dataType ="String")
-    })
-    public Result goodMedicineRecommendation(@RequestParam @ApiIgnore Map<String,Object>param){
-        PageUtils pageUtils = this.goodsService.queryRecommed(param);
-        return new Result().ok(pageUtils);
+
+    public Result goodMedicineRecommendation(){
+        List<Goods> goods = this.goodsService.queryRecommed();
+        return new Result().ok(goods);
     }
     @ApiOperation(value="药品详情接口")
     @GetMapping("/drugDetails")

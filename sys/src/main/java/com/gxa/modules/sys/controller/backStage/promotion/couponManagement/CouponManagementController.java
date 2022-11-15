@@ -140,7 +140,12 @@ public class CouponManagementController {
     public Result getCoupons(HttpServletRequest request,@RequestBody CouponUsageInformation couponUsageInformation){
 
         this.couponUsageInfoService.addCoupons(couponUsageInformation);
-        this.msgService.saveMsg(new Msg(Integer.parseInt(couponUsageInformation.getUserId()),null,"消息通知","你有新的优惠卷请在我的-优惠卷查看"),UUID.randomUUID().toString());
+        List<User> users = couponUsageInformation.getUsers();
+        for (User user :
+            users    ) {
+            this.msgService.saveMsg(new Msg(user.getId(),null,"消息通知","你有新的优惠卷请在我的-优惠卷查看"),UUID.randomUUID().toString());
+        }
+
 
         return new Result().ok();
     }

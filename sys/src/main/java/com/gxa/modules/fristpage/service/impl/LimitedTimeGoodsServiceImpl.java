@@ -23,10 +23,10 @@ public class LimitedTimeGoodsServiceImpl implements LimitedTimeGoodsService {
             Integer integer = this.limitedTimeGoodsMapper.queryStockByName(goods.getDrugName(), goods.getActivityTime(), goods.getEndTime());
             int parseInt = Integer.parseInt(goods.getStock());
             if (integer!=null&&integer!=0){
-                String str = (float)integer/parseInt*100 +"%";
+                String str = (float)integer/parseInt*100+"";
                 goods.setStock(str);
             }else {
-                goods.setStock("0%");
+                goods.setStock("0");
             }
         }
 

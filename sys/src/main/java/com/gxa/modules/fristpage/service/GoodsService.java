@@ -10,5 +10,5 @@ import java.util.Map;
 public interface GoodsService extends IService<Goods> {
     PageUtils queryByStr(Map<String,Object>param);
     PageUtils queryByin(Map<String,Object>param);
-    PageUtils queryRecommed(Map<String,Object>param);
+    List<Goods> queryRecommed();
 }
