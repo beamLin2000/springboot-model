@@ -4,8 +4,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.gxa.modules.sys.entity.goods.Drug;
-import com.gxa.modules.sys.entity.goods.Medicinal;
+
+import com.gxa.modules.goods.goodsEntity.Drug;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,9 +22,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel("优惠券管理所有")
 @TableName("promotion_coupon_management")
 public class CouponManagementAll {
-    @TableId(value = "id",type = IdType.AUTO)
+    @TableId(value = "id")
     @ApiModelProperty(name = "id",value = "id",dataType = "String")
     private String id;
 
@@ -76,12 +78,12 @@ public class CouponManagementAll {
     private String limitedCollar;
 
     @TableField(value = "use_members")
-    @ApiModelProperty(name = "useMembers",value = "使用会员",dataType = "Integer")
-    private Integer useMembers;
+    @ApiModelProperty(name = "useMembers",value = "使用会员",dataType = "String")
+    private String useMembers;
 
     @TableField(value = "usable_goods")
-    @ApiModelProperty(name = "usableGoods",value = "可使用商品",dataType = "Integer")
-    private Integer usableGoods;
+    @ApiModelProperty(name = "usableGoods",value = "可使用商品",dataType = "String")
+    private String usableGoods;
 
 
     @ApiModelProperty(name = "specifyProduct",value = "指定商品",dataType = "Array")
@@ -111,4 +113,16 @@ public class CouponManagementAll {
      */
     private List<CouponUsageInformation> couponUsageInformations;
 
+
+    /**
+     * 药品
+     */
+    private List<Drug> drugList;
+
+    /**
+     * 版本号，保证幂等性
+     */
+    @TableField(value = "version_id")
+    @ApiModelProperty(name = "versionId",value = "版本号，保证幂等",dataType = "Integer")
+    private Integer versionId;
 }

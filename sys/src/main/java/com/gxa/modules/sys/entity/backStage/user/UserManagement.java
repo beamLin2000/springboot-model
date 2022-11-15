@@ -15,18 +15,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("user_userManagement")
+@TableName("t_user")
 public class UserManagement {
     @ApiModelProperty(name = "id",value = "uuid",dataType = "String")
     @TableField("id")
     private String id;
 
-    @ApiModelProperty(name = "user_name",value = "用户姓名",dataType = "String")
-    @TableField("user_name")
+    @ApiModelProperty(name = "userName",value = "用户姓名",dataType = "String")
+    @TableField("real_name")
     private String userName;
 
     @ApiModelProperty(name = "headImg",value = "头像",dataType = "String")
-    @TableField("head_img")
+    @TableField("head_location")
     private String headImg;
 
     @ApiModelProperty(name = "phoneNumber",value = "电话",dataType = "String")
@@ -37,7 +37,15 @@ public class UserManagement {
     @TableField("status")
     private Integer status;
 
-    @ApiModelProperty(name = "addTime",value = "加入时间",dataType = "String")
-    @TableField("add_time")
-    private String addTime;
+    @ApiModelProperty(name = "createTime",value = "加入时间",dataType = "String")
+    @TableField("create_time")
+    private String createTime;
+
+    @TableField(exist = false)
+    @ApiModelProperty(name = "tUserId",value = "当前用户id",dataType = "String")
+    private String tUserId;
+
+    @TableField("version")
+    @ApiModelProperty(name ="version",value = "版本号",dataType = "Integer")
+    private Integer version;
 }

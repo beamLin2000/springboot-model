@@ -1,7 +1,9 @@
 package com.gxa.modules.sys.mapper.backStage.promotion.couponManagement;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.gxa.modules.goods.goodsEntity.Drug;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagement;
+import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponUsageInformation;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,4 +19,11 @@ import java.util.List;
 @Mapper
 public interface CouponInfoMapper extends BaseMapper<CouponUsageInformation> {
 
+    void addCoupons(@Param("couponUsageInformation") CouponUsageInformation couponUsageInformation);
+
+    void editCoupons(CouponUsageInformation couponUsageInformation);
+
+    List<CouponUsageInformation> queryAllById(String id);
+
+    List<CouponManagementAll> queryUseCoupon(String Id);
 }

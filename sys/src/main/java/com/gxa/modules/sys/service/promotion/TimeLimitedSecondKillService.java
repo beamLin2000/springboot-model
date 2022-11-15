@@ -15,11 +15,11 @@ public interface TimeLimitedSecondKillService extends IService<LimitedTimeFlashD
     //条件分页查询
     PageUtils queryPage(Map<String, Object> params);
     //根据id查询数据
-    LimitedTimeFlashDeal queryById(Integer id);
+    LimitedTimeFlashDeal queryById(String id);
     //根据id删除多条数据
     Integer deleteById(List<String> ids);
     //新增
     Integer saveData(LimitedTimeFlashDeal limitedTimeFlashDeal);
     //编辑
-    Integer updateData(LimitedTimeFlashDeal limitedTimeFlashDeal);
+    Integer updateData(LimitedTimeFlashDeal limitedTimeFlashDeal) throws Exception;
 }

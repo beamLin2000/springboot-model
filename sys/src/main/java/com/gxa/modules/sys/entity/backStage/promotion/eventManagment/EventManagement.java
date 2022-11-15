@@ -38,8 +38,8 @@ public class EventManagement {
   private String endTime;
 
   @TableField("status")
-  @ApiModelProperty(name = "status",value = "状态",dataType = "Integer")
-  private Integer status;
+  @ApiModelProperty(name = "status",value = "状态",dataType = "String")
+  private String status;
 
   @TableField("put_on_shelves")
   @ApiModelProperty(name = "putOnShelves",value = "上架",dataType = "Integer")
@@ -52,4 +52,8 @@ public class EventManagement {
   @TableField("activity_introduction")
   @ApiModelProperty(name = "activityIntroduction",value = "活动介绍",dataType = "String")
   private String activityIntroduction;
+
+  @TableField("version")
+  @ApiModelProperty(name ="version",value = "版本号",dataType = "Integer")
+  private Integer version;
 }

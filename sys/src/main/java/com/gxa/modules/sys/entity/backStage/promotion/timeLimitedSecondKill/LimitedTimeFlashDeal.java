@@ -37,7 +37,15 @@ public class LimitedTimeFlashDeal {
     @ApiModelProperty(name = "secondKillPrice",value = "秒杀价格",dataType = "Double")
     private Double secondKillPrice;
 
-    @TableField("activity_time")
+    @TableField("activity_time_start")
+    //@ApiModelProperty(name = "activityTimeStart",value = "活动时间开始",dataType = "String")
+    private String activityTimeStart;
+
+    @TableField("activity_time_end")
+    //@ApiModelProperty(name = "activityTime",value = "活动时间结束",dataType = "String")
+    private String activityTimeEnd;
+
+    @TableField(exist = false)
     @ApiModelProperty(name = "activityTime",value = "活动时间",dataType = "String")
     private String activityTime;
 
@@ -59,4 +67,8 @@ public class LimitedTimeFlashDeal {
     @TableField("limited_purchase_quantity")
     @ApiModelProperty(name = "limitedPurchaseQuantity",value = "限购数量",dataType = "Integer",required = true)
     private String limitedPurchaseQuantity;
+
+    @TableField("version")
+    @ApiModelProperty(name ="version",value = "版本号",dataType = "Integer")
+    private Integer version;
 }
