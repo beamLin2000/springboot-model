@@ -5,7 +5,7 @@ import com.gxa.modules.order.dto.ExpressDto;
 import com.gxa.modules.order.entity.ExpressDetail;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.Date;
+
 
 @Mapper
 public interface ExpressMapper extends BaseMapper<ExpressDto> {

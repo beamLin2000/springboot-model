@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxa.modules.homepage.mapper.TransactionStatisticsMapper">
+
+    <select id="queryTransaction" resultType="java.lang.Double">
+        select sum(order_amount) from `order` where order_createTime between #{today} and #{tomorrow}
+    </select>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxa.modules.homepage.mapper.GoodsAndSalesMapper">
+    <resultMap id="goodsandsales" type="com.gxa.modules.homepage.entity.GoodsAndSales">
+        <result property="goodNum" column="goodNum"></result>
+        <result property="todayOrder" column="todayOrder"></result>
+        <result property="todaySaleMoney" column="todaySaleMoney"></result>
+        <result property="totalSaleMoney" column="totalSaleMoney"></result>
+    </resultMap>
+    <select id="queryGoodsAndSalesByToday" resultMap="goodsandsales">
+        select count(id) as todayOrder,sum(order_amount) as todaySaleMoney
+        from `order`
+        where order_createTime between #{today} and #{tomorrow}
+    </select>
+    <select id="queryGoodsAndSales" resultMap="goodsandsales">
+        select count(d.id) as goodNum,sum(o.order_amount) as totalSaleMoney
+        from `order` o,drug d
+    </select>
+
+</mapper>
