@@ -26,6 +26,11 @@
         <result property="refundMark" column="refund_mark"></result>
         <result property="operationPerson" column="operation_person"></result>
     </resultMap>
+    <update id="updateRefundStatusByApplicationNo">
+        UPDATE `order`
+		SET refund_status=#{refundStatus},refund_mark=#{refundMark},r.refund_status=#{orderStatus}
+		WHERE application_no=#{applicationNo}
+    </update>
 
 
     <select id="queryRefundOrderByPage" resultMap="refundListDto">

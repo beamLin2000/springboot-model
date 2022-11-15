@@ -3,6 +3,7 @@ package com.gxa.modules.order.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gxa.common.utils.PageUtils;
 import com.gxa.modules.order.dto.*;
+import com.gxa.modules.order.entity.ExpressDetail;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -15,5 +16,7 @@ public interface OrderService {
     OrderDetailDto queryOrderDetailByOrderNo(String orderNo);
     RefundDetailDto queryRefundDetailByApplicationNo(String applicationNo);
     List<ExpressDto> queryAllExpress();
-
+    void orderShipment(String orderNo,Date expressDate,Integer expressId,String expressNo);
+    ExpressDetail queryExpressDetailByOrderNo(String orderNo);
+    void updateRefundStatusByApplicationNo(String applicationNo,String refundMark,String refundStatus);
 }
