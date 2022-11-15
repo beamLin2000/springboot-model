@@ -27,7 +27,11 @@ public class CarouselController {
         @Autowired
         private CarouselService carouselService;
 
-
+    /**
+     *
+     * @param params
+     * @return
+     */
     @ApiOperation("内容查询接口")
     @GetMapping("/carousel/list")
     @ApiImplicitParams({
@@ -41,7 +45,11 @@ public class CarouselController {
         return new Result<PageUtils>().ok(pageUtils);
     }
 
-
+    /**
+     *
+     * @param params
+     * @return
+     */
     @ApiOperation("条件查询接口")
     @GetMapping("/carousel/list01")
     @ApiImplicitParams({
@@ -58,6 +66,11 @@ public class CarouselController {
         return new Result<PageUtils>().ok(pageUtils);
     }
 
+    /**
+     *
+     * @param carousel
+     * @return
+     */
     @ApiOperation("轮播图添加接口")
     @PostMapping("/carousel/add")
     public Result carouselAdd(@RequestBody Carousel carousel){
@@ -65,6 +78,11 @@ public class CarouselController {
         return new Result().ok();
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @ApiOperation("轮播图根据id删除接口")
     @DeleteMapping("/carousel/delete")
     public Result carouselDelete(@RequestParam("id") Integer id){
@@ -72,7 +90,11 @@ public class CarouselController {
         return new Result().ok();
     }
 
-
+    /**
+     *
+     * @param carousel
+     * @return
+     */
     @ApiOperation("轮播图批量删除接口")
     @DeleteMapping("/carousel/delete01")
     public Result carouselDelete01(@RequestBody  List<Carousel> carousel){
@@ -80,7 +102,11 @@ public class CarouselController {
         return new Result().ok();
     }
 
-
+    /**
+     *
+     * @param carousel
+     * @return
+     */
     @ApiOperation("轮播图根据id修改")
     @PutMapping("/carousel/update")
     public Result carouselUpdate(@RequestBody Carousel carousel){
