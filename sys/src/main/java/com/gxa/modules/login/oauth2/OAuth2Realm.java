@@ -1,5 +1,6 @@
 package com.gxa.modules.login.oauth2;
 
+import com.gxa.modules.login.entity.SysUser;
 import com.gxa.modules.login.entity.User;
 import com.gxa.modules.login.service.UserTokenService;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,7 @@ public class OAuth2Realm extends AuthorizingRealm {
         String accessToken = (String) token.getPrincipal();
         //从redis中获取出来
         log.info(accessToken);
-        User user = userTokenService.validateToken(accessToken);
+        SysUser user = userTokenService.validateSysUserToken(accessToken);
         System.out.println(user);
         if(user == null){
             throw new IncorrectCredentialsException("token失效，请重新登录");

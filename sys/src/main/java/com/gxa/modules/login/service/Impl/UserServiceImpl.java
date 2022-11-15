@@ -15,8 +15,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private UserMapper userMapper;
     @Override
-    public User queryByUsername(String username) {
-        User user = baseMapper.selectOne(new QueryWrapper<User>().eq("user_name", username));
+    public User queryById(String openId) {
+        User user = baseMapper.selectOne(new QueryWrapper<User>().eq("open_id", openId));
         return user;
     }
 

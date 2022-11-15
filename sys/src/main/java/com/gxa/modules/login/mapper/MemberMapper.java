@@ -15,7 +15,7 @@ import java.util.Map;
 public interface MemberMapper extends BaseMapper<Member> {
 
     List<Member> queryAll();
-    Page<Member> queryAll(Page<Member> page);
+    Page<Member> queryA(Page<Member> page);
     Page<Member> queryAllByCondition(Page<Member> page,@Param("username") String username, @Param("role")String role);
     void add(@Param("userId") Integer userId,@Param("roleId") Integer roleId);
     Integer roleId(String role);

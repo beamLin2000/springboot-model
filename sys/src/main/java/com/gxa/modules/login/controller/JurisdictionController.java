@@ -36,8 +36,8 @@ public class JurisdictionController {
 
     @ApiOperation(value="成员管理查询")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "page",value ="当前是第几页",dataType ="int"),
-            @ApiImplicitParam(paramType = "query",name = "limit",value ="每页显示多少条",dataType ="int"),
+            @ApiImplicitParam(paramType = "query",name = "pageNum",value ="当前是第几页",dataType ="int"),
+            @ApiImplicitParam(paramType = "query",name = "pageSize",value ="每页显示多少条",dataType ="int"),
             @ApiImplicitParam(paramType = "query",name = "username",value ="名字查询",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "role",value ="角色查询",dataType ="String")
 

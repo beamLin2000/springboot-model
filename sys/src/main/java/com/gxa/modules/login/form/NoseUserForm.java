@@ -11,5 +11,6 @@ public class NoseUserForm {
     private String captcha;
 //    private String captch;//验证码
 //    private String uuid;//用于找验证码的
+    private String openId;
 
 }
