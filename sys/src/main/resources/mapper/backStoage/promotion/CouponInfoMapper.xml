@@ -9,15 +9,19 @@
         INSERT INTO promotion_couponUsageInformation
             (id, `member`, coupon_type, collection_time, current_state, usage_time, order_number, coupon_management_id, t_user_id)
         VALUES
-            (#{couponUsageInformation.id},
-             #{couponUsageInformation.member},
-             #{couponUsageInformation.couponType},
-             #{couponUsageInformation.collectionTime},
-             #{couponUsageInformation.currentState},
-             #{couponUsageInformation.usageTime},
-             #{couponUsageInformation.orderNumber},
-             #{couponUsageInformation.couponManagementId},
-             #{couponUsageInformation.userId})
+            <foreach collection="users" item="user" separator=",">
+                <foreach collection="couponManagements" item="val" separator=",">
+                    (#{couponUsageInformation.id},
+                    #{user.phoneNumber},
+                    #{val.couponType},
+                    #{couponUsageInformation.collectionTime},
+                    #{couponUsageInformation.currentState},
+                    #{couponUsageInformation.usageTime},
+                    #{couponUsageInformation.orderNumber},
+                    #{val.couponManagementId},
+                    #{user.id})
+                </foreach>
+            </foreach>
     </insert>
     <update id="editCoupons">
         UPDATE `promotion_couponUsageInformation` SET
