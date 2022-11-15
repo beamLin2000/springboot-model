@@ -1,5 +1,7 @@
 package com.gxa.modules.goods.goodsForm;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,9 +9,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel("药品审核表单")
 public class CheckForm {
-    private String drugName;//药品名称
-    private String state;//审核状态 未通过，审核通过
+    @ApiModelProperty("id")
+    private String id;
+
+    @ApiModelProperty("审核状态，三种，待审核，未通过，已通过")
+    private String state;
+
+    @ApiModelProperty("备注")
     private String remarks;//备注
 
 }
