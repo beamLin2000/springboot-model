@@ -55,7 +55,6 @@ public class SymptomServiceImpl extends ServiceImpl<SymptomMapper,Symptom> imple
         Date date = new Date();
         symptom.setAddTime(date);
 
-        symptom.setId(UUID.randomUUID().toString());
         symptom.setRank("一级");
         this.baseMapper.insert(symptom);
     }
@@ -66,8 +65,6 @@ public class SymptomServiceImpl extends ServiceImpl<SymptomMapper,Symptom> imple
         symptom.setAddTime(date);
         symptom.setRank("二级");
 
-        symptom.setId(UUID.randomUUID().toString());
-
 //        medicinal.setHigherLevel(medicinal.getId());
         this.baseMapper.insert(symptom);
     }
@@ -77,7 +74,6 @@ public class SymptomServiceImpl extends ServiceImpl<SymptomMapper,Symptom> imple
         Date date = new Date();
         symptom.setAddTime(date);
 
-        symptom.setId(UUID.randomUUID().toString());
         symptom.setRank("一级");
         this.baseMapper.insert(symptom);
     }

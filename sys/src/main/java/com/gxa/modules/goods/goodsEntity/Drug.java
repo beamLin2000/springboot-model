@@ -2,12 +2,14 @@ package com.gxa.modules.goods.goodsEntity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.gxa.common.validator.group.AddGroup;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -21,6 +23,7 @@ import java.util.Date;
 @ApiModel("药品管理表单")
 public class Drug {
 
+//    @NotNull(groups = AddGroup.class)
     @ApiModelProperty("id")
     private String id;
 
