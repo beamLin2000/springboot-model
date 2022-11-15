@@ -1,6 +1,5 @@
 package com.gxa.modules.sys.service.promotion.impl;
 
-import com.alibaba.fastjson2.util.UUIDUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -116,8 +115,7 @@ public class CouponManagementServiceImpl extends ServiceImpl<CouponMapper, Coupo
      */
     @Override
     public void edit(CouponManagementAll couponManagementAll) {
-        //生成UUID
-        String id = UUID.randomUUID().toString();
+
         //编辑
         this.couponMapper.edit(couponManagementAll);
 

@@ -15,13 +15,14 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author :林溪
  * @date : 2022/11/11 14:12
  */
 @RestController
-@Api(tags = "活动管理")
+@Api(tags = "后台:活动管理")
 @RequestMapping("/event")
 public class EventController {
     @Autowired
@@ -71,14 +72,17 @@ public class EventController {
     @ApiOperation("编辑pre")
     @GetMapping("/updateById/{id}")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "id",value = "即将被修改的数据id",dataType = "String")
+            @ApiImplicitParam(paramType = "query",name = "id",value = "即将被修改的数据id/新增pre返回的id,若为新增,则应当传递id为0",dataType = "String")
     })
     public Result selectById(@PathVariable("id")@ApiIgnore String id){
-        EventManagement eventManagement = eventService.selectById(id);
-        if(eventManagement!=null){
+        EventManagement eventManagement = null;
+        if(!id.equals("0")){
+            eventManagement = eventService.selectById(id);
             return new Result().ok(eventManagement);
     }
-        return new Result().error("数据未找到");
+        eventManagement = new EventManagement();
+        eventManagement.setId(UUID.randomUUID().toString());
+        return new Result().ok(eventManagement);
     }
     @ApiOperation("批量/删除")
     @DeleteMapping("/deleteByIds")
@@ -108,7 +112,8 @@ public class EventController {
     @PostMapping("/save")
     public Result save(@RequestBody EventManagement eventManagement){
         Result r = new Result();
-        if(eventManagement.getId()!=null&&eventManagement.getId().equals("")){
+        EventManagement eventManagement1 = eventService.selectById(eventManagement.getId());
+        if(eventManagement1!=null){
             Integer integer = eventService.saveData(eventManagement);
             return integer!=-1?r.ok("新增成功"):r.error("新增失败");
         }else{

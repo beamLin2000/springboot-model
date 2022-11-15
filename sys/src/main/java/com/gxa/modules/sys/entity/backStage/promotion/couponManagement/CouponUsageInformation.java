@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.gxa.modules.login.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * @Author LXD
@@ -55,11 +58,17 @@ public class CouponUsageInformation {
 
     @TableField(value = "t_user_id")
     @ApiModelProperty(name = "userId",value = "用户id",dataType = "String")
-    private String userId;
+    private List<String> userIds;
 
     @TableField(value = "version_id")
     @ApiModelProperty(name = "versionId",value = "版本号，保证幂等",dataType = "Integer")
     private Integer versionId;
+
+    @ApiModelProperty(name = "couponManagements",value = "优惠券种类",dataType = "List")
+    private List<CouponManagement> couponManagements;
+
+    @ApiModelProperty(name = "users",value = "用户",dataType = "List")
+    private List<User> users;
 
 
 }

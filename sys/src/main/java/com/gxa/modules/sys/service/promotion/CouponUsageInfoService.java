@@ -20,7 +20,7 @@ import java.util.Map;
 public interface CouponUsageInfoService extends IService<CouponUsageInformation> {
     PageUtils searchCouponUsageInfo(Map<String, Object> params);
 
-    void addCoupons(@Param("couponUsageInformation") CouponUsageInformation couponUsageInformation);
+    void addCoupons(@Param("couponUsageInformation") CouponUsageInformation couponUsageInformations);
 
     void editCoupons(CouponUsageInformation couponUsageInformation);
 

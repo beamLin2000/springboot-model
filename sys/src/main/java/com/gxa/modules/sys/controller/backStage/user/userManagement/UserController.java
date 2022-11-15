@@ -1,6 +1,5 @@
 package com.gxa.modules.sys.controller.backStage.user.userManagement;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Result;
 import com.gxa.modules.sys.entity.backStage.user.Address;
@@ -9,7 +8,6 @@ import com.gxa.modules.sys.service.user.AddressService;
 import com.gxa.modules.sys.service.user.UserManagementService;
 import com.gxa.modules.sys.service.user.impl.DrugUserInformationServiceImpl;
 import io.swagger.annotations.*;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -21,7 +19,7 @@ import java.util.Map;
  * @author :林溪
  * @date : 2022/11/11 9:17
  */
-@Api(tags = "用户管理")
+@Api(tags = "后台:用户管理")
 @RequestMapping("/userManagement")
 @RestController
 public class UserController {

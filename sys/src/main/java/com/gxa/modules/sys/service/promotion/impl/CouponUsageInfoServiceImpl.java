@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Query;
 import com.gxa.modules.goods.goodsEntity.Drug;
+import com.gxa.modules.login.entity.User;
+import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagement;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponUsageInformation;
 import com.gxa.modules.sys.mapper.backStage.promotion.couponManagement.CouponInfoMapper;
@@ -48,9 +50,14 @@ public class CouponUsageInfoServiceImpl extends ServiceImpl<CouponInfoMapper, Co
      */
     @Override
     public void addCoupons(CouponUsageInformation couponUsageInformation) {
-        //优惠券自动生成id
-        String uuid = UUID.randomUUID().toString();
-        couponUsageInformation.setId(uuid);
+
+
+        //获取优惠券种类
+        List<CouponManagement> couponManagements = couponUsageInformation.getCouponManagements();
+        //获取用户
+        List<User> users = couponUsageInformation.getUsers();
+
+        //这里调用这个addpre方法生成id
         //时间
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -61,7 +68,7 @@ public class CouponUsageInfoServiceImpl extends ServiceImpl<CouponInfoMapper, Co
         couponUsageInformation.setCurrentState("未使用");
 
         //添加
-        this.couponInfoMapper.addCoupons(couponUsageInformation);
+        this.couponInfoMapper.addCoupons(couponManagements,users,couponUsageInformation);
 
     }
 
@@ -87,7 +94,7 @@ public class CouponUsageInfoServiceImpl extends ServiceImpl<CouponInfoMapper, Co
 
 
     /**
-     *
+     * 查询可用的优惠券
      * @param drugs
      * @param userId
      * @return
