@@ -20,9 +20,19 @@ import java.util.List;
 public interface CouponMapper extends BaseMapper<CouponManagement> {
     CouponManagementAll queryById(@Param("id") String id);
 
-    void add(CouponManagementAll couponManagementAll);
+    void add(@Param("couponManagementAll") CouponManagementAll couponManagementAll);
 
-    void couponAddDrug(List<CouponAddDrug> couponAddDrugs);
+    void couponAddDrug(@Param("couponAddDrugs") List<CouponAddDrug> couponAddDrugs, @Param("id") String id);
 
-    void couponAddClass(List<CouponAddClass> couponAddClasses);
+    void couponAddClass(@Param("couponAddClasses") List<CouponAddClass> couponAddClasses, @Param("id") String id);
+
+    List<CouponAddDrug> selectDrugById(@Param("id") String id);
+
+    List<CouponAddClass> selectClassById(@Param("id") String id);
+
+    void edit(CouponManagementAll couponManagementAll);
+
+    void deleteDrugById(String id);
+
+    void deleteClassById(String id);
 }

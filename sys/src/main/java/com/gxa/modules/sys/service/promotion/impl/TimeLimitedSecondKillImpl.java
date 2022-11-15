@@ -11,6 +11,7 @@ import com.gxa.modules.sys.service.promotion.TimeLimitedSecondKillService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class TimeLimitedSecondKillImpl extends ServiceImpl<TimeLimitedSecondKill
     }
 
     @Override
-    public LimitedTimeFlashDeal queryById(Integer id) {
+    public LimitedTimeFlashDeal queryById(String id) {
         LimitedTimeFlashDeal limitedTimeFlashDeal = timeLimitedSecondKillMapper.selectById(id);
         return limitedTimeFlashDeal;
     }
@@ -64,8 +65,14 @@ public class TimeLimitedSecondKillImpl extends ServiceImpl<TimeLimitedSecondKill
     }
 
     @Override
-    public Integer updateData(LimitedTimeFlashDeal limitedTimeFlashDeal) {
-        int i = timeLimitedSecondKillMapper.updateById(limitedTimeFlashDeal);
+    @Transactional(rollbackFor = Exception.class)
+    public Integer updateData(LimitedTimeFlashDeal limitedTimeFlashDeal) throws Exception {
+        Integer i = timeLimitedSecondKillMapper.update(limitedTimeFlashDeal,
+                new QueryWrapper<LimitedTimeFlashDeal>().eq("version",limitedTimeFlashDeal.getVersion()));
+        Integer i2 = timeLimitedSecondKillMapper.updateVersion(limitedTimeFlashDeal.getId());
+        if(i==-1||i2==-1){
+            throw new Exception("修改失败");
+        }
         return i;
     }
 }

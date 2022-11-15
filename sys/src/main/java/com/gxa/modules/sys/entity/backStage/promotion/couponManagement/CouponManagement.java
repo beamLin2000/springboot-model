@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.gxa.modules.sys.entity.goods.Drug;
-import com.gxa.modules.sys.entity.goods.Medicinal;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +20,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel("优惠券管理")
 @TableName("promotion_coupon_management")
 public class CouponManagement {
     @TableId(value = "id",type = IdType.AUTO)
@@ -94,5 +94,8 @@ public class CouponManagement {
     @ApiModelProperty(name = "notUsed",value = "已领取",dataType = "Integer")
     private Integer notUsed;
 
+    @TableField(value = "version_id")
+    @ApiModelProperty(name = "versionId",value = "版本号，保证幂等",dataType = "Integer")
+    private Integer versionId;
 
 }

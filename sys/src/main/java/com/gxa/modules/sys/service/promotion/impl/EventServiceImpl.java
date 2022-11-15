@@ -29,15 +29,15 @@ public class EventServiceImpl extends ServiceImpl<EventMapper, EventManagement> 
         String activeTitle = (String)map.get("activityTitle");
         String status = ((String)map.get("status")).equals("全部")?null:(String)map.get("status");
         IPage page = this.page(new Query<EventManagement>().getPage(map),
-                                new QueryWrapper<EventManagement>().eq(StringUtils.isNotEmpty(activeTitle),"activity_title",activeTitle)
+                                new QueryWrapper<EventManagement>().like(StringUtils.isNotEmpty(activeTitle),"activity_title",activeTitle)
                                 .eq(StringUtils.isNotEmpty(status),"status",status));
 
         return new PageUtils(page);
     }
 
     @Override
-    public Integer updateStatus(String id,Integer status) {
-        Integer integer = eventMapper.updateStatus(id,status==1?0:1);
+    public Integer updateStatus(String id,Integer status,Integer version) {
+        Integer integer = eventMapper.updateStatus(id,status==1?0:1,version);
         return integer;
     }
 
@@ -54,12 +54,20 @@ public class EventServiceImpl extends ServiceImpl<EventMapper, EventManagement> 
 
     @Override
     public Integer saveData(EventManagement eventManagement) {
-            return eventMapper.insert(eventManagement);
+        List<String> strings = eventMapper.selectAllId();
+        if(strings.contains(eventManagement.getId())){
+            return -1;
+        }
+        return eventMapper.insert(eventManagement);
     }
 
     @Override
     public Integer updateData(EventManagement eventManagement) {
-            return eventMapper.updateById(eventManagement);
+        EventManagement eventManagement1 = selectById(eventManagement.getId());
+        if(eventManagement.getVersion()==eventManagement1.getVersion()){
+            return -1;
+        }
+        return eventMapper.updateById(eventManagement);
     }
 
 

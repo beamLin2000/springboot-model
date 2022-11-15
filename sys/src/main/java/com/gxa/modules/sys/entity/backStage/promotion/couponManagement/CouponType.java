@@ -2,6 +2,7 @@ package com.gxa.modules.sys.entity.backStage.promotion.couponManagement;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel("优惠券类型")
 public class CouponType {
     @ApiModelProperty(name = "couponType",value = "优惠券类型",dataType = "Array")
     private List<String> couponType;

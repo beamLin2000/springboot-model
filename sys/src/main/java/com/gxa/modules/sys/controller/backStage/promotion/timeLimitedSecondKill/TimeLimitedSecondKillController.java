@@ -2,8 +2,8 @@ package com.gxa.modules.sys.controller.backStage.promotion.timeLimitedSecondKill
 
 import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Result;
+import com.gxa.modules.goods.goodsService.DrugService;
 import com.gxa.modules.sys.entity.backStage.promotion.timeLimitedSecondKill.LimitedTimeFlashDeal;
-import com.gxa.modules.sys.entity.goods.Drug;
 import com.gxa.modules.sys.service.promotion.TimeLimitedSecondKillService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,8 @@ public class TimeLimitedSecondKillController {
 
     @Autowired
     private TimeLimitedSecondKillService timeLimitedSecondKillService;
+    @Autowired
+    private DrugService drugService;
 
     @GetMapping("/search")
     @ApiOperation(value = "筛选")
@@ -41,19 +43,24 @@ public class TimeLimitedSecondKillController {
     @GetMapping("/queryById")
     @ApiOperation(value = "查看/编辑Pre")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "id",value ="药品id",dataType ="Integer")
+            @ApiImplicitParam(paramType = "query",name = "id",value ="需要被查看/编辑的数据id,若为新增,则传递id值为0",dataType ="String")
     })
-    public Result<LimitedTimeFlashDeal> queryById(@RequestParam("id") @ApiIgnore Integer id){
+    public Result<LimitedTimeFlashDeal> queryById(@RequestParam("id") @ApiIgnore String id){
+        if(id.equals("0")){
+            LimitedTimeFlashDeal limitedTimeFlashDeal = new LimitedTimeFlashDeal();
+            limitedTimeFlashDeal.setId(UUID.randomUUID().toString());
+            return new Result<LimitedTimeFlashDeal>().ok(limitedTimeFlashDeal);
+        }
         LimitedTimeFlashDeal limitedTimeFlashDeal = this.timeLimitedSecondKillService.queryById(id);
         return new Result<LimitedTimeFlashDeal>().ok(limitedTimeFlashDeal);
     }
 
-    @GetMapping("/deleteById")
+    @DeleteMapping("/deleteById")
     @ApiOperation("根据id删除一条/多条数据")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "ids",value ="药品ids",dataType ="Array")
+            @ApiImplicitParam(paramType = "body",name = "ids",value ="药品ids",dataType ="Array")
     })
-    public Result deleteById(@RequestParam @ApiIgnore List<String> ids){
+    public Result deleteById(@RequestBody @ApiIgnore List<String> ids){
         Integer integer = this.timeLimitedSecondKillService.deleteById(ids);
         if(integer!=-1){
             return new Result().ok("删除成功");
@@ -66,8 +73,9 @@ public class TimeLimitedSecondKillController {
             @ApiImplicitParam(paramType = "query",name = "drugName",value = "商品名字",dataType = "String"),
             @ApiImplicitParam(paramType = "query",name = "page",value = "当前页",dataType = "Integer")
     })
-    public Result<List> queryDrugInfo(@RequestParam @ApiIgnore Map<String,Object> map){
-        return null;// new Result<>().ok();
+    public Result<PageUtils> queryDrugInfo(@RequestParam @ApiIgnore Map<String,Object> map){
+        PageUtils list = drugService.list(map);
+        return new Result<PageUtils>().ok(list);
     }
 //    @ApiOperation("新增->选择商品->搜索")
 //    @GetMapping("/queryAllDrugInfo")
@@ -84,12 +92,15 @@ public class TimeLimitedSecondKillController {
 //    })
     public Result saveData(@RequestBody LimitedTimeFlashDeal limitedTimeFlashDeal){
         Integer success = null;
-        if(limitedTimeFlashDeal.getId()!=null&&limitedTimeFlashDeal.getId()!=""){
-            success = this.timeLimitedSecondKillService.updateData(limitedTimeFlashDeal);
+        LimitedTimeFlashDeal limitedTimeFlashDeal1 = timeLimitedSecondKillService.queryById(limitedTimeFlashDeal.getId());
+        if(limitedTimeFlashDeal1!=null){
+            try {
+                success = this.timeLimitedSecondKillService.updateData(limitedTimeFlashDeal);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return success==-1?new Result().error("编辑失败"):new Result().ok("编辑成功");
         }
-        UUID uuid = UUID.randomUUID();
-        limitedTimeFlashDeal.setId(uuid.toString().substring(0,8).replaceAll("-","6"));
         success = this.timeLimitedSecondKillService.saveData(limitedTimeFlashDeal);
         return success==-1?new Result().error("新增失败"):new Result().ok("新增成功");
     }

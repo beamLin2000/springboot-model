@@ -1,4 +1,4 @@
-package com.gxa.modules.goods.goodsServiceImpl;
+package com.gxa.modules.goods.goodsService.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

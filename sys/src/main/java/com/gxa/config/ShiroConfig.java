@@ -43,7 +43,6 @@ public class ShiroConfig {
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/druid/**", "anon");
         filterMap.put("/app/**", "anon");
-        filterMap.put("/login", "anon");
         filterMap.put("/sys/login", "anon");
         filterMap.put("/login/code/{phoneNum}", "anon");
         filterMap.put("/swagger/**", "anon");
@@ -54,7 +53,6 @@ public class ShiroConfig {
 //        filterMap.put("/**", "oauth2");
         filterMap.put("/**", "anon");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
-
         return shiroFilter;
     }
 

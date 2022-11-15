@@ -21,4 +21,10 @@ public interface CouponManagementService extends IService<CouponManagement> {
     void deleteByIds(List<String> ids);
 
     void add(CouponManagementAll couponManagementAll);
+
+    CouponManagementAll selectById(String id);
+
+    void edit(CouponManagementAll couponManagementAll);
+
+     String addPre();
 }
