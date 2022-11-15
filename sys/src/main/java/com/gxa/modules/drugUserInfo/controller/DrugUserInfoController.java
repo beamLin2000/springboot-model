@@ -14,7 +14,7 @@ import java.util.List;
 
 
 
-@Api(tags = "用药人")
+@Api(tags = "用药人（前台）")
 @RestController
 @Slf4j
 public class DrugUserInfoController {
@@ -45,9 +45,23 @@ public class DrugUserInfoController {
     @ApiOperation("用药人添加接口")
     @PostMapping("/drugUserInfo/add")
     public Result drugUserInfoAdd(@RequestBody DrugUserInfo drugUserInfo){
-
-        this.drugUserInfoService.addDrugUserInfo(drugUserInfo);
+        drugUserInfo.setVersion(1);
+        int i = this.drugUserInfoService.addDrugUserInfo(drugUserInfo);
+        if (i != 1){
+            return new Result().error("添加失败！！！");
+        }
         return new Result().ok();
+    }
+
+    /**
+     *
+     * @return
+     */
+    @ApiOperation("添加前获得id")
+    @GetMapping("/drugUserInfo/drugUserInfogetid")
+    public Result getId(){
+        int id = this.drugUserInfoService.id();
+        return new Result().ok(id);
     }
 
     /**

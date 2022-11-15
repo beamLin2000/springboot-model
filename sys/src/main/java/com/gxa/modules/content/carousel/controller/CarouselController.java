@@ -18,7 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.List;
 import java.util.Map;
 //内容——首页轮播图管理
-@Api(tags = "内容")
+@Api(tags = "内容轮播图（后台）")
 @RestController
 @Slf4j
 public class CarouselController {

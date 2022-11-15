@@ -12,4 +12,5 @@ public interface ShoppingCartService extends IService<ShoppingCart> {
     List<ShoppingCartDto>querySpCart(Integer userId);
     void deleteShoppingBatch(List<ShoppingCart> shoppingCarts);
 
+
 }

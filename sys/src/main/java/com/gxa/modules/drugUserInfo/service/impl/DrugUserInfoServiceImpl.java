@@ -27,8 +27,17 @@ public class DrugUserInfoServiceImpl extends ServiceImpl<DrugUserInfoMapper, Dru
     }
 
     @Override
-    public void addDrugUserInfo(DrugUserInfo drugUserInfo) {
-        this.baseMapper.insert(drugUserInfo);
+    public int addDrugUserInfo(DrugUserInfo drugUserInfo) {
+
+        int id = this.drugUserInfoMapper.id() + 1;
+        int i = this.baseMapper.insert(drugUserInfo);
+        if (drugUserInfo.getId() == id){
+
+
+            return i;
+        }
+        return i;
+
     }
 
 
@@ -54,6 +63,12 @@ public class DrugUserInfoServiceImpl extends ServiceImpl<DrugUserInfoMapper, Dru
     public DrugUserInfo selectById(Integer id) {
         DrugUserInfo drugUserInfo = this.baseMapper.selectOne(new QueryWrapper<DrugUserInfo>().eq("id", id));
         return drugUserInfo;
+    }
+
+    @Override
+    public int id() {
+        int id = this.drugUserInfoMapper.id() + 1;
+        return id;
     }
 
 

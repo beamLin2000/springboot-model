@@ -18,9 +18,9 @@ import java.util.List;
 public interface ConfirmOrderMapper extends BaseMapper<OrderDto> {
     int addAddress(Address address);
     int addConfirmOrder(@Param("confirmOrders") ConfirmOrder confirmOrders,@Param("orderNum") String orderNum);
-    int addDrugUserInformation(DrugUserInformation drugUserInformation);
+
     int addOrder(Order order);
 
-    List<ConfirmShoppCart> shoppingAll();
+
 
 }
