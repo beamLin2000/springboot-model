@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@ApiModel("收货人信息")
 @TableName("promotion_user_management_address")
 public class Address {
     @ApiModelProperty(name = "id",value = "uuid",dataType = "String",required = true)
@@ -39,10 +38,10 @@ public class Address {
     private Integer defaultAddress;
 
     @TableField("t_user_id")
-    @ApiModelProperty(name ="defaultAddress",value = "关联用户id",dataType = "String")
+    @ApiModelProperty(name ="userId",value = "关联用户id",dataType = "String")
     private String userId;
 
     @TableField("version")
-    @ApiModelProperty(name ="defaultAddress",value = "幂等版本号",dataType = "Integer")
+    @ApiModelProperty(name ="version",value = "幂等版本号",dataType = "Integer")
     private Integer version;
 }

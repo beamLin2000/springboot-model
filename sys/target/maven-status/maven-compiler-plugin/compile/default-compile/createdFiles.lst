@@ -8,7 +8,7 @@ com\gxa\modules\order\mapper\ExpressMapper.class
 com\gxa\modules\fristpage\entity\FristLevel.class
 com\gxa\modules\confirmOrder\mapper\ConfirmOrderMapper.class
 com\gxa\modules\order\controller\OrderController.class
-com\gxa\modules\confirmOrder\entity\Prescription.class
+com\gxa\modules\assort\controller\AssortController.class
 com\gxa\modules\fristpage\mapper\PollGraphMapper.class
 com\gxa\modules\login\msg\MobileMessageCheck.class
 com\gxa\modules\sys\mapper\backStage\promotion\couponManagement\CouponInfoMapper.class
@@ -32,6 +32,7 @@ com\gxa\modules\myInfo\service\MyInfoService.class
 com\gxa\modules\sys\form\backstage\promotion\timeLimitedSecondKill\Search.class
 com\gxa\config\ShiroConfig.class
 com\gxa\modules\goods\goodsEntity\Symptom.class
+com\gxa\modules\drugUserInfo\mapper\DrugUserInfoMapper.class
 com\gxa\modules\sys\service\promotion\impl\TimeLimitedSecondKillImpl.class
 com\gxa\modules\fristpage\mapper\MsgMapper.class
 com\gxa\modules\goods\goodsForm\MedicinalForm.class
@@ -61,6 +62,7 @@ com\gxa\modules\login\form\NoseUserForm.class
 com\gxa\modules\sys\controller\backStage\promotion\eventManagement\EventController.class
 com\gxa\modules\shoppingCart\entity\Drug.class
 com\gxa\modules\order\dto\RefundDetailDto.class
+com\gxa\modules\drugUserInfo\service\DrugUserInfoService.class
 com\gxa\modules\confirmOrder\service\ConfirmOrderService.class
 com\gxa\modules\myInfo\service\CouponService.class
 com\gxa\modules\homepage\controller\HomePageController.class
@@ -74,6 +76,7 @@ com\gxa\modules\myInfo\mapper\MyInfoMapper.class
 com\gxa\modules\job\task\impl\TestTask.class
 com\gxa\modules\homepage\service\impl\GoodsAndSalesServiceImpl.class
 com\gxa\modules\sys\controller\backStage\personal\FrequentToolsController.class
+com\gxa\modules\order\entity\ExpressDetail.class
 com\gxa\SpringbootProjectModelApplication.class
 com\gxa\modules\login\dto\User.class
 com\gxa\modules\job\task\ITask.class
@@ -98,6 +101,7 @@ com\gxa\modules\sys\entity\backStage\user\UserManagement.class
 com\gxa\modules\sys\mapper\backStage\promotion\EventManagement\EventMapper.class
 com\gxa\modules\myInfo\mapper\MyOrderMapper.class
 com\gxa\modules\sys\entity\backStage\user\Address.class
+com\gxa\modules\confirmOrder\entity\Address.class
 com\gxa\modules\shoppingCart\dto\ShoppingCartDto.class
 com\gxa\modules\sys\mapper\backStage\promotion\timeLimitedSecondKill\TimeLimitedSecondKillMapper.class
 com\gxa\modules\login\service\Impl\MemberServiceImpl.class
@@ -111,6 +115,7 @@ com\gxa\modules\login\oauth2\OAuth2Token.class
 com\gxa\modules\sys\mapper\backStage\user\AddressMapper.class
 com\gxa\modules\login\service\UserService.class
 com\gxa\modules\myInfo\service\NewAddressService.class
+com\gxa\modules\drugUserInfo\entity\DrugUserInfo.class
 com\gxa\modules\homepage\service\GoodsAndSalesService.class
 com\gxa\modules\goods\goodsController\GoodsController.class
 com\gxa\modules\sys\mapper\backStage\promotion\couponManagement\CouponMapper.class
@@ -118,6 +123,7 @@ com\gxa\modules\sys\controller\backStage\user\userManagement\UserController.clas
 com\gxa\modules\sys\entity\backStage\promotion\couponManagement\CouponAddClass.class
 com\gxa\modules\goods\goodsForm\SymptomForm.class
 com\gxa\modules\login\service\UserTokenService.class
+com\gxa\modules\drugUserInfo\service\impl\DrugUserInfoServiceImpl.class
 com\gxa\modules\sys\form\backstage\promotion\timeLimitedSecondKill\AddTimeLimitedSecondKill.class
 com\gxa\modules\login\entity\SysUser.class
 com\gxa\modules\sys\service\user\AddressService.class
@@ -128,6 +134,7 @@ com\gxa\modules\login\entity\User.class
 com\gxa\modules\sys\entity\goods\Drug.class
 com\gxa\modules\sys\entity\backStage\promotion\timeLimitedSecondKill\LimitedTimeFlashDeal.class
 com\gxa\modules\sys\form\backstage\promotion\coupon\Search.class
+com\gxa\modules\assort\service\impl\AssortServiceImpl.class
 com\gxa\modules\goods\goodsService\SymptomService.class
 com\gxa\modules\fristpage\service\impl\LimitedTimeGoodsServiceImpl.class
 com\gxa\modules\login\service\MemberService.class
@@ -143,6 +150,7 @@ com\gxa\modules\fristpage\entity\LimitedTimeGoods.class
 com\gxa\modules\content\carousel\controller\CarouselController.class
 com\gxa\modules\fristpage\service\impl\GoodsInfoServiceImpl.class
 com\gxa\modules\confirmOrder\entity\Order.class
+com\gxa\modules\assort\dto\DrugDto.class
 com\gxa\modules\myInfo\service\impl\CancelServiceImpl.class
 com\gxa\modules\goods\goodsEntity\Medicinal.class
 com\gxa\modules\login\mapper\SysUserMapper.class
@@ -158,10 +166,12 @@ com\gxa\modules\myInfo\service\MyOrderService.class
 com\gxa\modules\login\dto\Member.class
 com\gxa\modules\shoppingCart\service\impl\ShoppingCartServiceImpl.class
 com\gxa\modules\login\oauth2\OAuth2Filter.class
+com\gxa\modules\confirmOrder\form\OrderForm.class
 com\gxa\modules\order\dto\OrderListDto.class
 com\gxa\modules\content\carousel\service\impl\CarouselServiceImpl.class
 com\gxa\modules\login\service\Impl\UserTokenServiceImpl.class
 com\gxa\modules\goods\goodsServiceImpl\MedicinalServiceImpl.class
+com\gxa\modules\assort\service\AssortService.class
 com\gxa\modules\fristpage\entity\Goods.class
 com\gxa\modules\homepage\entity\UserPandent.class
 com\gxa\modules\homepage\mapper\PandentMapper.class
@@ -174,10 +184,13 @@ com\gxa\modules\homepage\service\impl\TransactionStatisticsServiceImpl.class
 com\gxa\modules\homepage\service\TransactionStatisticsService.class
 com\gxa\modules\sys\service\promotion\impl\CouponManagementServiceImpl.class
 com\gxa\config\MybatisPlusConfig.class
+com\gxa\modules\assort\mapper\AssortMapper.class
 com\gxa\modules\fristpage\service\GoodsService.class
+com\gxa\modules\drugUserInfo\controller\DrugUserInfoController.class
 com\gxa\modules\sys\entity\backStage\promotion\couponManagement\CouponType.class
 com\gxa\modules\shoppingCart\entity\ShoppingCart.class
 com\gxa\modules\sys\entity\goods\Symptom.class
+com\gxa\modules\confirmOrder\dto\ConfirmShoppCart.class
 com\gxa\modules\fristpage\entity\Msg.class
 com\gxa\modules\shoppingCart\mapper\ShoppingMapper.class
 com\gxa\modules\login\mapper\MemberMapper.class
@@ -201,6 +214,7 @@ com\gxa\modules\order\mapper\DrugMapper.class
 com\gxa\modules\login\form\BasicInstallForm.class
 com\gxa\modules\goods\goodsService\DrugService.class
 com\gxa\modules\myInfo\mapper\CancelMapper.class
+com\gxa\modules\order\dto\DrugDto.class
 com\gxa\modules\homepage\mapper\PendingMapper.class
 com\gxa\modules\myInfo\service\CancelService.class
 com\gxa\modules\fristpage\service\impl\GoodsServiceImpl.class
@@ -210,4 +224,5 @@ com\gxa\modules\confirmOrder\dto\OrderDto.class
 com\gxa\modules\sys\entity\backStage\promotion\couponManagement\CouponAddDrug.class
 com\gxa\modules\myInfo\entity\OrderTemp.class
 com\gxa\modules\sys\mapper\backStage\user\DrugUserInformationMapper.class
+com\gxa\modules\confirmOrder\entity\ConfirmOrder.class
 com\gxa\modules\content\carousel\entity\Carousel.class

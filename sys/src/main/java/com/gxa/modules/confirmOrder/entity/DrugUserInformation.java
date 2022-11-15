@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@ApiModel("用药人信息")
 public class DrugUserInformation {
     @ApiModelProperty(name = "id",value = "id",dataType = "Integer",required = true)
     private Integer id;

@@ -6,10 +6,7 @@ import com.gxa.modules.order.dto.*;
 
 import com.gxa.modules.order.entity.ExpressDetail;
 import com.gxa.modules.order.service.OrderService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -17,6 +14,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.*;
 
+@Api(tags = "订单查询")
 @RestController
 @RequestMapping("/order")
 public class OrderController {

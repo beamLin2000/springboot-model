@@ -30,7 +30,7 @@ public class ConfirmOrderController {
 
     @ApiOperation("确认订单接口")
     @PostMapping("/confirmOrder/from")
-    public Result confirmOrder(@RequestBody(required = false)OrderForm form){
+    public Result confirmOrder(@RequestBody OrderForm form){
 
         Date date01 = new Date();
         //设置要获取到什么样的时间
