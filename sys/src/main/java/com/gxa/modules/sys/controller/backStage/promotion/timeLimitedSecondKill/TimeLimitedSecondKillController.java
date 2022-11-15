@@ -19,7 +19,7 @@ import java.util.UUID;
  * @date : 2022/11/11 14:11
  */
 @RestController
-@Api(tags = "限时秒杀")
+@Api(tags = "后台:限时秒杀")
 @RequestMapping("/timeLimitedSecondKill")
 public class TimeLimitedSecondKillController {
 

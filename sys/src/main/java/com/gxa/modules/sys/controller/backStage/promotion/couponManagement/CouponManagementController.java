@@ -33,7 +33,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/couponManger")
-@Api(tags = "优惠券管理")
+@Api(tags = "后台:优惠券管理")
 public class CouponManagementController {
 
 
