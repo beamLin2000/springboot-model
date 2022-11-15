@@ -34,7 +34,7 @@ public class Symptom {
     private String rank;//级别
 
     @TableField("`state`")
-    @ApiModelProperty("状态")
+    @ApiModelProperty("状态，显示或者不显示")
     private String state;//状态
 
     @TableField("`remarks`")

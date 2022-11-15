@@ -32,7 +32,7 @@ public class Medicinal {
     @TableField("`rank`")
     private String rank;//级别
 
-    @ApiModelProperty("状态")
+    @ApiModelProperty("状态，显示或者不显示")
     @TableField("`state`")
     private String state;//状态
 

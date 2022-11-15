@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -33,7 +34,7 @@ public class Drug {
 
     @ApiModelProperty("价格")
     @TableField("`price`")
-    private Double price;//价格
+    private BigDecimal price;//价格
 
     @ApiModelProperty("是否上架，0表示未上架，1表示已上架")
     @TableField("`shelves`")
