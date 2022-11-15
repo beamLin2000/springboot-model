@@ -49,6 +49,9 @@ public class RedisKeys {
     public static String getAssortDrugKey(String drugType){
         return "Assort:"+Base64Utils.encode(drugType);
     }
+    public static String getAssortConditionDrugKey(String drugType,String condition,String sort){
+        return "Assort:"+condition+":"+sort+":"+Base64Utils.encode(drugType);
+    }
 
 }
  

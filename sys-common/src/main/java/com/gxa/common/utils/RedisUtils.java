@@ -81,7 +81,7 @@ public class RedisUtils {
 
     public List<Object> getList(String key,Integer start,Integer end){
         System.out.println(key);
-        List<Object> range = listOperations.range(key, start, end > 0 ? end - 1 : 0);
+        List<Object> range = listOperations.range(key,0,-1);
 
         return range;
     }

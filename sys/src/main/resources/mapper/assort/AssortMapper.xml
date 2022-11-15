@@ -12,6 +12,13 @@
     <select id="queryAllDrugByDrugType" resultMap="drugDto">
         SELECT drug_name,specifications,picture_url,price
 		FROM drug
-		WHERE medicinal_id=(SELECT id FROM medicinal WHERE category_name=#{drugType})
+		WHERE medicinal_id=(SELECT id FROM medicinal WHERE category_name=#{drugType}) AND shelves='1'
+    </select>
+    <select id="queryDrugByCondition" resultMap="drugDto">
+        SELECT drug_name,specifications,picture_url,price
+		FROM drug
+		WHERE medicinal_id=(SELECT id FROM medicinal WHERE category_name=#{drugType}) AND shelves='1'
+		ORDER BY #{condition} #{sort}
+
     </select>
 </mapper>

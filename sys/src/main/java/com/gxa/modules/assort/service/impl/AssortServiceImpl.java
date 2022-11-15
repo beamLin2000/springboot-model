@@ -19,4 +19,10 @@ public class AssortServiceImpl implements AssortService {
         List<DrugDto> drugDtos = this.assortMapper.queryAllDrugByDrugType(drugType);
         return drugDtos;
     }
+
+    @Override
+    public List<DrugDto> queryDrugByCondition(String drugType, String condition,String sort) {
+        List<DrugDto> drugDtos = this.assortMapper.queryDrugByCondition(drugType,condition,sort);
+        return drugDtos;
+    }
 }
