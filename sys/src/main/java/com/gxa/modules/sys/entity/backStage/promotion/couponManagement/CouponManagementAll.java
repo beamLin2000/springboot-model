@@ -43,8 +43,8 @@ public class CouponManagementAll {
     private String couponType;
 
     @TableField(value = "status")
-    @ApiModelProperty(name = "status",value = "状态",dataType = "Integer")
-    private Integer status;
+    @ApiModelProperty(name = "status",value = "状态",dataType = "String")
+    private String status;
 
     @TableField(value = "amount_issued")
     @ApiModelProperty(name = "amountIssued", value = "发放量",dataType = "Integer")

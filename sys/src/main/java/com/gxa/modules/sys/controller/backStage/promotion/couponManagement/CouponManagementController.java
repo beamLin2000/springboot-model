@@ -7,6 +7,7 @@ import com.gxa.modules.goods.goodsEntity.Drug;
 import com.gxa.modules.login.entity.User;
 import com.gxa.modules.login.service.UserTokenService;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll;
+import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagerAddAndEdit;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponType;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponUsageInformation;
 import com.gxa.modules.sys.service.promotion.CouponManagementService;
@@ -97,17 +98,19 @@ public class CouponManagementController {
     @DeleteMapping("/deleteByIds")
     @ApiOperation(value = "删除，批量删除")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "body", name = "ids", value = "删除那几条数据", dataType = "List<String>"),
+            @ApiImplicitParam(paramType = "body", name = "ids", value = "删除那几条数据", dataType = "Map<String,List<String>>"),
     })
-    public Result deleteByIds(@RequestBody @ApiIgnore List<String> ids){
-        log.info("====ids{}====",ids);
+    public Result deleteByIds(@RequestBody @ApiIgnore Map<String,List<String>> map){//List<String> ids
+        log.info("====ids{}====",map);
+        List ids = map.get("ids");
+        System.out.println(ids+"ids");
         this.couponManagementService.deleteByIds(ids);
         return new Result().ok();
     }
 
     @PostMapping("/save")
     @ApiOperation(value = "保存")
-    public Result save(@RequestBody CouponManagementAll couponManagementAll){
+    public Result save(@RequestBody CouponManagerAddAndEdit couponManagementAll){
         this.couponManagementService.add(couponManagementAll);
         return new Result().ok();
     }

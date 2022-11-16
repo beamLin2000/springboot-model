@@ -67,7 +67,7 @@ public class CouponManagementServiceImpl extends ServiceImpl<CouponMapper, Coupo
 
 
     @Override
-    public void add(CouponManagementAll couponManagementAll) {
+    public void add(CouponManagerAddAndEdit couponManagementAll) {
 
 
         if (couponManagementAll.getUsableGoods().equals("指定商品")) {
@@ -76,7 +76,9 @@ public class CouponManagementServiceImpl extends ServiceImpl<CouponMapper, Coupo
             //调用商品的搜索接口
             //获取到页面传来的药品添加
             List<CouponAddDrug> specifyProduct = couponManagementAll.getSpecifyProduct();
+
             couponMapper.couponAddDrug(specifyProduct,couponManagementAll.getId());
+
 
         }else if (couponManagementAll.getUsableGoods().equals("指定分类")){
 

@@ -31,8 +31,9 @@ public class CouponAddClass {
   @ApiModelProperty(name = "level",value = "商品编号",dataType = "String")
   private String level;
 
-  @TableField(value = "version_id")
-  @ApiModelProperty(name = "versionId",value = "版本号，保证幂等",dataType = "Integer")
-  private Integer versionId;
+  @TableField(value = "coupon_manager_id")
+  @ApiModelProperty(name = "couponManagerId",value = "优惠券管理的id",dataType = "String")
+  private String couponManagerId;
+
 
 }

@@ -63,7 +63,7 @@
             resultType="com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll">
         SELECT
             `coupon_name`,`coupon_money`,`coupon_type`,`use_threshold`,`status`,`amount_issued`,usable_goods,
-            `received`,`unclaimed`,`not_used`,`use_issued`
+            `received`,`unclaimed`,`not_used`,`use_issued`,`version_id`
         FROM promotion_coupon_management WHERE id = #{id}
     </select>
 
