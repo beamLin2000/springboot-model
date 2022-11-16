@@ -5,6 +5,7 @@
 <mapper namespace="com.gxa.modules.sys.mapper.backStage.user.DrugUserInformationMapper">
     <resultMap id="queryDrugUserInformationResultMap" type="com.gxa.modules.sys.entity.backStage.user.DrugUserInformation">
         <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
         <result column="drug_user_name" property="drugUserName"/>
         <result property="drugUserRelation" column="drug_user_relation"/>
         <result property="drugUserIdCard" column="drug_user_idCard"/>
@@ -13,9 +14,12 @@
         <result property="phone" column="phone"/>
         <result property="familyHistory" column="family_history"/>
         <result property="prescription" column="medical_record"/>
+        <result property="version" column="version"/>
     </resultMap>
     <!--用药人信息-->
     <select id="queryDrugUserInformation" resultMap="queryDrugUserInformationResultMap">
-        SELECT `d`.id `drug_user_name`,`drug_user_relation`,`drug_user_idCard`,`gender`,`phone`,`family_history`,`medical_record`,`birthday` FROM `drug_user_info` AS `d`,`prescription` AS `p` WHERE d.id = `p`.drug_user_info_id AND `d`.id = #{id}
+        SELECT `d`.id,`d`.user_id,`drug_user_name`,`drug_user_relation`,`drug_user_idCard`,`birthday` ,`gender`,`phone`,`family_history`,`medical_record`,`version`
+        FROM `drug_user_info` AS `d`,`prescription` AS `p`
+        WHERE `d`.user_id = `p`.drug_user_info_id AND `d`.user_id = #{id}
     </select>
 </mapper>

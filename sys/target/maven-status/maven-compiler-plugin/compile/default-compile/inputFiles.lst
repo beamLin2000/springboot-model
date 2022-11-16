@@ -172,6 +172,7 @@ D:\git-demo\重试\sys\src\main\java\com\gxa\modules\shoppingCart\service\impl\S
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\myInfo\service\impl\CouponServiceImpl.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\order\controller\OrderController.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\myInfo\mapper\CancelMapper.java
+D:\git-demo\重试\sys\src\main\java\com\gxa\modules\sys\entity\backStage\promotion\couponManagement\CouponManagerAddAndEdit.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\login\service\Impl\SysUserServiceImpl.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\sys\mapper\backStage\promotion\timeLimitedSecondKill\TimeLimitedSecondKillMapper.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\confirmOrder\dto\OrderDto.java

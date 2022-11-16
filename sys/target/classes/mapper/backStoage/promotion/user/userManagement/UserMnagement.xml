@@ -10,17 +10,24 @@
         <result property="phoneNumber" column="phone_number"/>
         <result property="status" column="status"/>
         <result property="createTime" column="status"/>
+        <result property="version" column="version"/>
     </resultMap>
     <!--账户信息-->
     <select id="search" resultMap="searchResultMap">
-        SELECT u.id,real_name,header_location,phone_number,`status`,`create_time` FROM `t_user` AS u,`t_user_headerImage` AS h WHERE u.id = h.t_user_id
+        SELECT u.id,real_name,header_location,phone_number,`status`,`create_time`,h.`version` FROM
+         `t_user` AS u,`t_user_headerImage` AS h
+         WHERE u.id = h.t_user_id
         <if test="createTime != null and createTime != ''">
             and  <![CDATA[create_time < #{createTime}]]>
         </if>
         <if test="username != null and username != ''">
             and real_name like concat('%',#{username},'%')
         </if>
-        LIMIT #{page},10
+        LIMIT #{page},#{limit}
+    </select>
+    <select id="queryById" resultMap="searchResultMap">
+        SELECT u.id,real_name,header_location,phone_number,`status`,`create_time`,h.`version` FROM `t_user` AS u,`t_user_headerImage` AS h WHERE u.id = h.t_user_id
+        and u.id = #{id} and h.`version` = #{version}
     </select>
     <!--账号状态的修改-->
 </mapper>

@@ -152,7 +152,7 @@ public class CouponManagementController {
     @ApiOperation(value = "查看可用的优惠券")
     public Result useCopon(@RequestBody  List<Drug> drugs,HttpServletRequest request){
         String token = request.getHeader("token");
-        User user = this.userTokenService.validateToken(token);
+        User user = this.userTokenService.validateUserToken(token);
         List<CouponManagementAll> couponManagementAlls = this.couponUsageInfoService.queryUseCoupon(drugs, user.getId().toString());
         return new Result().ok(couponManagementAlls);
     }

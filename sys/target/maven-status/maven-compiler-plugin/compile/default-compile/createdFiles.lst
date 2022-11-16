@@ -28,6 +28,7 @@ com\gxa\modules\sys\service\user\UserManagementService.class
 com\gxa\modules\sys\controller\backStage\promotion\timeLimitedSecondKill\TimeLimitedSecondKillController.class
 com\gxa\modules\sys\form\backstage\userManagement\Search.class
 com\gxa\modules\homepage\entity\Pending.class
+com\gxa\modules\sys\entity\backStage\promotion\couponManagement\CouponManagerAddAndEdit.class
 com\gxa\modules\fristpage\controller\FristPageController.class
 com\gxa\modules\myInfo\service\MyInfoService.class
 com\gxa\modules\sys\form\backstage\promotion\timeLimitedSecondKill\Search.class

@@ -40,7 +40,7 @@ public class MyInfoCortroller {
     @GetMapping("/myinfo")
     public Result confirmOrder(HttpServletRequest request){
         String token = request.getHeader("token");
-        User user = this.userTokenService.validateToken(token);
+        User user = this.userTokenService.validateUserToken(token);
         MyInfo myInfo = this.myInfoService.queryMyinfo(user.getId());
         myInfo.setHeadPortrait(user.getHeadPortrait());
         myInfo.setPhone(Integer.parseInt(user.getPhoneNumber()));
@@ -50,7 +50,7 @@ public class MyInfoCortroller {
     @GetMapping("/myorder")
     public Result myOrder(HttpServletRequest request,@RequestParam("status") String status){
         String token = request.getHeader("token");
-        User user = this.userTokenService.validateToken(token);
+        User user = this.userTokenService.validateUserToken(token);
         log.info(status);
         System.out.println(user);
         List<WaitPayOrder> waitPayOrders = this.myOrderService.queryOrder(user.getId(), status);
@@ -104,7 +104,7 @@ public class MyInfoCortroller {
     public Result newAddress(HttpServletRequest request, @RequestBody ShipToAddress shipToAddress){
 
         String token = request.getHeader("token");
-        User user = this.userTokenService.validateToken(token);
+        User user = this.userTokenService.validateUserToken(token);
         System.out.println(user);
         shipToAddress.setId(UUID.randomUUID().toString());
         shipToAddress.setUserId(user.getId());
@@ -119,7 +119,7 @@ public class MyInfoCortroller {
     @GetMapping("/allAddress")
     public Result allAddress(HttpServletRequest request){
         String token = request.getHeader("token");
-        User user = this.userTokenService.validateToken(token);
+        User user = this.userTokenService.validateUserToken(token);
         System.out.println(user);
         List<ShipToAddress> shipToAddresses = this.newAddressService.allAddress(user.getId().toString());
         return new Result().ok(shipToAddresses);
@@ -128,7 +128,7 @@ public class MyInfoCortroller {
     @GetMapping("/coupon")
     public Result coupon(HttpServletRequest request,@RequestParam("status") String status){
         String token = request.getHeader("token");
-        User user = this.userTokenService.validateToken(token);
+        User user = this.userTokenService.validateUserToken(token);
         List<Coupon> coupons = this.couponService.queryByStatus(user.getId().toString(), status);
         return new Result().ok(coupons);
     }
