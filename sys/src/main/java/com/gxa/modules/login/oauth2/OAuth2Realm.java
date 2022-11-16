@@ -38,13 +38,20 @@ public class OAuth2Realm extends AuthorizingRealm {
         //从redis中获取出来
         log.info(accessToken);
         SysUser user = userTokenService.validateSysUserToken(accessToken);
+        User u = userTokenService.validateUserToken(accessToken);
         System.out.println(user);
-        if(user == null){
+        System.out.println(u);
+        if(user == null && u == null){
             throw new IncorrectCredentialsException("token失效，请重新登录");
         }
-
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, accessToken, getName());
-        return info;
+        if (user != null){
+            SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, accessToken, getName());
+            return info;
+        } else if (u != null) {
+            SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(u, accessToken, getName());
+            return info;
+        }
+       return  null;
     }
 
     /**

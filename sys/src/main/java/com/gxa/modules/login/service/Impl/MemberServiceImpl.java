@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gxa.common.utils.AssertUtils;
 import com.gxa.common.utils.Result;
 import com.gxa.modules.login.dto.Member;
+import com.gxa.modules.login.dto.MemberMannage;
 import com.gxa.modules.login.mapper.MemberMapper;
 import com.gxa.modules.login.service.MemberService;
 import org.apache.commons.lang.ObjectUtils;
@@ -85,5 +86,20 @@ public class MemberServiceImpl  extends ServiceImpl<MemberMapper, Member> implem
     public void updateStatus(Map<String, Object> params) {
         this.memberMapper.updateStatus(Integer.parseInt(params.get("status").toString()), params.get("username").toString());
     }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void updateMember(MemberMannage memberMannage) {
+        memberMapper.updateMember(memberMannage);
+        Integer roleId = memberMapper.roleId(memberMannage.getRole());
+        Integer userId = memberMapper.userId(memberMannage.getUsername());
+        memberMapper.updateRole(roleId,userId);
+    }
+
+    @Override
+    public MemberMannage queryByName(String username) {
+        return memberMapper.queryByName(username);
+    }
+
 
 }

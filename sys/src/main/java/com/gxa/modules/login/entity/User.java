@@ -33,6 +33,12 @@ public class User implements Serializable {
     private String openId;
     @TableField("user_name")
     private String username;
-    @TableField("avatar")
-    private String avatar;
+    @TableField("city")
+    private String city;
+    @TableField("province")
+    private String province;
+    @TableField("gender")
+    private Integer gender;
+
+
 }

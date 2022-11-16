@@ -37,19 +37,17 @@ public class UserTokenServiceImpl implements UserTokenService {
     @Override
     public Result createWeiToken(User user) {
         String encodeToken = Base64Utils.encode(user.getOpenId());
-        sysUserRedis.addUserToken(user.getOpenId(),user);
+        sysUserRedis.addUserToken(encodeToken,user);
         Map map = new HashMap();
         map.put("token",encodeToken);
         return new Result().ok(map);
     }
 
     @Override
-    public Result createSessionId(String openId) {
-        UUID uuid = UUID.randomUUID();
-        String key = uuid.toString();
-        new RedisUtils().set(key,openId);
+    public Result createSessionId(String code,String openId) {
+        sysUserRedis.addSessionToken(code,openId);
         Map map = new HashMap();
-        map.put("sessionId",key);
+        map.put("sessionId",code);
         return new Result().ok(map);
     }
 
@@ -78,6 +76,13 @@ public class UserTokenServiceImpl implements UserTokenService {
         log.info(decodeToken);
         return sysUserRedis.getSysUserByToken(decodeToken);
     }
+
+    @Override
+    public User validateUserToken(String token) {
+        String decodeToken = Base64Utils.decode(token);
+        return sysUserRedis.getUByToken(decodeToken);
+    }
+
     @Override
     public String validateCaptcha(String phone) {
         return sysUserRedis.getCaptcha(phone);
