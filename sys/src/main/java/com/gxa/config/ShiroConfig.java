@@ -44,7 +44,6 @@ public class ShiroConfig {
         filterMap.put("/druid/**", "anon");
         filterMap.put("/app/**", "anon");
         filterMap.put("/login", "anon");
-        filterMap.put("/wx/login", "anon");
         filterMap.put("/weChatLogin", "anon");
         filterMap.put("/sys/login", "anon");
         filterMap.put("/login/code/{phoneNum}", "anon");

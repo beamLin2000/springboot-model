@@ -59,6 +59,7 @@ com\gxa\config\CorsConfig.class
 com\gxa\modules\sys\service\promotion\CouponUsageInfoService.class
 com\gxa\modules\sys\form\backstage\promotion\eventManagement\AddEvent.class
 com\gxa\modules\sys\controller\backStage\promotion\couponManagement\CouponManagementController.class
+com\gxa\modules\login\dto\MemberMannage.class
 com\gxa\modules\login\form\NoseUserForm.class
 com\gxa\modules\sys\controller\backStage\promotion\eventManagement\EventController.class
 com\gxa\modules\shoppingCart\entity\Drug.class
@@ -150,6 +151,7 @@ com\gxa\modules\fristpage\entity\GoodsInfo.class
 com\gxa\modules\login\service\Impl\UserServiceImpl.class
 com\gxa\modules\sys\entity\backStage\promotion\eventManagment\EventManagement.class
 com\gxa\modules\fristpage\entity\LimitedTimeGoods.class
+com\gxa\modules\login\utils\AuthUtil.class
 com\gxa\modules\content\carousel\controller\CarouselController.class
 com\gxa\modules\fristpage\service\impl\GoodsInfoServiceImpl.class
 com\gxa\modules\confirmOrder\entity\Order.class
@@ -226,6 +228,7 @@ com\gxa\modules\fristpage\service\GoodsInfoService.class
 com\gxa\modules\confirmOrder\dto\OrderDto.class
 com\gxa\modules\sys\entity\backStage\promotion\couponManagement\CouponAddDrug.class
 com\gxa\modules\myInfo\entity\OrderTemp.class
+com\gxa\modules\login\utils\AesCbcUtil.class
 com\gxa\modules\sys\mapper\backStage\user\DrugUserInformationMapper.class
 com\gxa\modules\confirmOrder\entity\ConfirmOrder.class
 com\gxa\modules\content\carousel\entity\Carousel.class

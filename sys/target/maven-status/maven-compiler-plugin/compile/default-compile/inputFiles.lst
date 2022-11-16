@@ -130,6 +130,7 @@ D:\git-demo\重试\sys\src\main\java\com\gxa\modules\sys\service\user\impl\Addre
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\fristpage\entity\LimitedTimeGoods.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\login\oauth2\OAuth2Realm.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\order\service\impl\OrderServiceImpl.java
+D:\git-demo\重试\sys\src\main\java\com\gxa\modules\login\dto\MemberMannage.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\login\entity\Menu.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\sys\controller\backStage\promotion\eventManagement\EventController.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\sys\service\promotion\TimeLimitedSecondKillService.java
@@ -220,6 +221,8 @@ D:\git-demo\重试\sys\src\main\java\com\gxa\modules\fristpage\service\impl\Good
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\sys\entity\backStage\promotion\couponManagement\CouponAddDrug.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\homepage\service\GoodsAndSalesService.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\login\service\Impl\MemberServiceImpl.java
+D:\git-demo\重试\sys\src\main\java\com\gxa\modules\login\utils\AesCbcUtil.java
+D:\git-demo\重试\sys\src\main\java\com\gxa\modules\login\utils\AuthUtil.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\login\mapper\UserMapper.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\goods\goodsMapper\SymptomMapper.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\fristpage\mapper\CartMapper.java
