@@ -42,5 +42,8 @@
         FROM drug_user_info
         WHERE id=#{id}
     </select>
+    <select id="id" resultType="java.lang.Integer">
+      select MAX(id) from drug_user_info
+    </select>
 
 </mapper>

@@ -25,6 +25,7 @@ public class Drug {
     private Double price;//价格
     private String prescribe;//是否处方
     private String specifications;//规格
-
+    private Integer stock;//库存
+    private Integer salesVolume;//销量
 
 }

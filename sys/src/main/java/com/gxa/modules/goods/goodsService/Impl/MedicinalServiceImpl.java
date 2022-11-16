@@ -11,7 +11,6 @@ import com.gxa.common.utils.RedisUtils;
 import com.gxa.modules.goods.goodsEntity.Medicinal;
 import com.gxa.modules.goods.goodsMapper.MedicinalMapper;
 import com.gxa.modules.goods.goodsService.MedicinalService;
-import com.gxa.modules.sys.redis.SysUserRedis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

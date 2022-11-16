@@ -24,7 +24,7 @@ public class Carousel {
     @ApiModelProperty(value = "图片地址",required = true)
     private String jpg;//图片
     @ApiModelProperty(value = "状态",required = true)
-    private String state;//状态
+    private String status;//状态
     @ApiModelProperty(value = "时间",required = false)
     private Date date;
     @ApiModelProperty(value = "创建人",required = true)

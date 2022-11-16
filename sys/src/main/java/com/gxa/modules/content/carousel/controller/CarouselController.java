@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 //内容——首页轮播图管理
-@Api(tags = "内容")
+@Api(tags = "内容轮播图（后台）")
 @RestController
 @Slf4j
 public class CarouselController {
@@ -74,6 +75,9 @@ public class CarouselController {
     @ApiOperation("轮播图添加接口")
     @PostMapping("/carousel/add")
     public Result carouselAdd(@RequestBody Carousel carousel){
+        Date date = new Date();
+        date.setTime(date.getTime());
+        carousel.setDate(date);
         this.carouselService.carouselAdd(carousel);
         return new Result().ok();
     }
@@ -110,6 +114,9 @@ public class CarouselController {
     @ApiOperation("轮播图根据id修改")
     @PutMapping("/carousel/update")
     public Result carouselUpdate(@RequestBody Carousel carousel){
+        Date date = new Date();
+        date.setTime(date.getTime());
+        carousel.setDate(date);
         this.carouselService.carouselUpdate(carousel);
         return new Result().ok();
     }

@@ -17,6 +17,8 @@ public class ShoppingCartDto {
     private Integer quantity;
     @TableField("u_id")
     private Integer uId;
+    @TableField("shopp_state")
+    private Integer shoppState;
     private Drug drug;
 
 }

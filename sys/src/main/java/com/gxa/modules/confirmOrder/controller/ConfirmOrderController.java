@@ -20,7 +20,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-@Api(tags = "确认订单")
+@Api(tags = "确认订单(前台)")
 @RestController
 @Slf4j
 public class ConfirmOrderController {
@@ -30,7 +30,7 @@ public class ConfirmOrderController {
 
 
     @ApiOperation("确认订单接口")
-    @PostMapping("/confirmOrder/from")
+    @PostMapping("/confirmOrder/from00001")
     public Result confirmOrder(@RequestBody OrderForm form){
         Date date01 = new Date();
         //设置要获取到什么样的时间

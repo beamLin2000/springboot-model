@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface DrugUserInfoService extends IService<DrugUserInfo> {
     List<DrugUserInfo>drugUserInfoList(Integer userId);
-    void addDrugUserInfo(DrugUserInfo drugUserInfo);
+    int addDrugUserInfo(DrugUserInfo drugUserInfo);
     int updateDrugUserInfo(DrugUserInfo drugUserInfo);
     DrugUserInfo selectById(Integer id);
+    int id();
 
 }

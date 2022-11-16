@@ -18,7 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.List;
 import java.util.Map;
 
-@Api(tags = "购物车")
+@Api(tags = "购物车（前台）")
 @RestController
 @Slf4j
 public class SoppingCartController {
@@ -32,7 +32,7 @@ public class SoppingCartController {
      * @return
      */
     //购物车查询
-    @ApiOperation("购物车查询接口")
+    @ApiOperation("购物车查询接口XXXXXXX")
     @GetMapping("/shoppingcart/list")
     public Result shoppingcartList(){
         List<ShoppingCart> shoppingCarts = this.shoppingCartService.queryAll();

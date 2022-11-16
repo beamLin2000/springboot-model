@@ -44,13 +44,11 @@ public class FristPageController {
     @ApiOperation(value="关键词搜索接口")
     @GetMapping("/search")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "page",value ="当前页",dataType ="String"),
-            @ApiImplicitParam(paramType = "query",name = "limit",value ="一页多少条数据",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "str",value ="查询关键字",dataType ="String")
     })
-    public Result<PageUtils> search(@RequestParam @ApiIgnore Map<String,Object> param){
-        PageUtils pageUtils = this.goodsService.queryByStr(param);
-        return new Result<PageUtils>().ok(pageUtils);
+    public Result search(@RequestParam @ApiIgnore Map<String,Object> param){
+        List<Goods> goods = this.goodsService.queryByStr(param);
+        return new Result().ok(goods);
     }
     @ApiOperation(value="条件查询接口")
     @GetMapping("/searchin")
@@ -115,7 +113,7 @@ public class FristPageController {
     }
     @ApiOperation(value="药品详情接口")
     @GetMapping("/drugDetails")
-    public Result drugDetails(@RequestParam("str") String str){
+    public Result drugDetails(@RequestParam("str") String name ,@RequestParam("price") Double price){
         // 获取当月第一天
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, 0);
@@ -126,9 +124,9 @@ public class FristPageController {
         calendar.add(Calendar.MONTH, 1);
         calendar.set(Calendar.DAY_OF_MONTH, 0);
         Date lastday = calendar.getTime();
-        System.out.println(str);
-        GoodsInfo goodsInfo = this.goodsInfoService.queryByName(str, firstday, lastday);
-        return new Result().ok(goodsInfo);
+
+        GoodsInfodto goodsInfodto = this.goodsInfoService.queryByName(name, price);
+        return new Result().ok(goodsInfodto);
     }
     @ApiOperation(value="药品详情里加入清单接口")
     @PostMapping("/addToList")

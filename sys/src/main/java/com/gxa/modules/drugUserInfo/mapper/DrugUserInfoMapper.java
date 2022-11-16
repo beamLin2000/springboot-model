@@ -11,5 +11,6 @@ public interface DrugUserInfoMapper extends BaseMapper<DrugUserInfo> {
     void update(@Param("drugUserInfo") DrugUserInfo drugUserInfo);
     DrugUserInfo queryIdAndVersion(Integer id);
     int updateDrug(@Param("drugUserInfo") DrugUserInfo drugUserInfo);
+    int id();
 
 }

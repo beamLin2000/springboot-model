@@ -69,6 +69,7 @@ com\gxa\modules\myInfo\service\CouponService.class
 com\gxa\modules\homepage\controller\HomePageController.class
 com\gxa\modules\order\mapper\RefundMapper.class
 com\gxa\modules\login\mapper\UserMapper.class
+com\gxa\modules\fristpage\entity\GoodsInfodto.class
 com\gxa\modules\myInfo\entity\MyInfo.class
 com\gxa\modules\login\msg\CheckSumBuilder.class
 com\gxa\modules\fristpage\service\impl\PollGraphServiceImpl.class
