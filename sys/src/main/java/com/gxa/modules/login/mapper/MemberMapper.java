@@ -3,6 +3,7 @@ package com.gxa.modules.login.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gxa.modules.login.dto.Member;
+import com.gxa.modules.login.dto.MemberMannage;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,4 +23,7 @@ public interface MemberMapper extends BaseMapper<Member> {
     Integer userId(String username);
     void deleteRole(Integer userId);
     void updateStatus(@Param("status")Integer status,@Param("username")String username);
+    void updateMember(MemberMannage member);
+    MemberMannage queryByName(String username);
+    void updateRole(@Param("roleId") Integer roleId,@Param("userId") Integer userId);
 }

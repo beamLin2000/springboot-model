@@ -7,6 +7,7 @@ import com.gxa.common.utils.Result;
 import com.gxa.common.validator.ValidatorUtils;
 import com.gxa.common.validator.group.AddGroup;
 import com.gxa.modules.login.dto.Member;
+import com.gxa.modules.login.dto.MemberMannage;
 import com.gxa.modules.login.dto.Role;
 import com.gxa.modules.login.service.MemberService;
 import com.gxa.modules.login.service.RoleService;
@@ -82,6 +83,24 @@ public class JurisdictionController {
         date.setTime(time);
         member.setCreateTime(date);
         this.memberService.add(member);
+        return new Result<>().ok();
+    }
+    @GetMapping("/toupdateMember")
+    @ApiOperation("成员管理编辑回显")
+    @ApiImplicitParam(paramType = "query",name = "username",value ="用户名",dataType ="String",required = true)
+    public Result toupdateMember(@RequestParam String username){
+        AssertUtils.isBlank(username,"用户名不能为空");
+        MemberMannage memberMannage = memberService.queryByName(username);
+        memberMannage.setSalt("");
+        Map map = new HashMap();
+        map.put("member",memberMannage);
+        return new Result<>().ok(map);
+    }
+    @PutMapping("/updateMember")
+    @ApiOperation("成员管理编辑")
+    public Result updateMember(@RequestBody MemberMannage member){
+        AssertUtils.isNull(member, "不为能空");
+        memberService.updateMember(member);
         return new Result<>().ok();
     }
     @ApiOperation("修改成员启用状态")

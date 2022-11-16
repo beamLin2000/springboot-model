@@ -11,8 +11,9 @@ public interface UserTokenService {
     Result createToken(SysUser sysUser);
     Result createToken(User user);
     Result createWeiToken(User user);
-    Result createSessionId(String openId);
+    Result createSessionId(String code,String openId);
     User validateToken(String token);
     SysUser validateSysUserToken(String token);
+    User validateUserToken(String token);
     String validateCaptcha(String phone);
 }

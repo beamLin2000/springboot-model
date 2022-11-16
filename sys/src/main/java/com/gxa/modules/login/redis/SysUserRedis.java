@@ -59,12 +59,22 @@ public class SysUserRedis {
          */
         this.redisUtils.set(RedisKeys.getUserTokenKey(token),user);
     }
+    public void addSessionToken(String token, String str){
+
+        this.redisUtils.set(token,str);
+    }
 
     public SysUser getSysUserByToken(String token){
         String userJsonStr = this.redisUtils.get(RedisKeys.getSysUserTokenKey(token));
         SysUser sysUser = JsonUtils.parseObject(userJsonStr, SysUser.class);
 
         return sysUser;
+    }
+    public User getUByToken(String token){
+        String userJsonStr = this.redisUtils.get(RedisKeys.getUserTokenKey(token));
+        User user = JsonUtils.parseObject(userJsonStr, User.class);
+
+        return user;
     }
     public String getCaptcha(String phoneNum){
         String userJsonStr = this.redisUtils.get(phoneNum);
