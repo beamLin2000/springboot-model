@@ -2,10 +2,7 @@ package com.gxa.modules.sys.mapper.backStage.promotion.couponManagement;
 
 import com.alipay.api.domain.Coupon;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponAddClass;
-import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponAddDrug;
-import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagement;
-import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll;
+import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,7 +17,7 @@ import java.util.List;
 public interface CouponMapper extends BaseMapper<CouponManagement> {
     CouponManagementAll queryById(@Param("id") String id);
 
-    void add(@Param("couponManagementAll") CouponManagementAll couponManagementAll);
+    void add(@Param("couponManagementAll") CouponManagerAddAndEdit couponManagementAll);
 
     void couponAddDrug(@Param("couponAddDrugs") List<CouponAddDrug> couponAddDrugs, @Param("id") String id);
 

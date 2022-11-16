@@ -27,7 +27,7 @@ public class EventServiceImpl extends ServiceImpl<EventMapper, EventManagement> 
     @Override
     public PageUtils search(Map<String, Object> map) {
         String activeTitle = (String)map.get("activityTitle");
-        String status = ((String)map.get("status")).equals("全部")?null:(String)map.get("status");
+        String status = "全部".equals((String)map.get("status"))?null:(String)map.get("status");
         IPage page = this.page(new Query<EventManagement>().getPage(map),
                                 new QueryWrapper<EventManagement>().like(StringUtils.isNotEmpty(activeTitle),"activity_title",activeTitle)
                                 .eq(StringUtils.isNotEmpty(status),"status",status));
@@ -64,10 +64,16 @@ public class EventServiceImpl extends ServiceImpl<EventMapper, EventManagement> 
     @Override
     public Integer updateData(EventManagement eventManagement) {
         EventManagement eventManagement1 = selectById(eventManagement.getId());
-        if(eventManagement.getVersion()==eventManagement1.getVersion()){
+        if(eventManagement1!=null&&eventManagement.getVersion()==eventManagement1.getVersion()){
             return -1;
         }
         return eventMapper.updateById(eventManagement);
+    }
+
+    @Override
+    public EventManagement queryByIdAndVersion(String id, Integer version) {
+        return eventMapper.selectOne(new QueryWrapper<EventManagement>().eq(true,"id",id)
+                                    .eq(true,"version",version));
     }
 
 

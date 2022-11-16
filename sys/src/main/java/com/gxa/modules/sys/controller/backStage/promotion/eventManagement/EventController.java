@@ -34,6 +34,7 @@ public class EventController {
             @ApiImplicitParam(paramType = "query" ,name = "activityTitle",value = "活动名称",dataType = "String"),
             @ApiImplicitParam(paramType = "query",name = "status",value = "状态",dataType = "String"),
             @ApiImplicitParam(paramType = "query",name = "page",value = "当前页",dataType = "Integer"),
+            @ApiImplicitParam(paramType = "query",name = "limit",value = "每页显示条数",dataType = "Integer")
     })
     public Result<PageUtils> search(@RequestParam @ApiIgnore Map<String,Object> map){
         System.out.println(map+"接收来自前端数据");
@@ -65,6 +66,10 @@ public class EventController {
     public Result updateStatus(@PathVariable("id") @ApiIgnore String id,
                                @PathVariable("status")@ApiIgnore Integer status,
                                @PathVariable("version")@ApiIgnore Integer version){
+        EventManagement eventManagement = eventService.queryByIdAndVersion(id, version);
+        if(eventManagement==null){
+            return new Result().error("该数据已修改或不存在,请勿重复提交");
+        }
         Integer integer = eventService.updateStatus(id, status,version);
         return integer!=-1?new Result().ok("修改成功"):new Result().error("修改失败");
     }
@@ -74,7 +79,7 @@ public class EventController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query",name = "id",value = "即将被修改的数据id/新增pre返回的id,若为新增,则应当传递id为0",dataType = "String")
     })
-    public Result selectById(@PathVariable("id")@ApiIgnore String id){
+    public Result selectById(@PathVariable(value = "id")@ApiIgnore String id){
         EventManagement eventManagement = null;
         if(!id.equals("0")){
             eventManagement = eventService.selectById(id);
@@ -113,7 +118,7 @@ public class EventController {
     public Result save(@RequestBody EventManagement eventManagement){
         Result r = new Result();
         EventManagement eventManagement1 = eventService.selectById(eventManagement.getId());
-        if(eventManagement1!=null){
+        if(eventManagement1==null){
             Integer integer = eventService.saveData(eventManagement);
             return integer!=-1?r.ok("新增成功"):r.error("新增失败");
         }else{

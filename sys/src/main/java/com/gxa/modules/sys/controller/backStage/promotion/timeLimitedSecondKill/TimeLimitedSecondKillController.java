@@ -33,6 +33,7 @@ public class TimeLimitedSecondKillController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query",name = "drugName",value ="药品名称",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "page",value ="当前页",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "pageSize",value ="每一页显示的数据",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "status",value ="状态",dataType ="String")
     })
     public Result<PageUtils> search(@RequestParam @ApiIgnore Map<String,Object> map){
@@ -45,7 +46,7 @@ public class TimeLimitedSecondKillController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query",name = "id",value ="需要被查看/编辑的数据id,若为新增,则传递id值为0",dataType ="String")
     })
-    public Result<LimitedTimeFlashDeal> queryById(@RequestParam("id") @ApiIgnore String id){
+    public Result<LimitedTimeFlashDeal> queryById(@RequestParam(value = "id",defaultValue = "0") @ApiIgnore String id){
         if(id.equals("0")){
             LimitedTimeFlashDeal limitedTimeFlashDeal = new LimitedTimeFlashDeal();
             limitedTimeFlashDeal.setId(UUID.randomUUID().toString());
@@ -61,6 +62,9 @@ public class TimeLimitedSecondKillController {
             @ApiImplicitParam(paramType = "body",name = "ids",value ="药品ids",dataType ="Array")
     })
     public Result deleteById(@RequestBody @ApiIgnore List<String> ids){
+        if(ids.size()==0){
+            return new Result().ok("由于传递数组长度为0,并没有删除任何数据");
+        }
         Integer integer = this.timeLimitedSecondKillService.deleteById(ids);
         if(integer!=-1){
             return new Result().ok("删除成功");
@@ -91,6 +95,9 @@ public class TimeLimitedSecondKillController {
 //            @ApiImplicitParam(paramType = "query",name = "ids",value ="药品ids",dataType ="Array")
 //    })
     public Result saveData(@RequestBody LimitedTimeFlashDeal limitedTimeFlashDeal){
+        if(limitedTimeFlashDeal==null){
+            return new Result().error("接收数据为空");
+        }
         Integer success = null;
         LimitedTimeFlashDeal limitedTimeFlashDeal1 = timeLimitedSecondKillService.queryById(limitedTimeFlashDeal.getId());
         if(limitedTimeFlashDeal1!=null){

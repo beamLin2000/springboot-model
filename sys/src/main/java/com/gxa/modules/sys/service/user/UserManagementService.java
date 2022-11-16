@@ -6,6 +6,7 @@ import com.gxa.common.utils.Result;
 import com.gxa.modules.sys.entity.backStage.user.Address;
 import com.gxa.modules.sys.entity.backStage.user.DrugUserInformation;
 import com.gxa.modules.sys.entity.backStage.user.UserManagement;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -22,5 +23,8 @@ public interface UserManagementService extends IService<UserManagement> {
     Integer deleteByIds(List<String> ids) throws Exception;
 
     //状态按钮修改
-    Integer updateStatus(Integer id,Integer status,Integer version);
+    Integer updateStatus(String id,Integer status,Integer version);
+
+    //搜索单个
+    UserManagement queryById(String id,Integer version);
 }

@@ -7,6 +7,7 @@ import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Query;
 import com.gxa.modules.goods.goodsEntity.Drug;
 import com.gxa.modules.login.entity.User;
+import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponAddDrug;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagement;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponUsageInformation;
@@ -32,7 +33,6 @@ public class CouponUsageInfoServiceImpl extends ServiceImpl<CouponInfoMapper, Co
     private CouponInfoMapper couponInfoMapper;
 
     /**
-     *
      * @param params
      * @return
      */
@@ -40,12 +40,13 @@ public class CouponUsageInfoServiceImpl extends ServiceImpl<CouponInfoMapper, Co
     public PageUtils searchCouponUsageInfo(Map<String, Object> params) {
         String id = (String) params.get("id");
         IPage<CouponUsageInformation> page = this.page(new Query<CouponUsageInformation>().getPage(params),
-                new QueryWrapper<CouponUsageInformation>().eq(StringUtils.isNotEmpty(id),"id",id));
+                new QueryWrapper<CouponUsageInformation>().eq(StringUtils.isNotEmpty(id), "coupon_management_id", id));
         return new PageUtils(page);
     }
 
     /**
      * 添加优惠券
+     *
      * @param couponUsageInformation
      */
     @Override
@@ -68,20 +69,25 @@ public class CouponUsageInfoServiceImpl extends ServiceImpl<CouponInfoMapper, Co
         couponUsageInformation.setCurrentState("未使用");
 
         //添加
-        this.couponInfoMapper.addCoupons(couponManagements,users,couponUsageInformation);
+        this.couponInfoMapper.addCoupons(couponManagements, users, couponUsageInformation);
 
     }
 
 
-
+    /**
+     * 编辑优惠券
+     * @param couponUsageInformation
+     */
     @Override
     public void editCoupons(CouponUsageInformation couponUsageInformation) {
+        couponUsageInformation.setCurrentState("已使用");
         this.couponInfoMapper.editCoupons(couponUsageInformation);
     }
 
 
     /**
      * 查看所有优惠券
+     *
      * @param id
      * @return
      */
@@ -95,27 +101,30 @@ public class CouponUsageInfoServiceImpl extends ServiceImpl<CouponInfoMapper, Co
 
     /**
      * 查询可用的优惠券
+     *
      * @param drugs
      * @param userId
      * @return
      */
     @Override
-    public List<CouponManagementAll> queryUseCoupon(List<Drug> drugs , String userId) {
+    public List<CouponManagementAll> queryUseCoupon(List<Drug> drugs, String userId) {
         List<CouponManagementAll> couponManagementAllList = new ArrayList<>();
 
         List<CouponManagementAll> couponManagementAlls = this.couponInfoMapper.queryUseCoupon(userId);
+        System.out.println("优惠券管理=" + couponManagementAlls);
         for (int i = 0; i < couponManagementAlls.size(); i++) {
-            List<Drug> drugList = couponManagementAlls.get(i).getDrugList();
-            for (int j = 0; j < drugList.size(); j++) {
+            List<String> drugNames = couponManagementAlls.get(i).getDrugNames();
+            System.out.println("获取优惠券的药品=" + drugNames);
+            for (int j = 0; j < drugNames.size(); j++) {
                 for (int k = 0; k < drugs.size(); k++) {
-                    if(drugList.get(j).equals(drugs.get(k))){
+                    if (drugNames.get(j).equals(drugs.get(k).getDrugName())) {
                         couponManagementAllList.add(couponManagementAlls.get(i));
+                    }
                 }
             }
         }
-        }
         return couponManagementAllList;
     }
-
-
 }
+
+

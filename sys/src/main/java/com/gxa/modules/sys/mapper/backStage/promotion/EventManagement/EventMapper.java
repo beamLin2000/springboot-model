@@ -19,4 +19,6 @@ public interface EventMapper extends BaseMapper<EventManagement> {
 
     //查询所有id
     List<String> selectAllId();
+    //根据id与version查询
+    //EventManagement queryByIdAndVersion(String id,Integer version);
 }

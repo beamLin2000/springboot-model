@@ -24,5 +24,7 @@ public interface EventService extends IService<EventManagement> {
     Integer saveData(EventManagement eventManagement);
     //修改数据
     Integer updateData(EventManagement eventManagement);
+    //根据id与版本号查询单一数据
+    EventManagement queryByIdAndVersion(String id,Integer version);
 
 }

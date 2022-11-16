@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @Mapper
 public interface AddressMapper extends BaseMapper<Address> {
-    Integer updateStatus(@Param("id")Integer id,
+    Integer updateStatus(@Param("id")String id,
                          @Param("status")Integer status,
                          @Param("version")Integer version);
 }

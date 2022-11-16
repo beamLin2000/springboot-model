@@ -31,7 +31,8 @@ public class CouponAddDrug {
     @ApiModelProperty(name = "drugName",value = "商品名称",dataType = "String")
     private String drugName;
 
-    @TableField(value = "version_id")
-    @ApiModelProperty(name = "versionId",value = "版本号，保证幂等",dataType = "Integer")
-    private Integer versionId;
+    @TableField(value = "coupon_manager_id")
+    @ApiModelProperty(name = "couponManagerId",value = "优惠券管理的id",dataType = "String")
+    private String couponManagerId;
+
 }
