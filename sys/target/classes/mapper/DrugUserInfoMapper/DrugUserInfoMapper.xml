@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxa.modules.drugUserInfo.mapper.DrugUserInfoMapper">
+
+    <resultMap id="drugUserInfo" type="com.gxa.modules.drugUserInfo.entity.DrugUserInfo">
+        <id column="id" property="id" ></id>
+        <result column="user_id" property="userId"></result>
+        <result column="drug_user_name" property="drugUserName"></result>
+        <result column="drug_user_relation" property="drugUserRelation"></result>
+        <result column="drug_user_idCard" property="drugUserIdCard"></result>
+        <result column="gender" property="gender"></result>
+        <result column="phone" property="phone"></result>
+        <result column="allergy_history" property="allergyHistory"></result>
+        <result column="family_history" property="familyHistory"></result>
+        <result column="liver_function" property="liverFunction"></result>
+        <result column="renal_function" property="renalFunction"></result>
+        <result column="pregnant_lactation" property="pregnantLactation"></result>
+        <result column="birthday" property="birthday"></result>
+        <result column="version" property="version"></result>
+    </resultMap>
+
+
+    <update id="update">
+        UPDATE drug_user_info
+        SET version=#{drugUserInfo.version}
+        WHERE id=#{drugUserInfo.id}
+    </update>
+
+    <update id="updateDrug">
+        UPDATE drug_user_info
+        SET user_id=#{drugUserInfo.userId},drug_user_name=#{drugUserInfo.drugUserName},drug_user_relation=#{drugUserInfo.drugUserRelation},drug_user_idCard=#{drugUserInfo.drugUserIdCard},
+        gender=#{drugUserInfo.gender},phone=#{drugUserInfo.phone},allergy_history=#{drugUserInfo.allergyHistory},family_history=#{drugUserInfo.familyHistory},liver_function=#{drugUserInfo.liverFunction},
+        renal_function=#{drugUserInfo.renalFunction},pregnant_lactation=#{drugUserInfo.pregnantLactation},birthday=#{drugUserInfo.birthday}
+        WHERE id=#{drugUserInfo.id} and version=#{drugUserInfo.version}
+    </update>
+
+
+    <select id="queryIdAndVersion" resultType="com.gxa.modules.drugUserInfo.entity.DrugUserInfo">
+        SELECT id,version
+        FROM drug_user_info
+        WHERE id=#{id}
+    </select>
+    <select id="id" resultType="java.lang.Integer">
+      select MAX(id) from drug_user_info
+    </select>
+
+</mapper>

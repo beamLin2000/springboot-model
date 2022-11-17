@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxa.modules.confirmOrder.mapper.ConfirmOrderMapper">
+<!--    收货人信息-->
+    <resultMap id="address" type="com.gxa.modules.confirmOrder.entity.Address">
+        <result column="id" property="id"></result>
+        <result column="consignee" property="consignee"></result>
+        <result column="phone_number" property="phoneNumber"></result>
+        <result column="address" property="address"></result>
+        <result column="default_address" property="defaultAddress"></result>
+        <result column="t_user_id" property="userId"></result>
+        <result column="version" property="version"></result>
+
+
+    </resultMap>
+
+<!--    购买的商品关联-->
+    <resultMap id="confirmOrders" type="com.gxa.modules.confirmOrder.entity.ConfirmOrder">
+        <id column="id" property="id"></id>
+        <result column="shopping_id" property="shoppingId"></result>
+        <result column="order_no" property="orderNo"></result>
+    </resultMap>
+
+
+<!--    用药人-->
+    <resultMap id="drugUserInformation" type="com.gxa.modules.confirmOrder.entity.DrugUserInformation">
+        <id column="id" property="id"></id>
+        <result column="user_id" property="userId"></result>
+        <result column="drug_user_name" property="drugUserName"></result>
+        <result column="drug_user_relation" property="drugUserRelation"></result>
+        <result column="drug_user_idCard" property="drugUserIdCard"></result>
+        <result column="age" property="age"></result>
+        <result column="gender" property="gender"></result>
+        <result column="phone" property="phone"></result>
+        <result column="allergy_history" property="allergyHistory"></result>
+        <result column="family_history" property="familyHistory"></result>
+        <result column="liver_function" property="liverFunction"></result>
+        <result column="renal_function" property="renalFunction"></result>
+        <result column="pregnant_lactation" property="pregnantLactation"></result>
+
+    </resultMap>
+
+    <resultMap id="order" type="com.gxa.modules.confirmOrder.entity.Order">
+        <id column="id" property="id"></id>
+        <result column="order_no" property="orderNo"></result>
+        <result column="order_amount" property="orderAmount"></result>
+        <result column="order_status" property="orderStatus"></result>
+        <result column="pay_method" property="payMethod"></result>
+        <result column="order_createTime" property="orderCreateTime"></result>
+<!--        关联用户表-->
+        <result column="user_id" property="userId"></result>
+<!--        关联用药人-->
+        <result column="prescription_id" property="prescriptionId"></result>
+<!--        关联收货人地址-->
+        <result column="address_id" property="addressId"></result>
+    </resultMap>
+
+
+    <insert id="addOrder">
+        INSERT INTO `order`(order_no,order_amount,order_status,pay_method,order_createTime,user_id,prescription_id,address_id)
+        VALUE (#{orderNo},#{orderAmount},#{orderStatus},#{payMethod},#{orderCreateTime},#{userId},#{prescriptionId},#{addressId})
+    </insert>
+
+    <insert id="addAddress">
+
+    </insert>
+
+
+
+    <insert id="addConfirmOrder">
+        INSERT INTO t_confirm_order(id,shopping_id,order_no)
+        VALUE (#{confirmOrders.id},#{confirmOrders.shoppingId},#{orderNum})
+    </insert>
+
+
+
+
+
+
+</mapper>
