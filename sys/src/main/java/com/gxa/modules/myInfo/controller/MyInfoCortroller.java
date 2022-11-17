@@ -43,7 +43,7 @@ public class MyInfoCortroller {
         User user = this.userTokenService.validateUserToken(token);
         MyInfo myInfo = this.myInfoService.queryMyinfo(user.getId());
         myInfo.setHeadPortrait(user.getHeadPortrait());
-        myInfo.setPhone(Integer.parseInt(user.getPhoneNumber()));
+        myInfo.setPhone(user.getPhoneNumber());
         return new Result().ok(myInfo);
     }
     @ApiOperation("我的订单")
@@ -68,10 +68,11 @@ public class MyInfoCortroller {
     }
     @ApiOperation("申请退款")
     @GetMapping("/refundOrder")
-    public Result refundOrder(HttpServletRequest request,@RequestParam("orderNo") String orderNo,@RequestParam("reason") String reason){
+    public Result refundOrder(HttpServletRequest request,@RequestParam("orderNo") String orderNo,@RequestParam("reason") String reason,@RequestParam("price") Double price){
 
 
-        boolean refund = this.cancelService.refund(orderNo, reason);
+        boolean refund = this.cancelService.refund(orderNo, reason,price
+        );
         if (refund){
             return new Result().ok();
         }

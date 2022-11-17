@@ -13,19 +13,22 @@ public class CancelServiceImpl implements CancelService {
     private CancelMapper cancelMapper;
     @Override
     public boolean updataStatus(String orderNo) {
+        Date date = new Date();
         UpdateWrapper wrapper = new UpdateWrapper();
         wrapper.eq("order_no",orderNo);
         wrapper.set("order_status","已取消");
+        wrapper.set("cancel_time",date);
         this.cancelMapper.update(null,wrapper);
         return true;
     }
 
     @Override
-    public boolean refund(String orderNo,String reason) {
+    public boolean refund(String orderNo,String reason,Double price) {
         UpdateWrapper wrapper = new UpdateWrapper();
         wrapper.eq("order_no",orderNo);
         wrapper.set("application_no",orderNo);
         wrapper.set("refund_reason",reason);
+        wrapper.set("refund_amount",price);
         wrapper.set("refund_status","待处理");
         wrapper.set("application_time",new Date());
         this.cancelMapper.update(null,wrapper);

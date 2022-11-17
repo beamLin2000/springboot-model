@@ -17,7 +17,7 @@ public class Cart {
     @ApiModelProperty(value = "drugId")
     @TableField("d_id")
     private Integer drugId;
-    @ApiModelProperty(value = "userId")
+    @ApiModelProperty(value = "userId",hidden = true)
     @TableField("u_id")
     private Integer userId;
     @ApiModelProperty(value = "num")

@@ -72,8 +72,8 @@ public class CouponManagement {
     private Integer totalCirculation;
 
     @TableField(value = "use_members")
-    @ApiModelProperty(name = "useMembers",value = "使用会员",dataType = "Integer")
-    private Integer useMembers;
+    @ApiModelProperty(name = "useMembers",value = "使用会员",dataType = "String")
+    private String useMembers;
 
     @TableField(value = "usable_goods")
     @ApiModelProperty(name = "usableGoods",value = "可使用商品",dataType = "String")

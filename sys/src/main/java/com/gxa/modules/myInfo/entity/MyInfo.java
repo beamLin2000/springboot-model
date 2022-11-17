@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName("`order`")
 public class MyInfo {
-    private Integer phone;
+    private String phone;
     private String headPortrait;
     private Integer waitPay;//待支付
     private Integer waitOrder;//待发货

@@ -15,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -41,6 +42,8 @@ public class FristPageController {
     private MsgService msgService;
     @Autowired
     private SysUserRedis sysUserRedis;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
     @ApiOperation(value="关键词搜索接口")
     @GetMapping("/search")
     @ApiImplicitParams({
@@ -130,10 +133,14 @@ public class FristPageController {
     }
     @ApiOperation(value="药品详情里加入清单接口")
     @PostMapping("/addToList")
-    public Result addToList(@RequestBody Cart cart){
+    public Result addToList(@RequestBody Cart cart,HttpServletRequest request){
+        String token = request.getHeader("token");
+        User user = this.userTokenService.validateUserToken(token);
+
         QueryWrapper<Cart> wrapper = new QueryWrapper<>();
         Cart maxidCart = this.cartService.getOne(wrapper.orderByDesc("id").last("limit 1"));
         cart.setId(maxidCart.getId()+1);
+        cart.setUserId(user.getId());
         this.cartService.save(cart);
         return new Result().ok();
     }
@@ -141,7 +148,7 @@ public class FristPageController {
     @GetMapping("/msg")
     public Result msg(HttpServletRequest request){
       String token = request.getHeader("token");
-      User user = this.userTokenService.validateToken(token);
+      User user = this.userTokenService.validateUserToken(token);
       List<Msg> msgs = this.msgService.queryAllMsg(user.getId());
       return new Result().ok(msgs);
     }
