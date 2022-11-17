@@ -18,13 +18,13 @@
 
     <select id="queryDrugOrderByPage" resultMap="orderListDto">
         SELECT r.order_no,r.order_payTime,u.user_name,u.real_name,r.order_amount,r.order_status
-        FROM `order` r,t_user u
-        WHERE r.user_id=u.id
+        FROM `order` r,t_user u,t_shopping_cart tsc
+        WHERE tsc.u_id=u.id AND r.order_no=tsc.order_no
         <if test="orderStatus != null and orderStatus !=''">
             AND r.order_status=#{orderStatus}
         </if>
         <if test="orderNo != null and orderNo !=''">
-            AND r.order_no=#{orderNo}
+            AND r.order_no LIKE CONCAT('%',#{orderNo},'%')
         </if>
         <if test="startDate != null and endDate != null">
             AND order_payTime BETWEEN #{startDate} AND #{endDate}

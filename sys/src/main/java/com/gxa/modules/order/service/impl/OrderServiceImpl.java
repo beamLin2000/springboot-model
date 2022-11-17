@@ -12,6 +12,7 @@ import com.gxa.modules.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -44,9 +45,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDetailDto queryOrderDetailByOrderNo(String orderNo) {
-        OrderDetailDto orderDetailDto = this.orderDetailMapper.queryOrderDetailByOrderNo(orderNo);
-        return orderDetailDto;
+    public OrderDetailDto queryOrderDetailByOrderNo(String orderNo,String orderStatus) {
+
+
+        if (orderStatus.equals("待支付")){
+          return this.orderDetailMapper.queryOrderWaitPayDetailByOrderNo(orderNo);
+        }else if (orderStatus.equals("待发货")){
+          return this.orderDetailMapper.queryOrderWaitDetailByOrderNo(orderNo);
+        } else if (orderStatus.equals("待收货") || orderStatus.equals("已完成")){
+          return this.orderDetailMapper.queryOrderCompleteDetailByOrderNo(orderNo);
+        }else if (orderStatus.equals("已取消")){
+          return this.orderDetailMapper.queryOrderCancelDetailByOrderNo(orderNo);
+        }else if (orderStatus.equals("已退款")){
+          return this.orderDetailMapper.queryOrderRefundDetailByOrderNo(orderNo);
+        }
+
+//        OrderDetailDto orderDetailDtos = this.orderDetailMapper.queryOrderCompleteDetailByOrderNo(orderNo);
+
+        return null;
     }
 
     @Override
@@ -66,7 +82,8 @@ public class OrderServiceImpl implements OrderService {
         ExpressDetail expressDetail = new ExpressDetail();
         expressDetail.setExpressDate(expressDate);
         expressDetail.setExpressId(expressId);
-        expressDetail.setOrderNo(expressNo);
+        expressDetail.setOrderNo(orderNo);
+        expressDetail.setExpressNo(expressNo);
         this.expressMapper.insertExpressDetail(expressDetail);
         Integer expressDetailId = expressDetail.getId();
 
@@ -74,19 +91,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ExpressDetail queryExpressDetailByOrderNo(String orderNo) {
-        ExpressDetail expressDetail = this.expressMapper.selectExpressDetailByOrderNo(orderNo);
+    public List<ExpressDetailDto> queryExpressDetailByOrderNo(String orderNo) {
+        List<ExpressDetailDto> expressDetail = this.expressMapper.selectExpressDetailByOrderNo(orderNo);
         return expressDetail;
     }
 
     @Override
-    public void updateRefundStatusByApplicationNo(String applicationNo, String refundMark, String refundStatus) {
+    public void updateRefundStatusByApplicationNo(String applicationNo, String refundMark, String refundStatus,Date date) {
         String orderStatus = null;
         if (refundStatus.equals("已处理")){
             orderStatus="已完成";
         }else{
             orderStatus="已退款";
         }
-        this.refundMapper.updateRefundStatusByApplicationNo(applicationNo,refundMark,refundStatus,orderStatus);
+        this.refundMapper.updateRefundStatusByApplicationNo(applicationNo,refundMark,refundStatus,orderStatus,date);
     }
 }
