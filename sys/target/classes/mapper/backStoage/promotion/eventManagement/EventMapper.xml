@@ -5,7 +5,11 @@
 <mapper namespace="com.gxa.modules.sys.mapper.backStage.promotion.EventManagement.EventMapper">
 
     <update id="updateStatus">
-        update `promotion_event_management` set `status` = #{status} where id = #{id}
+        update `promotion_event_management` set `put_on_shelves` = #{status},`version` = `version`+1 where id = #{id} and version = #{version}
     </update>
+
+    <select id="selectAllId" resultType="java.lang.String">
+        select id from `promotion_event_management`
+    </select>
 
 </mapper>
