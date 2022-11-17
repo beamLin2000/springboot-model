@@ -22,13 +22,29 @@
         </dependency>
         <dependency>
             <groupId>com.gxa</groupId>
-            <artifactId>sys-oss</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.gxa</groupId>
             <artifactId>sys-pay</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+        <groupId>com.gxa</groupId>
+        <artifactId>sys-oss</artifactId>
+        <version>1.0</version>
+    </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

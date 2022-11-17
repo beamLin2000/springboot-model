@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -40,6 +41,15 @@ public class RedisUtils {
 
     public void set(String key, Object value){
         set(key, value, DEFAULT_EXPIRE);
+    }
+
+
+
+    public void set(String key,List<String> value){
+        System.out.println(key);
+        for (String v:value){
+            listOperations.rightPush(key,v);
+        }
     }
 
     public <T> T get(String key, Class<T> clazz, long expire) {
@@ -80,7 +90,12 @@ public class RedisUtils {
         }
         return gson.toJson(object);
     }
+    public List<Object> getList(String key, Integer start, Integer end){
+        System.out.println(key);
+        List<Object> range = listOperations.range(key, 0, -1);
 
+        return range;
+    }
     /**
      * JSON数据，转成Object
      */

@@ -13,7 +13,9 @@ import com.gxa.modules.goods.goodsEntity.Symptom;
 import com.gxa.modules.goods.goodsService.DrugService;
 import com.gxa.modules.goods.goodsService.MedicinalService;
 import com.gxa.modules.goods.goodsService.SymptomService;
-import com.gxa.modules.sys.service.UserTokenService;
+import com.gxa.modules.login.entity.SysUser;
+import com.gxa.modules.login.entity.User;
+import com.gxa.modules.login.service.UserTokenService;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -66,14 +68,17 @@ public class GoodsController {
 
     @ApiOperation(value="药品分类，编辑接口")
     @PostMapping("/medicinal/update")
-    public Result medicinalUpdate(@RequestBody Medicinal medicinal){
-        this.medicinalService.medicinalUpdate(medicinal);
+    public Result medicinalUpdate(@RequestBody Medicinal medicinal,HttpServletRequest httpServletRequest){
+        this.medicinalService.medicinalUpdate(medicinal,httpServletRequest);
         return new Result().ok();
     }
 
     @ApiOperation(value="药品分类，新增分类接口")
     @PutMapping("/medicinal/insert")
-    public Result medicinalInsert(@RequestBody Medicinal medicinal){
+    public Result medicinalInsert(@RequestBody Medicinal medicinal,HttpServletRequest httpServletRequest){
+        String token = httpServletRequest.getHeader("token");
+        SysUser sysUser = this.userTokenService.validateSysUserToken(token);
+        medicinal.setUploader(sysUser.getUsername());
         this.medicinalService.medicinalInsert(medicinal);
         return new Result().ok();
     }
@@ -87,7 +92,10 @@ public class GoodsController {
 
     @ApiOperation(value="药品分类，新增下级接口")//新增的时候，上级id可能产生问题，字段不一致
     @PutMapping("/medicinal/insertRank")
-    public Result medicinalInsertRank(@RequestBody Medicinal medicinal){
+    public Result medicinalInsertRank(@RequestBody Medicinal medicinal,HttpServletRequest httpServletRequest){
+        String token = httpServletRequest.getHeader("token");
+        SysUser sysUser = this.userTokenService.validateSysUserToken(token);
+        medicinal.setUploader(sysUser.getUsername());
         this.medicinalService.medicinalInsertRank(medicinal);
         return new Result().ok();
     }
@@ -205,7 +213,10 @@ public class GoodsController {
 
     @ApiOperation(value="药品分类，二级分类，新增分类接口")//为了保持幂等性可以将业务ID向传给前端
     @PutMapping("/medicinal/two/insert")
-    public Result medicinalTwoInsert(@RequestBody Medicinal medicinal){
+    public Result medicinalTwoInsert(@RequestBody Medicinal medicinal,HttpServletRequest httpServletRequest){
+        String token = httpServletRequest.getHeader("token");
+        SysUser sysUser = this.userTokenService.validateSysUserToken(token);
+        medicinal.setUploader(sysUser.getUsername());
         this.medicinalService.medicinalTwoInsert(medicinal);
         return new Result().ok();
     }
@@ -219,7 +230,10 @@ public class GoodsController {
 
     @ApiOperation(value="药品分类，二级分类，编辑接口")//提醒前端传过来的上级id字段名写成higher_level
     @PostMapping("/medicinal/two/update")
-    public Result medicinalTwoUpdate(@RequestBody Medicinal medicinal){
+    public Result medicinalTwoUpdate(@RequestBody Medicinal medicinal,HttpServletRequest httpServletRequest){
+        String token = httpServletRequest.getHeader("token");
+        SysUser sysUser = this.userTokenService.validateSysUserToken(token);
+        medicinal.setUploader(sysUser.getUsername());
         this.medicinalService.medicinalTwoUpdate(medicinal);
         return new Result().ok();
     }
@@ -298,15 +312,21 @@ public class GoodsController {
 
     @ApiOperation(value="症状分类，编辑接口")
     @PostMapping("/Symptom/update")
-    public Result symptomUpdate(@RequestBody Symptom symptom){
+    public Result symptomUpdate(@RequestBody Symptom symptom,HttpServletRequest httpServletRequest){
+        String token = httpServletRequest.getHeader("token");
+        SysUser sysUser = this.userTokenService.validateSysUserToken(token);
+        symptom.setUpload(sysUser.getUsername());
         this.symptomService.symptomUpdate(symptom);
         return new Result().ok();
     }
 
     @ApiOperation(value="症状分类，新增分类接口")
     @PutMapping("/Symptom/insert")
-    public Result symptomInsert(@RequestBody Symptom symptom){
-       this.symptomService.symptomInsert(symptom);
+    public Result symptomInsert(@RequestBody Symptom symptom,HttpServletRequest httpServletRequest){
+        String token = httpServletRequest.getHeader("token");
+        SysUser sysUser = this.userTokenService.validateSysUserToken(token);
+        symptom.setUpload(sysUser.getUsername());
+        this.symptomService.symptomInsert(symptom);
         return new Result().ok();
     }
 
@@ -319,7 +339,10 @@ public class GoodsController {
 
     @ApiOperation(value="症状分类，新增下级接口")
     @PutMapping("/Symptom/insertRank")
-    public Result symptomInsertRank(@RequestBody Symptom symptom){
+    public Result symptomInsertRank(@RequestBody Symptom symptom,HttpServletRequest httpServletRequest){
+        String token = httpServletRequest.getHeader("token");
+        SysUser sysUser = this.userTokenService.validateSysUserToken(token);
+        symptom.setUpload(sysUser.getUsername());
         this.symptomService.symptomInsertRank(symptom);
         return new Result().ok();
     }
@@ -415,7 +438,10 @@ public class GoodsController {
 
     @ApiOperation(value="症状分类，二级分类，新增分类接口")
     @PutMapping("/Symptom/two/insert")
-    public Result symptomTwoInsert(@RequestBody Symptom symptom){
+    public Result symptomTwoInsert(@RequestBody Symptom symptom,HttpServletRequest httpServletRequest){
+        String token = httpServletRequest.getHeader("token");
+        SysUser sysUser = this.userTokenService.validateSysUserToken(token);
+        symptom.setUpload(sysUser.getUsername());
         this.symptomService.symptomTwoInsert(symptom);
         return new Result().ok();
     }
@@ -436,7 +462,10 @@ public class GoodsController {
 
     @ApiOperation(value="症状分类，二级分类，编辑接口")
     @PostMapping("/Symptom/two/update")
-    public Result symptomTwoUpdate(@RequestBody Symptom symptom){
+    public Result symptomTwoUpdate(@RequestBody Symptom symptom,HttpServletRequest httpServletRequest){
+        String token = httpServletRequest.getHeader("token");
+        SysUser sysUser = this.userTokenService.validateSysUserToken(token);
+        symptom.setUpload(sysUser.getUsername());
         this.symptomService.symptomTwoUpdate(symptom);
         return new Result().ok();
     }
@@ -571,12 +600,12 @@ public class GoodsController {
     @ApiOperation(value="药品管理，新增药品接口")
     @PutMapping("/drug/insert")
     public Result drugInsert(@RequestBody Drug drug){
+        drug.setState("待审核");
+        this.drugService.save(drug);
+
         //删除Redis中的数据
         Medicinal medicinal = this.medicinalService.getById(drug.getMedicinalId());
         redisUtils.delete("Assort:"+ Base64Utils.encode(medicinal.getCategoryName()));
-
-        drug.setState("待审核");
-        this.drugService.save(drug);
         return new Result().ok();
     }
 

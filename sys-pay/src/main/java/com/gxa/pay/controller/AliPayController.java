@@ -3,19 +3,26 @@ package com.gxa.pay.controller;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.domain.AlipayTradePagePayModel;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.gxa.pay.config.AliPayProperties;
-import com.gxa.pay.entity.Order;
+import com.gxa.pay.entity.DrugStockAndSalesVolume;
+import com.gxa.pay.entity.WaitPayOrder;
+import com.gxa.pay.service.DrugStockAndSalesVolumeService;
+import com.gxa.pay.service.OrderPayService;
 import com.ijpay.alipay.AliPayApi;
 import com.ijpay.alipay.AliPayApiConfig;
 import com.ijpay.alipay.AliPayApiConfigKit;
+import com.mysql.cj.xdevapi.Result;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,12 +30,16 @@ import java.util.Map;
  *
  * @author shelei
  */
+@Api(tags = "支付接口")
 @RestController
 @RequestMapping("/pay/alipay")
 public class AliPayController extends AbstractAliPayApiController {
     @Autowired
+    private DrugStockAndSalesVolumeService drugStockAndSalesVolumeService;
+    @Autowired
     private AliPayProperties properties;
-
+    @Autowired
+    private OrderPayService orderPayService;
     @Override
     public AliPayApiConfig getApiConfig() throws AlipayApiException {
         AliPayApiConfig aliPayApiConfig;
@@ -36,18 +47,18 @@ public class AliPayController extends AbstractAliPayApiController {
             aliPayApiConfig = AliPayApiConfigKit.getApiConfig(properties.getAppId());
         } catch (Exception e) {
             aliPayApiConfig = AliPayApiConfig.builder()
-                .setAppId(properties.getAppId())
-                .setAliPayPublicKey(properties.getPublicKey())
+                    .setAppId(properties.getAppId())
+                    .setAliPayPublicKey(properties.getPublicKey())
 //                .setAppCertPath(properties.getAppCertPath())
 //                .setAliPayCertPath(properties.getAliPayCertPath())
 //                .setAliPayRootCertPath(properties.getAliPayRootCertPath())
-                .setCharset("UTF-8")
-                .setPrivateKey(properties.getPrivateKey())
-                .setServiceUrl(properties.getServerUrl())
-                .setSignType("RSA2")
-                // 普通公钥方式
-                .build();
-                // 证书模式
+                    .setCharset("UTF-8")
+                    .setPrivateKey(properties.getPrivateKey())
+                    .setServiceUrl(properties.getServerUrl())
+                    .setSignType("RSA2")
+                    // 普通公钥方式
+                    .build();
+            // 证书模式
 //                .buildByCert();
         }
         return aliPayApiConfig;
@@ -57,44 +68,31 @@ public class AliPayController extends AbstractAliPayApiController {
      * Web支付
      */
     @RequestMapping(value = "/webPay")
-    public void webPay(HttpServletResponse response, Long orderId) throws Exception {
+    public void webPay(HttpServletResponse response, WaitPayOrder order) throws Exception {
         //demo
-        Order order = new Order();
-        order.setId(String.valueOf(orderId));
-        order.setName("测试支付");
-        order.setPrice(new BigDecimal("20"));
-        order.setDesc("测试测试");
-
-
         AlipayTradePagePayModel model = new AlipayTradePagePayModel();
-        model.setOutTradeNo(order.getId());
+        model.setOutTradeNo(order.getOrderNo());
         model.setProductCode("FAST_INSTANT_TRADE_PAY");
-        model.setTotalAmount("2");
-        model.setSubject("中华牙膏");
+        model.setTotalAmount(order.getOrderAmount().toString());
+        model.setSubject("待支付订单");
 
-        //1、根据订单号 到数据库查询 相关的订单信息
-//        OrderEntity order = orderService.getByOrderId(orderId);
-//        if(order == null){
-//            throw new ResultException("订单不存在");
-//        }
+        try {
+            AliPayApi.tradePage(response, model, properties.getNotifyUrl(), properties.getReturnUrl());
+            this.orderPayService.updataForPay(order.getOrderNo());
 
-        //2、判断订单的状态 是否是待支付状态，只要不是待支付状态就说明订单失效
-//        if(order.getStatus() != OrderStatusEnum.WAITING.getValue()){
-//            throw new ResultException("订单已失效");
-//        }
 
-//        AlipayTradePagePayModel model = new AlipayTradePagePayModel();
-        //设置订单号
-//        model.setOutTradeNo(order.getOrderId() + "");
+            List<DrugStockAndSalesVolume> drugStockAndSalesVolumes = this.drugStockAndSalesVolumeService.drugList(order.getOrderNo());
+            for (DrugStockAndSalesVolume drugStockAndSalesVolume:drugStockAndSalesVolumes){
+                this.drugStockAndSalesVolumeService.updateStockAndSalesVolume(
+                        drugStockAndSalesVolume.getStock() + drugStockAndSalesVolume.getQuantity(),
+                        drugStockAndSalesVolume.getSalesVolume() + drugStockAndSalesVolume.getQuantity(),
+                        drugStockAndSalesVolume.getId() + drugStockAndSalesVolume.getQuantity());
+            }
 
-        //固定值 代号 ，数量 商品
-//        model.setProductCode("FAST_INSTANT_TRADE_PAY");
-//        model.setTotalAmount(order.getPayAmount().toString());
-//        model.setSubject(order.getProductName());
-        //公用回传参数，没有则无需设置
-        //model.setPassbackParams("passback_params");
 
-        AliPayApi.tradePage(response, model, properties.getNotifyUrl(), properties.getReturnUrl());
+        }catch (Exception e){
+            throw new RuntimeException("支付失败");
+        }
     }
 
 
@@ -131,5 +129,10 @@ public class AliPayController extends AbstractAliPayApiController {
         return "success";
     }
 
+
+
+
+
 }
+
  

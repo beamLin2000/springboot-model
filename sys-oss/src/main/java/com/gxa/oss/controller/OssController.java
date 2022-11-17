@@ -4,7 +4,6 @@ import com.gxa.common.exception.ResultException;
 import com.gxa.common.utils.Result;
 import com.gxa.oss.factory.OSSFactory;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.HashMap;
 import java.util.Map;
 
-@Api(tags = "上传图片接口")
+@Api(tags = "上传图片")
 @RestController
 @RequestMapping("/sys/oss")
 public class OssController {
@@ -22,7 +21,7 @@ public class OssController {
     /**
      * 上传文件
      */
-    @ApiOperation(value="上传图片接口")
+
     @PostMapping("/upload")
     public Result upload(@RequestParam("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
