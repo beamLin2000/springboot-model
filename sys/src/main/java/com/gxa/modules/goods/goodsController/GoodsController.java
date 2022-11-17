@@ -136,7 +136,7 @@ public class GoodsController {
             @ApiImplicitParam(paramType = "query",name = "limit",value ="每页显示多少条",dataType ="int"),
             @ApiImplicitParam(paramType = "query",name = "order",value ="升序asc，降序填desc",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "sidx",value ="排序字段",dataType ="String"),
-            @ApiImplicitParam(paramType = "query",name = "id",value ="id",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "id",value ="id",dataType ="String",required = true),
     })
     @ApiResponses({
             @ApiResponse( code = 200,message = "ok",response = Medicinal.class)
@@ -376,7 +376,7 @@ public class GoodsController {
             @ApiImplicitParam(paramType = "query",name = "limit",value ="每页显示多少条",dataType ="int"),
             @ApiImplicitParam(paramType = "query",name = "order",value ="升序asc，降序填desc",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "sidx",value ="排序字段",dataType ="String"),
-            @ApiImplicitParam(paramType = "query",name = "id",value ="id",dataType ="String")
+            @ApiImplicitParam(paramType = "query",name = "id",value ="id",dataType ="String",required = true)
     })
     @ApiResponses({
             @ApiResponse( code = 200,message = "ok",response = Symptom.class)
@@ -744,7 +744,7 @@ public class GoodsController {
         //删除Redis中的数据
         redisUtils.delete("Assort:"+ Base64Utils.encode(this.medicinalService.getById(drug.getMedicinalId()).getCategoryName()));
 
-        this.drugService.drugUpdateByid(drug);
+        this.drugService.updateById(drug);
         return new Result().ok();
     }
 }
