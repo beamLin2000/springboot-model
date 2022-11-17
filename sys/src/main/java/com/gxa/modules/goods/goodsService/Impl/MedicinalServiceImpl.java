@@ -13,6 +13,8 @@ import com.gxa.modules.goods.goodsMapper.MedicinalMapper;
 import com.gxa.modules.goods.goodsService.MedicinalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.*;
 
@@ -47,6 +49,9 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
     }
 
     public void medicinalUpdate(Medicinal medicinal){
+        //删除Redis中的数据
+        String categoryName = this.baseMapper.selectById(medicinal.getId()).getCategoryName();
+        redisUtils.delete("Assort:"+ Base64Utils.encode(categoryName));
 
         Date date = new Date();
         medicinal.setAddTime(date);
@@ -59,10 +64,6 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
 
         medicinal.setVersion(medicinal.getVersion()+1);
         this.baseMapper.update(medicinal,new UpdateWrapper<Medicinal>().eq("id",medicinal.getId()));
-
-        //删除Redis中的数据
-        String categoryName = this.baseMapper.selectById(medicinal.getId()).getCategoryName();
-        redisUtils.delete("Assort:"+ Base64Utils.encode(categoryName));
     }
 
     public void medicinalInsert(Medicinal medicinal){
@@ -75,29 +76,31 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
     }
 
     public void medicinalInsertRank(Medicinal medicinal){
+        //删除Redis中的数据
+        redisUtils.delete("Assort:"+ Base64Utils.encode(medicinal.getCategoryName()));
+
         Date date = new Date();
         medicinal.setAddTime(date);
         medicinal.setRank("二级");
 
 //        medicinal.setHigherLevel(medicinal.getId());
         this.baseMapper.insert(medicinal);
-
-        //删除Redis中的数据
-        redisUtils.delete("Assort:"+ Base64Utils.encode(medicinal.getCategoryName()));
     }
 
     public void medicinalTwoInsert(Medicinal medicinal){
+        //删除Redis中的数据
+        redisUtils.delete("Assort:"+ Base64Utils.encode(medicinal.getCategoryName()));
+
         Date date = new Date();
         medicinal.setAddTime(date);
         medicinal.setRank("二级");
 //        medicinal.setHigherLevel(medicinal.getId());
         this.baseMapper.insert(medicinal);
-
-        //删除Redis中的数据
-        redisUtils.delete("Assort:"+ Base64Utils.encode(medicinal.getCategoryName()));
     }
 
     public void medicinalTwoUpdate(Medicinal medicinal){
+        //删除Redis中的数据
+        redisUtils.delete("Assort:"+ Base64Utils.encode(medicinal.getCategoryName()));
 
         Date date = new Date();
         medicinal.setAddTime(date);
@@ -111,8 +114,11 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
         medicinal.setVersion(medicinal.getVersion()+1);
         this.baseMapper.update(medicinal,new UpdateWrapper<Medicinal>().eq("id",medicinal.getId()));
 
-        //删除Redis中的数据
-        redisUtils.delete("Assort:"+ Base64Utils.encode(medicinal.getCategoryName()));
+    }
 
+    public PageUtils medicinalSelect(Map<String,Object> params){
+        IPage<Medicinal> page = this.page(new Query<Medicinal>().getPage(params),
+                new QueryWrapper<Medicinal>().eq("`higher_level`", params.get("id")));
+        return new PageUtils(page);
     }
 }

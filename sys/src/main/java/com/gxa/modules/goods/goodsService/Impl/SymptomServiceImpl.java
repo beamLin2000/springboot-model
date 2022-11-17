@@ -3,6 +3,7 @@ package com.gxa.modules.goods.goodsService.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Query;
@@ -12,6 +13,8 @@ import com.gxa.modules.goods.goodsMapper.SymptomMapper;
 import com.gxa.modules.goods.goodsService.SymptomService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -74,7 +77,7 @@ public class SymptomServiceImpl extends ServiceImpl<SymptomMapper,Symptom> imple
         Date date = new Date();
         symptom.setAddTime(date);
 
-        symptom.setRank("一级");
+        symptom.setRank("二级");
         this.baseMapper.insert(symptom);
     }
 
@@ -90,5 +93,11 @@ public class SymptomServiceImpl extends ServiceImpl<SymptomMapper,Symptom> imple
 
         symptom.setVersion(symptom.getVersion()+1);
         this.baseMapper.update(symptom,new UpdateWrapper<Symptom>().eq("id",symptom.getId()));
+    }
+
+    public PageUtils symptomSelect(Map<String,Object> params){
+        IPage<Symptom> page = this.page(new Query<Symptom>().getPage(params),
+                new QueryWrapper<Symptom>().eq("higher_level", params.get("id")));
+        return new PageUtils(page);
     }
 }
