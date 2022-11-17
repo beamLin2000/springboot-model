@@ -14,7 +14,7 @@ public class PollGraphServiceImpl  extends ServiceImpl<PollGraphMapper, PollGrap
     @Override
     public List queryPollGraph() {
 
-        List<PollGraph> pollGraphs = this.baseMapper.selectList(new QueryWrapper<PollGraph>().eq("state","1"));
+        List<PollGraph> pollGraphs = this.baseMapper.selectList(new QueryWrapper<PollGraph>().eq("`status`","1"));
         return pollGraphs;
     }
 }

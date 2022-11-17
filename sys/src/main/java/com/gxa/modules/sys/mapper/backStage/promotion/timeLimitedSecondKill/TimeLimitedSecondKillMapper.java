@@ -3,6 +3,7 @@ package com.gxa.modules.sys.mapper.backStage.promotion.timeLimitedSecondKill;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.gxa.modules.sys.entity.backStage.promotion.timeLimitedSecondKill.LimitedTimeFlashDeal;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author :林溪
@@ -10,4 +11,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface TimeLimitedSecondKillMapper extends BaseMapper<LimitedTimeFlashDeal> {
+    Integer updateVersion(@Param("id")String id);
 }

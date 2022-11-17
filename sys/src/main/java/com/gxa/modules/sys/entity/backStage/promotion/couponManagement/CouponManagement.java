@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.gxa.modules.sys.entity.goods.Drug;
-import com.gxa.modules.sys.entity.goods.Medicinal;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,9 +20,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel("优惠券管理")
 @TableName("promotion_coupon_management")
 public class CouponManagement {
-    @TableId(value = "id",type = IdType.AUTO)
+    @TableId(value = "id")
     @ApiModelProperty(name = "id",value = "id",dataType = "String")
     private String id;
 
@@ -40,8 +40,8 @@ public class CouponManagement {
     private String couponType;
 
     @TableField(value = "status")
-    @ApiModelProperty(name = "status",value = "状态",dataType = "Integer")
-    private Integer status;
+    @ApiModelProperty(name = "status",value = "状态",dataType = "String")
+    private String status;
 
     @TableField(value = "amount_issued")
     @ApiModelProperty(name = "amountIssued", value = "发放量",dataType = "Integer")
@@ -72,12 +72,12 @@ public class CouponManagement {
     private Integer totalCirculation;
 
     @TableField(value = "use_members")
-    @ApiModelProperty(name = "useMembers",value = "使用会员",dataType = "Integer")
-    private Integer useMembers;
+    @ApiModelProperty(name = "useMembers",value = "使用会员",dataType = "String")
+    private String useMembers;
 
     @TableField(value = "usable_goods")
-    @ApiModelProperty(name = "usableGoods",value = "可使用商品",dataType = "Integer")
-    private Integer usableGoods;
+    @ApiModelProperty(name = "usableGoods",value = "可使用商品",dataType = "String")
+    private String usableGoods;
 
     /**
      * 查看详细的优惠券信息添加实体类
@@ -94,5 +94,8 @@ public class CouponManagement {
     @ApiModelProperty(name = "notUsed",value = "已领取",dataType = "Integer")
     private Integer notUsed;
 
+    @TableField(value = "version_id")
+    @ApiModelProperty(name = "versionId",value = "版本号，保证幂等",dataType = "Integer")
+    private Integer versionId;
 
 }

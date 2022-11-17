@@ -22,14 +22,14 @@
         </dependency>
         <dependency>
             <groupId>com.gxa</groupId>
-            <artifactId>sys-oss</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.gxa</groupId>
             <artifactId>sys-pay</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+        <groupId>com.gxa</groupId>
+        <artifactId>sys-oss</artifactId>
+        <version>1.0</version>
+    </dependency>
     </dependencies>
     <build>
         <plugins>

@@ -1,7 +1,7 @@
 package com.gxa.modules.sys.form.backstage.promotion.coupon;
 
-import com.gxa.modules.sys.entity.goods.Drug;
-import com.gxa.modules.sys.entity.goods.Medicinal;
+import com.gxa.modules.goods.goodsEntity.Drug;
+import com.gxa.modules.goods.goodsEntity.Medicinal;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

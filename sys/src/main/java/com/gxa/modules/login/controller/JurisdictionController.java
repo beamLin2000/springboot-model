@@ -2,10 +2,12 @@ package com.gxa.modules.login.controller;
 
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.gxa.common.utils.AssertUtils;
+import com.gxa.common.utils.ErrorCode;
 import com.gxa.common.utils.Result;
 import com.gxa.common.validator.ValidatorUtils;
 import com.gxa.common.validator.group.AddGroup;
 import com.gxa.modules.login.dto.Member;
+import com.gxa.modules.login.dto.MemberMannage;
 import com.gxa.modules.login.dto.Role;
 import com.gxa.modules.login.service.MemberService;
 import com.gxa.modules.login.service.RoleService;
@@ -35,8 +37,8 @@ public class JurisdictionController {
 
     @ApiOperation(value="成员管理查询")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "page",value ="当前是第几页",dataType ="int"),
-            @ApiImplicitParam(paramType = "query",name = "limit",value ="每页显示多少条",dataType ="int"),
+            @ApiImplicitParam(paramType = "query",name = "pageNum",value ="当前是第几页",dataType ="int"),
+            @ApiImplicitParam(paramType = "query",name = "pageSize",value ="每页显示多少条",dataType ="int"),
             @ApiImplicitParam(paramType = "query",name = "username",value ="名字查询",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "role",value ="角色查询",dataType ="String")
 
@@ -83,6 +85,37 @@ public class JurisdictionController {
         this.memberService.add(member);
         return new Result<>().ok();
     }
+    @GetMapping("/toupdateMember")
+    @ApiOperation("成员管理编辑回显")
+    @ApiImplicitParam(paramType = "query",name = "username",value ="用户名",dataType ="String",required = true)
+    public Result toupdateMember(@RequestParam String username){
+        AssertUtils.isBlank(username,"用户名不能为空");
+        MemberMannage memberMannage = memberService.queryByName(username);
+        memberMannage.setSalt("");
+        Map map = new HashMap();
+        map.put("member",memberMannage);
+        return new Result<>().ok(map);
+    }
+    @PutMapping("/updateMember")
+    @ApiOperation("成员管理编辑")
+    public Result updateMember(@RequestBody MemberMannage member){
+        AssertUtils.isNull(member, "不为能空");
+        memberService.updateMember(member);
+        return new Result<>().ok();
+    }
+    @ApiOperation("修改成员启用状态")
+    @GetMapping("/updateMember")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query",name = "status",value ="状态",dataType ="int",required = true),
+            @ApiImplicitParam(paramType = "query",name = "username",value ="用户名",dataType ="String",required = true)
+
+    }
+    )
+    public Result updateMember(@RequestParam @ApiIgnore Map<String,Object> params){
+        AssertUtils.isNull(params, "状态或用户名不为能空");
+        this.memberService.updateStatus(params);
+        return new Result<>().ok();
+    }
     @ApiOperation(value="角色管理查询")
     @GetMapping("/roleList")
     @ApiImplicitParam(paramType = "query",name = "name",value ="角色名",dataType ="String")
@@ -97,7 +130,26 @@ public class JurisdictionController {
     @ApiImplicitParam(paramType = "query",name = "name",value ="角色名",dataType ="String",required = true)
     public Result delete(@RequestParam("name") String name){
         AssertUtils.isBlank(name, "角色名不为能空");
+        if (name.equals("管理员")){
+            return new Result().error(ErrorCode.FORBIDDEN,"禁止删除");
+        }
         this.roleService.del(name);
+        return new Result<>().ok();
+    }
+    @ApiOperation("修改角色启用状态")
+    @GetMapping("/updateRole")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query",name = "status",value ="状态",dataType ="int",required = true),
+            @ApiImplicitParam(paramType = "query",name = "name",value ="角色名",dataType ="String",required = true)
+
+    }
+    )
+    public Result updateRole(@RequestParam @ApiIgnore Map<String,Object> params){
+        AssertUtils.isNull(params, "状态或角色名不为能空");
+        if (params.get("name").toString().equals("管理员")){
+            return new Result().error(ErrorCode.FORBIDDEN,"禁止修改");
+        }
+        this.roleService.updateStatus(params);
         return new Result<>().ok();
     }
 }

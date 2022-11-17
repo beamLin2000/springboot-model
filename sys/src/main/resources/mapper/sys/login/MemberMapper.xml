@@ -6,6 +6,21 @@
     <insert id="add">
         insert into t_user_role(user_id,role_id) values (#{userId},#{roleId})
     </insert>
+    <update id="updateStatus">
+        update t_sys_user
+        set status=#{status}
+        where user_name=#{username}
+    </update>
+    <update id="updateMember">
+        update t_sys_user
+        set real_name=#{realName},phone_number=#{phoneNumber},email=#{email},status=#{status}
+        where user_name=#{username}
+    </update>
+    <update id="updateRole">
+        update  t_user_role
+        set role_id=#{roleId}
+        where user_id=#{userId}
+    </update>
     <delete id="deleteRole">
         delete from t_user_role where user_id=#{userId}
     </delete>
@@ -28,9 +43,14 @@
     <select id="userId" resultType="java.lang.Integer">
         select id from t_sys_user where user_name=#{username}
     </select>
-    <select id="queryAll" resultType="com.gxa.modules.login.dto.Member">
+    <select id="queryA" resultType="com.gxa.modules.login.dto.Member">
         SELECT r.name as role,u.user_name,u.real_name,u.phone_number,u.status,u.create_time
         FROM t_user_role ur,t_sys_user u,t_role r
         WHERE u.id = ur.user_id and ur.role_id = r.id
+    </select>
+    <select id="queryByName" resultType="com.gxa.modules.login.dto.MemberMannage">
+        SELECT r.name as role,u.user_name,u.real_name,u.phone_number,u.status,u.email,u.password,u.salt
+        FROM t_user_role ur,t_sys_user u,t_role r
+        WHERE u.id = ur.user_id and ur.role_id = r.id and u.user_name=#{username}
     </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.gxa.modules.login.oauth2;
 
+import com.gxa.modules.login.entity.SysUser;
 import com.gxa.modules.login.entity.User;
 import com.gxa.modules.login.service.UserTokenService;
 import lombok.extern.slf4j.Slf4j;
@@ -36,14 +37,21 @@ public class OAuth2Realm extends AuthorizingRealm {
         String accessToken = (String) token.getPrincipal();
         //从redis中获取出来
         log.info(accessToken);
-        User user = userTokenService.validateToken(accessToken);
+        SysUser user = userTokenService.validateSysUserToken(accessToken);
+        User u = userTokenService.validateUserToken(accessToken);
         System.out.println(user);
-        if(user == null){
+        System.out.println(u);
+        if(user == null && u == null){
             throw new IncorrectCredentialsException("token失效，请重新登录");
         }
-
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, accessToken, getName());
-        return info;
+        if (user != null){
+            SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, accessToken, getName());
+            return info;
+        } else if (u != null) {
+            SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(u, accessToken, getName());
+            return info;
+        }
+       return  null;
     }
 
     /**
@@ -52,14 +60,10 @@ public class OAuth2Realm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         User user = (User)principals.getPrimaryPrincipal();
-        Integer userId = user.getId();
 
         Set<String> perms = new HashSet<>();
         //调用数据库 或者从redis中获取该用户的权限
         //我们这里模拟具有权限
-        if("zs".equals(user.getUsername())) {
-            perms.add("sys:user:list");
-        }
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         simpleAuthorizationInfo.addStringPermissions(perms);

@@ -45,13 +45,17 @@ public class SysUser implements Serializable {
     @TableField("real_name")
     private String realName;
 
-    @NotNull(message = "手机号不能为空",groups = UpdateGroup.class)
+    @NotBlank(message = "手机号不能为空",groups = UpdateGroup.class)
     @ApiModelProperty(name = "phoneNumber",value = "手机号",required = true)
     @TableField("phone_number")
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     @NotBlank(message = "邮箱不能为空",groups = UpdateGroup.class)
     @ApiModelProperty(name = "email",value = "email",required = true)
     @TableField("email")
     private String email;
+
+    @TableField("status")
+    @ApiModelProperty(name = "status",value = "状态",hidden = true)
+    private Integer status;
 }

@@ -15,7 +15,7 @@ public interface EventService extends IService<EventManagement> {
     //搜索/分页
     PageUtils search(Map<String,Object> map);
     //上架状态修改
-    Integer updateStatus(String id,Integer status);
+    Integer updateStatus(String id,Integer status,Integer version);
     //根据id查询数据
     EventManagement selectById(String id);
     //删除数据根据id
@@ -24,5 +24,7 @@ public interface EventService extends IService<EventManagement> {
     Integer saveData(EventManagement eventManagement);
     //修改数据
     Integer updateData(EventManagement eventManagement);
+    //根据id与版本号查询单一数据
+    EventManagement queryByIdAndVersion(String id,Integer version);
 
 }

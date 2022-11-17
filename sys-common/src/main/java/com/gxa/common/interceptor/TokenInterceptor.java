@@ -20,18 +20,12 @@ public class TokenInterceptor implements HandlerInterceptor {
         if(EXCLUDE_URI.contains(uri)){
             return true;
         }
-
         //3、判断token
         if(!StringUtils.isNotEmpty(token)){
             //写一个json
-
             return false;
-
         }
         //4、一定是带了token，验证该token,调用redis去获取 ，获取不到说明没有登录 写 json return false;
-
-
-
-        return true;
+         return true;
     }
 }

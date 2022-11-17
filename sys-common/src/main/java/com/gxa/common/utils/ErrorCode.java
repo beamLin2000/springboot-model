@@ -34,5 +34,6 @@ public interface ErrorCode {
     int SUPERIOR_MENU_ERROR = 10012;
     int DATA_SCOPE_PARAMS_ERROR = 10013;
     int JSON_FORMAT_ERROR = 10016;
+    int LOGIN_EXPIRED = 10017;
 }
  

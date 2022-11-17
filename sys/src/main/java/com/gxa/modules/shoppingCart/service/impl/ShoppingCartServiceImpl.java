@@ -1,6 +1,7 @@
 package com.gxa.modules.shoppingCart.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gxa.modules.shoppingCart.dto.ShoppingCartDto;
@@ -42,4 +43,7 @@ public class ShoppingCartServiceImpl extends ServiceImpl<ShoppingMapper, Shoppin
         this.shoppingMapper.deleteShoppingBatch(shoppingCarts);
 
     }
+
+
+
 }

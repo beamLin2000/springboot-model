@@ -3,6 +3,7 @@ package com.gxa.modules.sys.entity.backStage.promotion.couponManagement;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,10 +17,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel("优惠券指定分类")
 public class CouponAddClass {
-  @TableId(value = "id")
-  @ApiModelProperty(name = "id",value = "id",dataType = "String")
-  private String id;
+  @TableId(value = "id",type = IdType.AUTO)
+  @ApiModelProperty(name = "id",value = "id",dataType = "Integer")
+  private Integer id;
 
   @TableField(value = "classification_name")
   @ApiModelProperty(name = "classificationName",value = "商品编号",dataType = "String")
@@ -28,5 +30,10 @@ public class CouponAddClass {
   @TableField(value = "level")
   @ApiModelProperty(name = "level",value = "商品编号",dataType = "String")
   private String level;
+
+  @TableField(value = "coupon_manager_id")
+  @ApiModelProperty(name = "couponManagerId",value = "优惠券管理的id",dataType = "String")
+  private String couponManagerId;
+
 
 }

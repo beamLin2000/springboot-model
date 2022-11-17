@@ -16,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @TableName("t_content_carousel")
 public class Carousel {
-    @ApiModelProperty(value = "id",required = false)
+    @ApiModelProperty(value = "id",hidden = true)
     private Integer id;//id
     @TableField("carousel_title")
     @ApiModelProperty(value = "标题",required = true)
@@ -24,8 +24,8 @@ public class Carousel {
     @ApiModelProperty(value = "图片地址",required = true)
     private String jpg;//图片
     @ApiModelProperty(value = "状态",required = true)
-    private String state;//状态
-    @ApiModelProperty(value = "时间",required = false)
+    private String status;//状态
+    @ApiModelProperty(value = "时间" ,hidden = true)
     private Date date;
     @ApiModelProperty(value = "创建人",required = true)
     private String person;

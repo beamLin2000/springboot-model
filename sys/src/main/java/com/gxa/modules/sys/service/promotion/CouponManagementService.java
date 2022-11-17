@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.gxa.common.utils.PageUtils;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagement;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll;
+import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagerAddAndEdit;
 
 import java.util.List;
 import java.util.Map;
@@ -20,5 +21,11 @@ public interface CouponManagementService extends IService<CouponManagement> {
 
     void deleteByIds(List<String> ids);
 
-    void add(CouponManagementAll couponManagementAll);
+    void add(CouponManagerAddAndEdit couponManagementAll);
+
+    CouponManagementAll selectById(String id);
+
+    void edit(CouponManagementAll couponManagementAll);
+
+     String addPre();
 }

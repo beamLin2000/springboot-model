@@ -32,7 +32,7 @@ public class Medicinal {
     @TableField("`rank`")
     private String rank;//级别
 
-    @ApiModelProperty("状态")
+    @ApiModelProperty("状态，显示或者不显示")
     @TableField("`state`")
     private String state;//状态
 
@@ -51,6 +51,7 @@ public class Medicinal {
     private int version;//版本号
 
     @TableField("`higher_level`")
+    @ApiModelProperty("上级编号")
     private String higherLevel;//上级编号
 
 

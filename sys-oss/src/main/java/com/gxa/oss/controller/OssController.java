@@ -36,4 +36,13 @@ public class OssController {
         map.put("url",url);
         return new Result().ok(map);
     }
+    public String uploadMoh(MultipartFile file) throws Exception {
+        if (file.isEmpty()) {
+            throw new ResultException("上传文件不能为空");
+        }
+        //上传文件
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        String url = OSSFactory.build().uploadSuffix(file.getBytes(), suffix);
+        return url;
+    }
 }
