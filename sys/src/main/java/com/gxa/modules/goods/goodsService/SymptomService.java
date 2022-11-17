@@ -16,5 +16,6 @@ public interface SymptomService extends IService<Symptom> {
     public void symptomInsertRank(Symptom symptom);
     public void symptomTwoInsert(Symptom symptom);
     public void symptomTwoUpdate(Symptom symptom);
+    public PageUtils symptomSelect(Map<String,Object> params);
 
 }

@@ -14,6 +14,8 @@ import com.gxa.modules.goods.goodsService.MedicinalService;
 import com.gxa.modules.sys.redis.SysUserRedis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.*;
 
@@ -113,5 +115,11 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
         medicinal.setVersion(medicinal.getVersion()+1);
         this.baseMapper.update(medicinal,new UpdateWrapper<Medicinal>().eq("id",medicinal.getId()));
 
+    }
+
+    public PageUtils medicinalSelect(Map<String,Object> params){
+        IPage<Medicinal> page = this.page(new Query<Medicinal>().getPage(params),
+                new QueryWrapper<Medicinal>().eq("`higher_level`", params.get("id")));
+        return new PageUtils(page);
     }
 }

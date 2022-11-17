@@ -17,5 +17,6 @@ public interface MedicinalService extends IService<Medicinal> {
     public void medicinalInsertRank(Medicinal medicinal);
     public void medicinalTwoInsert(Medicinal medicinal);
     public void medicinalTwoUpdate(Medicinal medicinal);
+    public PageUtils medicinalSelect(Map<String,Object> params);
 
 }
