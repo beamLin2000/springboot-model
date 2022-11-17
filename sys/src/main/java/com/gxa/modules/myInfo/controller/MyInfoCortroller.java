@@ -172,12 +172,14 @@ public class MyInfoCortroller {
     }
     @ApiOperation("上传头像")
     @PostMapping("/headpicture")
-    public Result headPicture(HttpServletRequest request,@RequestParam("file") String file){
+    public Result headPicture(HttpServletRequest request,@RequestParam("file") MultipartFile file) throws Exception {
         String token = request.getHeader("token");
         User user = this.userTokenService.validateUserToken(token);
         this.redisUtils.delete("user:"+Base64Utils.decode(token));
-        this.headPictureService.update(user.getId(),file);
-        user.setHeadPortrait(file);
+        OssController ossController = new OssController();
+        String uploadMoh = ossController.uploadMoh(file);
+        this.headPictureService.update(user.getId(),uploadMoh);
+        user.setHeadPortrait(uploadMoh);
         redisUtils.set("user:"+Base64Utils.decode(token),user);
         return new Result().ok();
     }

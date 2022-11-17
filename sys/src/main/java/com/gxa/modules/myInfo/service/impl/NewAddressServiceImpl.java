@@ -43,6 +43,12 @@ public class NewAddressServiceImpl implements NewAddressService {
     @Override
     public void editAddress(ShipToAddress shipToAddress) {
         UpdateWrapper updateWrapper = new UpdateWrapper();
+        if (shipToAddress.getIsDefault().equals("1")){
+            UpdateWrapper wrapper = new UpdateWrapper();
+            wrapper.set("default_address","0");
+            wrapper.eq("default_address","1");
+            this.newAddressMapper.update(null,wrapper);
+        }
         updateWrapper.eq("id",shipToAddress.getId());
         this.newAddressMapper.update(shipToAddress,updateWrapper);
 
