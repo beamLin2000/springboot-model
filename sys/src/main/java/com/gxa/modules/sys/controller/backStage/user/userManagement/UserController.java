@@ -37,7 +37,7 @@ public class UserController {
     @ApiOperation("筛选/首页列表")
     @GetMapping("/search")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query",name = "username",value = "用户名",dataType = "String"),
+            @ApiImplicitParam(paramType = "query",name = "userName",value = "用户名",dataType = "String"),
             @ApiImplicitParam(paramType = "query",name = "createTime",value = "注册时间",dataType = "String"),
             @ApiImplicitParam(paramType = "query",name = "page",value = "当前页",dataType = "Integer"),
             @ApiImplicitParam(paramType = "query",name = "limit",value = "每一页显示数据",dataType = "Integer")
@@ -48,7 +48,7 @@ public class UserController {
             return new Result<PageUtils>().error("page,当前页数不能为null");
         }
         if(!StringUtils.isNotEmpty((String) map.get("limit"))){
-            return new Result<PageUtils>().error("page,当前页数不能为null");
+            return new Result<PageUtils>().error("page,每一页显示条数不能为null");
         }
         System.out.println(map);
         PageUtils search = userManagementService.search(map);
@@ -58,7 +58,7 @@ public class UserController {
     @ApiOperation("批量/删除")
     @DeleteMapping("/deleteByIds")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "body",name = "username",value = "用户名",dataType = "String")
+            @ApiImplicitParam(paramType = "body",name = "ids",value = "用户id",dataType = "Array")
     })
     public Result deleteByIds(@RequestBody @ApiIgnore List<String> ids)throws Exception{
         if(ids.size()==0){
@@ -117,7 +117,7 @@ public class UserController {
     public Result updateStatus(@PathVariable("id")String id,
                                @PathVariable("status")Integer status,
                                @PathVariable("version")Integer version){
-        UserManagement userManagement = userManagementService.queryById(id, version);
+        UserManagement userManagement = userManagementService.queryById(id,version);
         if(userManagement==null){
             return new Result().error("该用户已被修改,请勿重复发送请求");
         }

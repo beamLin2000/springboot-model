@@ -64,16 +64,17 @@ public class EventServiceImpl extends ServiceImpl<EventMapper, EventManagement> 
     @Override
     public Integer updateData(EventManagement eventManagement) {
         EventManagement eventManagement1 = selectById(eventManagement.getId());
-        if(eventManagement1!=null&&eventManagement.getVersion()==eventManagement1.getVersion()){
+        if(eventManagement1!=null&&eventManagement.getVersion()!=eventManagement1.getVersion()){
             return -1;
         }
-        return eventMapper.updateById(eventManagement);
+        eventManagement.setVersion(eventManagement.getVersion()+1);
+        return eventMapper.update(eventManagement,new QueryWrapper<EventManagement>().eq("id",eventManagement.getId()).eq("version",eventManagement.getVersion()-1));
     }
 
     @Override
     public EventManagement queryByIdAndVersion(String id, Integer version) {
-        return eventMapper.selectOne(new QueryWrapper<EventManagement>().eq(true,"id",id)
-                                    .eq(true,"version",version));
+        return eventMapper.selectOne(new QueryWrapper<EventManagement>().eq("id",id)
+                                    .eq("version",version));
     }
 
 

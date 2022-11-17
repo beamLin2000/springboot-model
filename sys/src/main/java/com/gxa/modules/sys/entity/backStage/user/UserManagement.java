@@ -26,7 +26,7 @@ public class UserManagement {
     private String userName;
 
     @ApiModelProperty(name = "headImg",value = "头像",dataType = "String")
-    @TableField("head_location")
+    @TableField("head_portrait")
     private String headImg;
 
     @ApiModelProperty(name = "phoneNumber",value = "电话",dataType = "String")
@@ -40,10 +40,6 @@ public class UserManagement {
     @ApiModelProperty(name = "createTime",value = "加入时间",dataType = "String")
     @TableField("create_time")
     private String createTime;
-
-    @TableField(exist = false)
-    @ApiModelProperty(name = "tUserId",value = "当前用户id",dataType = "String")
-    private String tUserId;
 
     @TableField("version")
     @ApiModelProperty(name ="version",value = "版本号",dataType = "Integer")

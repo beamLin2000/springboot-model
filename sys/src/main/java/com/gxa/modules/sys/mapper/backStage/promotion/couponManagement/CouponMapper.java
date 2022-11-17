@@ -29,6 +29,8 @@ public interface CouponMapper extends BaseMapper<CouponManagement> {
 
     void edit(CouponManagementAll couponManagementAll);
 
+    void updataStatus(String id);
+
     void deleteDrugById(String id);
 
     void deleteClassById(String id);

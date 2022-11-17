@@ -113,6 +113,7 @@ public class CouponManagementController {
     @ApiOperation(value = "保存")
     public Result save(@RequestBody CouponManagerAddAndEdit couponManagementAll){
         this.couponManagementService.add(couponManagementAll);
+
         return new Result().ok();
     }
 

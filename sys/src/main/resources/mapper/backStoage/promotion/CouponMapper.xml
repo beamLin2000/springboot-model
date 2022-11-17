@@ -5,7 +5,7 @@
 <mapper namespace="com.gxa.modules.sys.mapper.backStage.promotion.couponManagement.CouponMapper">
 
     <insert id="add">
-        INSERT INTO promotion_coupon_management (id, coupon_type, coupon_name, coupon_describe,coupon_money,expiration_date, use_threshold, total_circulation,limited_collar,use_members,usable_goods)
+        INSERT INTO promotion_coupon_management (id, coupon_type, coupon_name, coupon_describe,coupon_money,expiration_date, use_threshold, total_circulation,limited_collar,use_members,usable_goods,version_id)
         value (#{couponManagementAll.id},
                #{couponManagementAll.couponType},
                #{couponManagementAll.couponName},
@@ -16,7 +16,7 @@
                #{couponManagementAll.totalCirculation},
                #{couponManagementAll.limitedCollar},
                #{couponManagementAll.useMembers},
-               #{couponManagementAll.usableGoods})
+               #{couponManagementAll.usableGoods},1)
     </insert>
     <insert id="couponAddDrug">
         INSERT INTO promotion_coupon_add_drug
@@ -40,6 +40,7 @@
             `coupon_type` = #{couponType},
             `use_threshold` = #{useThreshold},
             `status` = #{status},
+            `expiration_date` = #{expirationDate},
             `get_threshold` = #{getThreshold},
             `amount_issued` = #{amountIssued},
             `received` = #{received},
@@ -50,6 +51,12 @@
             `version_id` = `version_id` + 1
         Where
             id = #{id} and version_id = #{versionId}
+    </update>
+    <update id="updataStatus">
+        UPDATE promotion_coupon_management set
+               `status` = "已过期"
+       Where
+                   id = #{id}
     </update>
     <delete id="deleteDrugById">
         DELETE FROM promotion_coupon_add_drug WHERE coupon_manager_id = #{id}
@@ -62,7 +69,7 @@
     <select id="queryById"
             resultType="com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll">
         SELECT
-            `coupon_name`,`coupon_money`,`coupon_type`,`use_threshold`,`status`,`amount_issued`,usable_goods,
+            `id`,`coupon_name`,`coupon_money`,`coupon_type`,`use_threshold`,`status`,`amount_issued`,usable_goods,`expiration_date`,
             `received`,`unclaimed`,`not_used`,`use_issued`,`version_id`
         FROM promotion_coupon_management WHERE id = #{id}
     </select>
