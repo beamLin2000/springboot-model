@@ -41,7 +41,7 @@ public class LoginController {
     @Autowired
     private UserTokenService userTokenService;
 
-    @ApiOperation("验证码")
+    @ApiOperation("前台用户手机号获取验证码")
     @GetMapping("/login/code/{phoneNum}")
     @ApiImplicitParam(paramType = "query",name = "phoneNum",value ="手机号",dataType ="String",required = true)
     public Result sendCode(@RequestParam("phoneNum") String phoneNum) throws Exception {
@@ -49,7 +49,7 @@ public class LoginController {
         userTokenService.createToken(phoneNum,captcha);
         return new Result<>().ok();
     }
-    @ApiOperation(value="前端用户登录接口")
+    @ApiOperation(value="前台用户手机号登录接口")
     @PostMapping("/login")
     public Result login(@RequestBody NoseUserForm noseUserForm) throws Exception {
         AssertUtils.isNull(noseUserForm,"手机号或验证码不能为空");
@@ -74,6 +74,7 @@ public class LoginController {
         }
         Map map = new HashMap();
         map.put("token",result.getData());
+        map.put("phoneNumber",noseUserForm.getPhone());
         return new Result().ok(map);
     }
     @ApiOperation(value="后台登录接口")

@@ -7,4 +7,7 @@
     <update id="updataForPay">
         update `order` set order_status='待发货',order_payTime=#{payTime} where order_no = #{orderNo}
     </update>
+    <update id="updatePrescription" >
+        update t_shopping_cart set shopp_state=#{status} where order_no=#{orderNo}
+    </update>
 </mapper>

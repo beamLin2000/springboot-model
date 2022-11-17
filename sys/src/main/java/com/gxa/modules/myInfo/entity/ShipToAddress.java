@@ -15,7 +15,7 @@ public class ShipToAddress {
     @ApiModelProperty(hidden = true)
     @TableField("t_user_id")
     private Integer userId;
-    @ApiModelProperty(hidden = true)
+
     @TableField("id")
     private String id;
     @TableField("consignee")

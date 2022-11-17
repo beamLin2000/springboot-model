@@ -9,4 +9,5 @@ import java.util.Date;
 @Mapper
 public interface OrderPayMapper  {
     Boolean updataForPay(@Param("payTime") Date payTime, @Param("orderNo")String orderNo);
+    void updatePrescription(@Param("orderNo") String orderNo, @Param("status") Integer status);
 }

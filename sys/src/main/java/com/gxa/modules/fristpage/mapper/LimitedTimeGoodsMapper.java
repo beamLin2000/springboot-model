@@ -12,6 +12,6 @@ import java.util.List;
 
 @Mapper
 public interface LimitedTimeGoodsMapper extends BaseMapper<LimitedTimeGoods> {
-    List<LimitedTimeGoods>  queryone();
+    List<LimitedTimeGoods>  queryone(String status);
     Integer queryStockByName(@Param("name") String name, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
 }

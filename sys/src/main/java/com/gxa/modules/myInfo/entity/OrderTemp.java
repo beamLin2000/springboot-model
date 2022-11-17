@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class OrderTemp {
     private String url;
     private Integer num;
+    private String name;
+    private Double price;
 }

@@ -32,4 +32,27 @@ public class NewAddressServiceImpl implements NewAddressService {
         return shipToAddresses;
     }
 
+    @Override
+    public ShipToAddress editPreAddress(String id) {
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("id",id);
+        ShipToAddress shipToAddress = this.newAddressMapper.selectOne(wrapper);
+        return shipToAddress;
+    }
+
+    @Override
+    public void editAddress(ShipToAddress shipToAddress) {
+        UpdateWrapper updateWrapper = new UpdateWrapper();
+        updateWrapper.eq("id",shipToAddress.getId());
+        this.newAddressMapper.update(shipToAddress,updateWrapper);
+
+    }
+
+    @Override
+    public void delAddress(String id) {
+        UpdateWrapper wrapper = new UpdateWrapper();
+        wrapper.eq("id",id);
+        this.newAddressMapper.delete(wrapper);
+    }
+
 }

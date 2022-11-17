@@ -10,6 +10,8 @@
     <resultMap id="ordertemp" type="com.gxa.modules.myInfo.entity.OrderTemp">
         <result property="num" column="quantity"></result>
         <result property="url" column="picture_url"></result>
+        <result property="price" column="price"></result>
+        <result property="name" column="drug_name"></result>
     </resultMap>
 
     <select id="queryByStatus" resultMap="waitpayorder">
@@ -19,7 +21,7 @@
     </select>
     <select id="queryByIdAndStatus" resultMap="ordertemp">
 
-    select d.picture_url,sc.quantity
+    select d.picture_url,sc.quantity,d.price,d.drug_name
     from drug d,t_shopping_cart sc
     where d.id = sc.d_id and sc.order_no=#{orderNo}
     </select>

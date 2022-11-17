@@ -7,7 +7,7 @@
         <result property="name" column="coupon_name"></result>
         <result property="couponPrice" column="coupon_money"></result>
         <result property="expirationDate" column="expiration_date"></result>
-        <result property="usableGoods" column="usable_goods"></result>
+        <result property="usableGoods" column="coupon_describe"></result>
         <result property="usethreshold" column="use_threshold"></result>
     </resultMap>
     <select id="queryByStatus" resultMap="coupon">

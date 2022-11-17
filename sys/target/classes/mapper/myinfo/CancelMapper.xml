@@ -3,9 +3,32 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gxa.modules.myInfo.mapper.CancelMapper">
-
+    <resultMap id="refundinfo" type="com.gxa.modules.myInfo.entity.RefundInfo">
+        <result property="price" column="refund_amount"></result>
+        <result property="orderNo" column="order_no"></result>
+        <result property="status" column="refund_status"></result>
+        <result property="applicationTime" column="application_time"></result>
+        <result property="operationTime" column="operation_time"></result>
+        <result property="renson" column="refund_reason"></result>
+        <collection property="orderTemp" ofType="com.gxa.modules.myInfo.entity.OrderTemp">
+            <result property="name" column="drug_name"></result>
+            <result property="price" column="price"></result>
+            <result property="url" column="picture_url"></result>
+            <result property="num" column="quantity"></result>
+        </collection>
+    </resultMap>
 
     <delete id="deleteByOrder">
         delete from `order` where order_no=#{orderNo}
     </delete>
+    <select id="refunfInfo" resultMap="refundinfo">
+        select o.refund_status,o.refund_amount,d.picture_url,sc.quantity,d.price,d.drug_name,o.application_time
+        ,o.operation_time,o.order_no,o.application_no,o.refund_reason
+        from `order` o,drug d ,t_shopping_cart sc
+        where o.order_no=sc.order_no and sc.d_id=d.id and o.order_no=#{orderNo}
+    </select>
+    <update id="updatePrescription" >
+        update t_shopping_cart set shopp_state=#{status} where order_no=#{orderNo}
+    </update>
+
 </mapper>

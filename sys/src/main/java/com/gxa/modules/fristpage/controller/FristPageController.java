@@ -102,8 +102,8 @@ public class FristPageController {
     @ApiOperation(value="限时购接口")
     @GetMapping("/limitedTimePurchase")
 
-    public Result limitedTimePurchase(){
-        List<LimitedTimeGoods> queryoen = this.limitedTimeGoodsService.queryoen();
+    public Result limitedTimePurchase(@RequestParam("status") String status){
+        List<LimitedTimeGoods> queryoen = this.limitedTimeGoodsService.queryoen(status);
 
         return new Result().ok(queryoen);
     }

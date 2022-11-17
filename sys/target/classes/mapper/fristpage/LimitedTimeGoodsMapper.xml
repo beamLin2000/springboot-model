@@ -15,7 +15,7 @@
     <select id="queryone" resultMap="limitedtimeGoods">
         SELECT d.drug_name,d.picture_url,d.price,p.second_kill_price,p.sec_kill_numbers,p.activity_time_start,p.activity_time_end
         FROM promotion_limited_time_flash_deal p,drug d
-        WHERE p.drug_code = d.id  AND p.`status`='进行中'
+        WHERE p.drug_code = d.id  AND p.`status`=#{status}
     </select>
     <select id="queryStockByName" resultType="java.lang.Integer">
         SELECT count(o.id)

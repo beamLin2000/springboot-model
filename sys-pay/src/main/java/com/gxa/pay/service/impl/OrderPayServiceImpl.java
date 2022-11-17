@@ -18,6 +18,7 @@ public class OrderPayServiceImpl implements OrderPayService {
         if (!aBoolean){
             throw new RuntimeException("支付失败");
         }
+        this.orderPayMapper.updatePrescription(orderNo,5);
         return aBoolean;
     }
 }

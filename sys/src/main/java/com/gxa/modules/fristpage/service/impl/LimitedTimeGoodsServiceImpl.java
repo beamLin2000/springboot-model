@@ -11,25 +11,32 @@ import java.util.Map;
 
 @Service
 public class LimitedTimeGoodsServiceImpl implements LimitedTimeGoodsService {
-   @Autowired
+    @Autowired
     private LimitedTimeGoodsMapper limitedTimeGoodsMapper;
 
 
     @Override
-    public List<LimitedTimeGoods> queryoen() {
-        List<LimitedTimeGoods> queryone = this.limitedTimeGoodsMapper.queryone();
-        for (LimitedTimeGoods goods :
-                queryone) {
-            Integer integer = this.limitedTimeGoodsMapper.queryStockByName(goods.getDrugName(), goods.getActivityTime(), goods.getEndTime());
-            int parseInt = Integer.parseInt(goods.getStock());
-            if (integer!=null&&integer!=0){
-                String str = (float)integer/parseInt*100+"";
-                goods.setStock(str);
-            }else {
+    public List<LimitedTimeGoods> queryoen(String status) {
+        List<LimitedTimeGoods> queryone = this.limitedTimeGoodsMapper.queryone(status);
+        if (status.equals("进行中")) {
+            for (LimitedTimeGoods goods :
+                    queryone) {
+                Integer integer = this.limitedTimeGoodsMapper.queryStockByName(goods.getDrugName(), goods.getActivityTime(), goods.getEndTime());
+                int parseInt = Integer.parseInt(goods.getStock());
+                if (integer != null && integer != 0) {
+                    String str = (float) integer / parseInt * 100 + "";
+                    goods.setStock(str);
+                } else {
+                    goods.setStock("0");
+                }
+            }
+        } else {
+            for (LimitedTimeGoods goods :
+                    queryone) {
+                Integer integer = this.limitedTimeGoodsMapper.queryStockByName(goods.getDrugName(), goods.getActivityTime(), goods.getEndTime());
                 goods.setStock("0");
             }
         }
-
         return queryone;
     }
 }
