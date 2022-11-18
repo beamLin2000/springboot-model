@@ -336,7 +336,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1668655795900</updated>
-      <workItem from="1668655799604" duration="15738000" />
+      <workItem from="1668655799604" duration="17743000" />
     </task>
     <task id="LOCAL-00001" summary="11,17,1528">
       <created>1668670182002</created>
@@ -359,7 +359,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668681769960</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="11,18,827">
+      <created>1668731272950</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668731272953</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -400,10 +407,22 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="11,17,1528" />
     <MESSAGE value="11,17,1842" />
-    <option name="LAST_COMMIT_MESSAGE" value="11,17,1842" />
+    <MESSAGE value="11,18,827" />
+    <option name="LAST_COMMIT_MESSAGE" value="11,18,827" />
   </component>
   <component name="VssConfiguration">
     <CheckoutOptions>

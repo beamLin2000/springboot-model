@@ -626,7 +626,7 @@ public class GoodsController {
         //删除Redis中的数据
         for (String i:id
         ) {
-            redisUtils.delete("Assort:"+ Base64Utils.encode(this.medicinalService.getById(i).getCategoryName()));
+            redisUtils.delete("Assort:"+ Base64Utils.encode(this.medicinalService.getById(this.drugService.getById(i).getMedicinalId()).getCategoryName()));
         }
 
         this.drugService.removeByIds(id);
