@@ -22,4 +22,15 @@ public class MyOrderServiceImpl implements MyOrderService {
         }
         return waitPayOrders;
     }
+
+    @Override
+    public List<WaitPayOrder> queryOrderByName(Integer id, String name) {
+        List<WaitPayOrder> waitPayOrders = this.myOrderMapper.queryByStatus(id, name);
+        for (WaitPayOrder order :
+                waitPayOrders) {
+            List<OrderTemp> orderTemps = this.myOrderMapper.queryByIdAndStatus(order.getOrderNo());
+            order.setOrderTemps(orderTemps);
+        }
+        return waitPayOrders;
+    }
 }

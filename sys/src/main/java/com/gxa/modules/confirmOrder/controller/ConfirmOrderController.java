@@ -12,6 +12,7 @@ import com.gxa.modules.login.service.UserTokenService;
 import com.gxa.modules.shoppingCart.dto.ShoppingCartDto;
 import com.gxa.modules.shoppingCart.entity.ShoppingCart;
 import com.gxa.modules.shoppingCart.service.ShoppingCartService;
+import com.gxa.modules.sys.service.promotion.CouponUsageInfoService;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +32,8 @@ import java.util.List;
 @Slf4j
 public class ConfirmOrderController {
 
+    @Autowired
+    private CouponUsageInfoService couponUsageInfoService;
     @Autowired
     private ConfirmOrderService confirmOrderService;
 
@@ -75,6 +78,7 @@ public class ConfirmOrderController {
         for (ShoppingCart shoppingCart:form.getShoppingCart()){
             this.shoppingCartService.addShoppingCar(shoppingCart);
         }
+
 
 
         return new Result().ok();

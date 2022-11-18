@@ -26,6 +26,10 @@ public class DrugUserInfo {
     @TableField("user_id")
     private Integer userId;//关联用户表
 
+    @ApiModelProperty(name = "real_name",value = "实名状态",dataType = "String",required = true)
+    @TableField("real_name")
+    private String realName;//用药人姓名
+
     @ApiModelProperty(name = "drugUserName",value = "用药人姓名",dataType = "String",required = true)
     @TableField("drug_user_name")
     private String drugUserName;//用药人姓名
@@ -50,6 +54,10 @@ public class DrugUserInfo {
     @TableField("phone")
     private String phone;//电话
 
+    @ApiModelProperty(name = "age",value = "年龄",dataType = "Integer",required = true)
+    @TableField("age")
+    private Integer age;//电话
+
     @ApiModelProperty(name = "allergyHistory",value = "过敏史,0就是无，1就是有",dataType = "Integer",required = true)
     @TableField("allergy_history")
     private Integer allergyHistory;//过敏史,0就是无，1就是有
@@ -73,7 +81,4 @@ public class DrugUserInfo {
     @ApiModelProperty(name = "version",value = "版本号",dataType = "Integer",required = false)
     @TableField("version")
     private Integer version;//版本号
-
-    @ApiModelProperty(name = "medical_record",value = "版本号",dataType = "String",required = false)
-    private String medicalRecord;//版本号
 }

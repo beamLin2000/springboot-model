@@ -5,15 +5,19 @@
 <mapper namespace="com.gxa.modules.order.mapper.OrderDetailMapper">
 
     <resultMap id="orderDetailDto" type="com.gxa.modules.order.dto.OrderDetailDto">
-        <result property="orderNo" column="order_no"></result>
+        <result property="orderNo" column="order_no" jdbcType="VARCHAR"></result>
         <result property="orderAmount" column="order_amount"></result>
         <result property="orderStatus" column="order_status"></result>
         <result property="orderCancelTime" column="order_cancelTime"></result>
         <result property="payMethod" column="pay_method"></result>
+
+        <result property="cancelTime" column="cancel_time"></result>
+
         <result property="order_payTime" column="order_payTime"></result>
-        <result property="realName" column="real_name"></result>
+        <result property="realName" column="consignee"></result>
         <result property="phoneNumber" column="phone_number"></result>
-        <result property="loc" column="loc"></result>
+        <result property="loc" column="address"></result>
+
         <result property="expressName" column="express_name"></result>
         <result property="expressNo" column="express_no"></result>
         <result property="drugUserName" column="drug_user_name"></result>
@@ -29,10 +33,55 @@
         </collection>
     </resultMap>
 
-    <select id="queryOrderDetailByOrderNo" resultMap="orderDetailDto">
-        SELECT r.order_no,r.order_amount,r.order_status,r.order_cancelTime,r.pay_method,r.order_payTime,d.drug_name,d.picture_url,d.specifications,d.price,tsc.quantity,u.real_name,u.phone_number,u.loc,e.express_name,ed.express_no,du.drug_user_name,du.gender,du.age,p.medical_record
-        FROM `order` r,t_user u,drug d,prescription p,express e,express_detail ed,drug_user_info du,t_shopping_cart tsc
-        WHERE r.user_id=u.id AND r.prescription_id=p.id AND r.express_detail_id=ed.id AND ed.express_id=e.id AND p.drug_user_info_id=du.id AND tsc.order_no=r.order_no AND tsc.d_id=d.id
+
+    <select id="queryOrderWaitDetailByOrderNo" resultMap="orderDetailDto">
+        SELECT DISTINCT r.order_no,r.order_amount,r.order_status,r.order_createTime,r.pay_method,r.order_payTime,
+						d.drug_name,d.picture_url,d.specifications,d.price,tsc.quantity,
+						pa.consignee,pa.phone_number,pa.address,
+						du.drug_user_name,du.gender,du.age,p.medical_record
+		FROM `order` r,t_shopping_cart tsc,prescription p,drug_user_info du,drug d,express_detail ed,express e,promotion_user_management_address pa
+		WHERE tsc.order_no=r.order_no AND tsc.d_id=d.id AND tsc.prescription_id=p.id AND p.drug_user_info_id=du.id AND r.address_id=pa.id
 		AND r.order_no=#{orderNo}
     </select>
+    <select id="queryOrderCompleteDetailByOrderNo" resultMap="orderDetailDto">
+        SELECT DISTINCT r.order_no,r.order_amount,r.order_status,r.order_createTime,r.pay_method,r.order_payTime,r.cancel_time,
+						d.drug_name,d.picture_url,d.specifications,d.price,tsc.quantity,
+						pa.consignee,pa.phone_number,pa.address,
+						e.express_name,ed.express_no,
+						du.drug_user_name,du.gender,du.age,p.medical_record
+		FROM `order` r,t_shopping_cart tsc,prescription p,drug_user_info du,drug d,express_detail ed,express e,promotion_user_management_address pa
+		WHERE tsc.order_no=r.order_no AND tsc.d_id=d.id AND tsc.prescription_id=p.id AND p.drug_user_info_id=du.id AND r.address_id=pa.id
+		AND e.id=ed.express_id AND ed.order_no=r.order_no
+		AND r.order_no=#{orderNo}
+    </select>
+    <select id="queryOrderCancelDetailByOrderNo" resultMap="orderDetailDto">
+        SELECT DISTINCT r.order_no,r.order_amount,r.order_status,r.order_createTime,r.cancel_time,
+						d.drug_name,d.picture_url,d.specifications,d.price,tsc.quantity,
+						pa.consignee,pa.phone_number,pa.address,
+						du.drug_user_name,du.gender,du.age,p.medical_record
+		FROM `order` r,t_shopping_cart tsc,prescription p,drug_user_info du,drug d,express_detail ed,express e,promotion_user_management_address pa
+		WHERE tsc.order_no=r.order_no AND tsc.d_id=d.id AND tsc.prescription_id=p.id AND p.drug_user_info_id=du.id AND r.address_id=pa.id
+		AND r.order_no=#{orderNo}
+    </select>
+    <select id="queryOrderRefundDetailByOrderNo" resultMap="orderDetailDto">
+        SELECT DISTINCT r.order_no,r.order_amount,r.order_status,r.order_createTime,r.pay_method,r.order_payTime,r.application_no,r.refund_reason,
+						r.refund_amount,r.application_time,
+						d.drug_name,d.picture_url,d.specifications,d.price,tsc.quantity,
+						pa.consignee,pa.phone_number,pa.address,
+						du.drug_user_name,du.gender,du.age,p.medical_record
+		FROM `order` r,t_shopping_cart tsc,prescription p,drug_user_info du,drug d,express_detail ed,express e,promotion_user_management_address pa
+		WHERE tsc.order_no=r.order_no AND tsc.d_id=d.id AND tsc.prescription_id=p.id AND p.drug_user_info_id=du.id AND r.address_id=pa.id
+		AND r.order_no=#{orderNo}
+    </select>
+    <select id="queryOrderWaitPayDetailByOrderNo" resultMap="orderDetailDto">
+        SELECT DISTINCT r.order_no,r.order_amount,r.order_status,r.order_createTime,
+						d.drug_name,d.picture_url,d.specifications,d.price,tsc.quantity,
+						pa.consignee,pa.phone_number,pa.address,
+						du.drug_user_name,du.gender,du.age,p.medical_record
+		FROM `order` r,t_shopping_cart tsc,prescription p,drug_user_info du,drug d,express_detail ed,express e,promotion_user_management_address pa
+		WHERE tsc.order_no=r.order_no AND tsc.d_id=d.id AND tsc.prescription_id=p.id AND p.drug_user_info_id=du.id AND r.address_id=pa.id
+		AND r.order_no=#{orderNo}
+    </select>
+
+
 </mapper>

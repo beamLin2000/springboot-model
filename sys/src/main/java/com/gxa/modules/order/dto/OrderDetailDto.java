@@ -28,6 +28,10 @@ public class OrderDetailDto {
     @ApiModelProperty(value = "订单支付时间")
     private Date order_payTime;
 
+    @ApiModelProperty(value = "订单取消时间")
+    private Date cancelTime;
+
+
     @ApiModelProperty(value = "收货人姓名")
     private String realName;
     @ApiModelProperty(value = "收货人电话")

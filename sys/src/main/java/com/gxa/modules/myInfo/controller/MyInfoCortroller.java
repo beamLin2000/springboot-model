@@ -62,6 +62,16 @@ public class MyInfoCortroller {
         List<WaitPayOrder> waitPayOrders = this.myOrderService.queryOrder(user.getId(), status);
         return new Result().ok(waitPayOrders);
     }
+    @ApiOperation("搜索订单")
+    @GetMapping("/queryOrder")
+    public Result queryOrder(HttpServletRequest request,@RequestParam("name") String neam){
+        String token = request.getHeader("token");
+        User user = this.userTokenService.validateUserToken(token);
+        log.info(neam);
+        System.out.println(user);
+        List<WaitPayOrder> waitPayOrders = this.myOrderService.queryOrderByName(user.getId(), neam);
+        return new Result().ok(waitPayOrders);
+    }
     @ApiOperation("取消订单")
     @GetMapping("/cancelorder")
     public Result cancelOrder(HttpServletRequest request,@RequestParam("orderNo") String orderNo){

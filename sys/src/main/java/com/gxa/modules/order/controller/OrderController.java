@@ -33,9 +33,11 @@ public class OrderController {
     }
     )
     @PostMapping("/drugOrderList")
-    public Result drugOrderList(@RequestParam @ApiIgnore Map<String,Object> params){
+    public Result drugOrderList(@RequestParam         @ApiIgnore Map<String,Object> params){
         Integer page = Integer.parseInt(params.get("page").toString());
+        System.out.println(page);
         Integer limit = Integer.parseInt(params.get("limit").toString());
+        System.out.println(limit);
         String orderStatus = params.get("orderStatus").toString();
         String orderNo = params.get("orderNo").toString();
         String start = params.get("startTime").toString();
@@ -114,14 +116,17 @@ public class OrderController {
     @ApiOperation(value="查看订单详细接口")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query",name = "orderNo",value ="订单编号",dataType ="String"),
+            @ApiImplicitParam(paramType = "query",name = "orderStatus",value ="订单状态",dataType ="String"),
     }
     )
     @PostMapping("/drugOrderDetail")
     public Result drugOrderDetail(@RequestParam @ApiIgnore Map<String,Object> params){
 
         String orderNo = params.get("orderNo").toString();
+        String orderStatus = params.get("orderStatus").toString();
+        System.out.println(orderStatus);
 
-        OrderDetailDto orderDetailDto = this.orderService.queryOrderDetailByOrderNo(orderNo);
+        OrderDetailDto orderDetailDto = this.orderService.queryOrderDetailByOrderNo(orderNo,orderStatus);
 
         Map map = new HashMap();
         map.put("orderDetailDto",orderDetailDto);
@@ -194,10 +199,10 @@ public class OrderController {
 
         String orderNo = params.get("orderNo").toString();
 
-        ExpressDetail expressDetail = this.orderService.queryExpressDetailByOrderNo(orderNo);
+        List<ExpressDetailDto> expressDetailDtos = this.orderService.queryExpressDetailByOrderNo(orderNo);
 
         Map map = new HashMap();
-        map.put("expressDetail",expressDetail);
+        map.put("expressDetail",expressDetailDtos);
 
         return new Result().ok(map);
     }
@@ -216,8 +221,10 @@ public class OrderController {
         String refundMark = params.get("refundMark").toString();
         String refundStatus = params.get("refundStatus").toString();
 
+        Date date = new Date();
+
         try {
-            this.orderService.updateRefundStatusByApplicationNo(applicationNo,refundMark,refundStatus);
+            this.orderService.updateRefundStatusByApplicationNo(applicationNo,refundMark,refundStatus,date);
         } catch (Exception e) {
             e.printStackTrace();
             return new Result().error();

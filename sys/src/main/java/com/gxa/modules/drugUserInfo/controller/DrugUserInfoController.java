@@ -39,8 +39,11 @@ public class DrugUserInfoController {
     @GetMapping("/drugUserInfo/list02")
     public Result drugUserInfoList02(HttpServletRequest request) {
         String token = request.getHeader("token");
-        User user = this.userTokenService.validateUserToken(token);
+        User user = this.userTokenService.validateToken(token);
+        System.out.println("user==============="+user);
         List<DrugUserInfo> drugUserInfos = this.drugUserInfoService.selectDrugUserInfoP(user.getId());
+
+
 
 
         return new Result().ok(drugUserInfos);

@@ -1,6 +1,8 @@
 package com.gxa.common.utils;
 
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,7 @@ import java.util.concurrent.TimeUnit;
  * Redis工具类
  *
  */
+@Slf4j
 @Component
 public class RedisUtils {
     @Autowired
@@ -43,14 +46,15 @@ public class RedisUtils {
         set(key, value, DEFAULT_EXPIRE);
     }
 
-
-
     public void set(String key,List<String> value){
         System.out.println(key);
         for (String v:value){
             listOperations.rightPush(key,v);
         }
     }
+
+
+
 
     public <T> T get(String key, Class<T> clazz, long expire) {
         String value = valueOperations.get(key);
@@ -76,9 +80,19 @@ public class RedisUtils {
         return get(key, NOT_EXPIRE);
     }
 
+    public List<Object> getList(String key,Integer start,Integer end){
+        System.out.println(key);
+        List<Object> range = listOperations.range(key,0,-1);
+
+        return range;
+    }
+
+
+
     public void delete(String key) {
         redisTemplate.delete(key);
     }
+
 
     /**
      * Object转成JSON数据
@@ -90,17 +104,13 @@ public class RedisUtils {
         }
         return gson.toJson(object);
     }
-    public List<Object> getList(String key, Integer start, Integer end){
-        System.out.println(key);
-        List<Object> range = listOperations.range(key, 0, -1);
-
-        return range;
-    }
     /**
      * JSON数据，转成Object
      */
     private <T> T fromJson(String json, Class<T> clazz){
         return gson.fromJson(json, clazz);
     }
+
+
 }
  

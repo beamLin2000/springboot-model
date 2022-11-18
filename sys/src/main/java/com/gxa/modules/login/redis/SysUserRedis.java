@@ -1,5 +1,6 @@
 package com.gxa.modules.login.redis;
 
+import com.gxa.common.utils.Base64Utils;
 import com.gxa.common.utils.JsonUtils;
 import com.gxa.common.utils.RedisKeys;
 import com.gxa.common.utils.RedisUtils;
@@ -39,6 +40,7 @@ public class SysUserRedis {
         String userJsonStr = this.redisUtils.get(RedisKeys.getSysUserTokenKey(token));
         System.out.println(userJsonStr);
         User user = JsonUtils.parseObject(userJsonStr, User.class);
+
         return user;
     }
     public void addSysToken(String token, SysUser sysUser){

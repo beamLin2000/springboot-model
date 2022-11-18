@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface MyOrderService {
     List<WaitPayOrder> queryOrder(Integer id,String status);
+    List<WaitPayOrder> queryOrderByName(Integer id,String name);
 
 }

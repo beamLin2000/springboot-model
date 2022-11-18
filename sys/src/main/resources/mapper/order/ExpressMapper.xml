@@ -3,17 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gxa.modules.order.mapper.ExpressMapper">
-    <resultMap id="expressDetail" type="com.gxa.modules.order.entity.ExpressDetail">
-        <result property="expressDate" column=""></result>
+    <resultMap id="expressDetail" type="com.gxa.modules.order.dto.ExpressDetailDto">
+        <result property="expressDate" column="express_date"></result>
         <result property="expressContent" column="express_content"></result>
     </resultMap>
 
     <insert id="insertExpressDetail" keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO express_detail (express_date,express_content,express_id,express_no) VALUES (#{expressDate},'订单开始处理',#{expressId},#{orderNo})
+        INSERT INTO express_detail (express_date,express_content,express_id,express_no,order_no) VALUES (#{expressDate},'订单开始处理',#{expressId},#{expressNo},#{orderNo})
     </insert>
     <select id="selectExpressDetailByOrderNo" resultMap="expressDetail">
         SELECT ed.express_date,ed.express_content
 		FROM express_detail ed,`order` r
-		WHERE r.express_detail_id=ed.id AND r.order_no=#{orderNo}
+		WHERE r.order_no=ed.order_no AND r.order_no=#{orderNo}
     </select>
 </mapper>

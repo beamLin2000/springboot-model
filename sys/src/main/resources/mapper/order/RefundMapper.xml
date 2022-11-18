@@ -28,7 +28,7 @@
     </resultMap>
     <update id="updateRefundStatusByApplicationNo">
         UPDATE `order`
-		SET refund_status=#{refundStatus},refund_mark=#{refundMark},r.refund_status=#{orderStatus}
+		SET refund_status=#{refundStatus},refund_mark=#{refundMark},order_status=#{orderStatus},operation_time=#{date}
 		WHERE application_no=#{applicationNo}
     </update>
 
@@ -38,18 +38,20 @@
         FROM `order` r,t_user u
         WHERE r.user_id=u.id
         <choose>
-            <when test="refundStatus = null or refundStatus=''">
+            <when test="refundStatus == null or refundStatus==''">
                 AND (r.refund_status='待处理' OR r.refund_status='已处理' or r.refund_status='已拒绝')
             </when>
             <otherwise>
                 AND r.refund_status=#{refundStatus}
             </otherwise>
         </choose>
+
+
         <if test="orderNo != null and orderNo !=''">
-            AND r.order_no=#{orderNo}
+            AND r.order_no LIKE CONCAT('%',#{orderNo},'%')
         </if>
         <if test="startDate != null and endDate != null">
-            AND order_payTime BETWEEN #{startDate} AND #{endDate}
+            AND r.application_time BETWEEN #{startDate} AND #{endDate}
         </if>
     </select>
     <select id="queryRefundDetailByApplicationNo" resultMap="refundDetailDto">

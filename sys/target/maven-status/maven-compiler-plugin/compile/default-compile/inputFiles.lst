@@ -77,6 +77,7 @@ D:\git-demo\重试\sys\src\main\java\com\gxa\modules\shoppingCart\dto\ShoppingCa
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\sys\form\backstage\userManagement\Search.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\goods\goodsService\SymptomService.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\goods\goodsForm\MedicinalForm.java
+D:\git-demo\重试\sys\src\main\java\com\gxa\modules\order\dto\ExpressDetailDto.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\confirmOrder\service\ConfirmOrderService.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\fristpage\service\HeadPictureService.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\homepage\mapper\PendingMapper.java

@@ -16,5 +16,6 @@ public class ExpressDetail {
     private Date expressDate;
     private String expressContent;
     private Integer expressId;
+    private String expressNo;
     private String orderNo;
 }
