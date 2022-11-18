@@ -78,6 +78,7 @@ public class CarouselController {
         Date date = new Date();
         date.setTime(date.getTime());
         carousel.setDate(date);
+        System.out.println("carousel==================="+carousel);
         this.carouselService.carouselAdd(carousel);
         return new Result().ok();
     }

@@ -13,4 +13,7 @@ public interface DrugUserInfoService extends IService<DrugUserInfo> {
     DrugUserInfo selectById(Integer id);
     int id();
 
+
+    List<DrugUserInfo> selectDrugUserInfoP(Integer userId);
+
 }

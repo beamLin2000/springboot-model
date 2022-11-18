@@ -11,4 +11,5 @@ import java.util.List;
 @Mapper
 public interface CarouselMapper extends BaseMapper<Carousel> {
         void deleteByidBatch(List<Carousel> carousel);
+        int selectId();
 }

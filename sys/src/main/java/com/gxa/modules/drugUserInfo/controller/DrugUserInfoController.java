@@ -4,12 +4,15 @@ package com.gxa.modules.drugUserInfo.controller;
 import com.gxa.common.utils.Result;
 import com.gxa.modules.drugUserInfo.entity.DrugUserInfo;
 import com.gxa.modules.drugUserInfo.service.DrugUserInfoService;
+import com.gxa.modules.login.entity.User;
+import com.gxa.modules.login.service.UserTokenService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -22,16 +25,23 @@ public class DrugUserInfoController {
     @Autowired
     private DrugUserInfoService drugUserInfoService;
 
+    @Autowired
+    private UserTokenService userTokenService;
+
+
 
     /**
      *
-     * @param userId
+     * @param
      * @return
      */
     @ApiOperation("用户下的所有用药人")
     @GetMapping("/drugUserInfo/list02")
-    public Result drugUserInfoList02(@RequestParam("userId") Integer userId) {
-        List<DrugUserInfo> drugUserInfos = this.drugUserInfoService.drugUserInfoList(userId);
+    public Result drugUserInfoList02(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        User user = this.userTokenService.validateUserToken(token);
+        List<DrugUserInfo> drugUserInfos = this.drugUserInfoService.selectDrugUserInfoP(user.getId());
+
 
         return new Result().ok(drugUserInfos);
     }
@@ -44,8 +54,11 @@ public class DrugUserInfoController {
      */
     @ApiOperation("用药人添加接口")
     @PostMapping("/drugUserInfo/add")
-    public Result drugUserInfoAdd(@RequestBody DrugUserInfo drugUserInfo){
+    public Result drugUserInfoAdd(@RequestBody DrugUserInfo drugUserInfo, HttpServletRequest request){
         drugUserInfo.setVersion(1);
+        String token = request.getHeader("token");
+        User user = this.userTokenService.validateToken(token);
+        drugUserInfo.setUserId(user.getId());
         int i = this.drugUserInfoService.addDrugUserInfo(drugUserInfo);
         if (i != 1){
             return new Result().error("添加失败！！！");

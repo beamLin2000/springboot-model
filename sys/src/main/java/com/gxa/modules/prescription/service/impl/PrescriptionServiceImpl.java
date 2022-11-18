@@ -16,5 +16,6 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     @Override
     public void addPrescription(Prescription prescription) {
         this.prescriptionMapper.addPrescription(prescription);
+
     }
 }

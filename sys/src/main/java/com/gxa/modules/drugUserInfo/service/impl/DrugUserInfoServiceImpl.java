@@ -26,6 +26,9 @@ public class DrugUserInfoServiceImpl extends ServiceImpl<DrugUserInfoMapper, Dru
         return drugUserInfo;
     }
 
+
+
+
     @Override
     public int addDrugUserInfo(DrugUserInfo drugUserInfo) {
 
@@ -69,6 +72,16 @@ public class DrugUserInfoServiceImpl extends ServiceImpl<DrugUserInfoMapper, Dru
     public int id() {
         int id = this.drugUserInfoMapper.id() + 1;
         return id;
+    }
+
+
+
+
+
+    @Override
+    public List<DrugUserInfo> selectDrugUserInfoP(Integer userId) {
+        List<DrugUserInfo> drugUserInfos = this.drugUserInfoMapper.selectDrugUserInfoP(userId);
+        return drugUserInfos;
     }
 
 

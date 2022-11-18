@@ -59,6 +59,7 @@ public class SoppingCartController {
     @ApiOperation("购物车详情接口")
     @GetMapping("/shoppingcart/list01")
     public Result shoppingCartSelect(@RequestParam("userId") Integer userId){
+
         List<ShoppingCartDto> shoppingCarts = this.shoppingCartService.querySpCart(userId);
         return new Result().ok(shoppingCarts);
     }
@@ -71,6 +72,9 @@ public class SoppingCartController {
     @ApiOperation("购物车删除接口")
     @DeleteMapping("/shoppingcart/delete")
     public Result shoppingCartDelete(@RequestBody List<ShoppingCart>shoppingCarts){
+
+        System.out.println("shoppingCarts"+shoppingCarts.toString());
+
         this.shoppingCartService.deleteShoppingBatch(shoppingCarts);
         return new Result().ok();
     }

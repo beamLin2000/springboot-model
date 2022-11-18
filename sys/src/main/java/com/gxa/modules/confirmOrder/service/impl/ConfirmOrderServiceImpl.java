@@ -10,6 +10,7 @@ import com.gxa.modules.confirmOrder.entity.DrugUserInformation;
 import com.gxa.modules.confirmOrder.entity.Order;
 import com.gxa.modules.confirmOrder.mapper.ConfirmOrderMapper;
 import com.gxa.modules.confirmOrder.service.ConfirmOrderService;
+import com.gxa.modules.shoppingCart.entity.ShoppingCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,14 +27,11 @@ public class ConfirmOrderServiceImpl extends ServiceImpl<ConfirmOrderMapper, Ord
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void addOrder(Address address, List<ConfirmOrder> confirmOrders, DrugUserInformation drugUserInformation, Order order) {
+    public void addOrder(Address address, List<ShoppingCart> shoppingCart, DrugUserInformation drugUserInformation, Order order) {
         int plan = this.confirmOrderMapper.addOrder(order);
 
         if (plan != 1){
             throw new RuntimeException("插入失败");
-        }
-        for (ConfirmOrder confirmOrder:confirmOrders){
-            this.confirmOrderMapper.addConfirmOrder(confirmOrder,order.getOrderNo());
         }
 
 

@@ -13,5 +13,7 @@ import java.util.List;
 public interface ShoppingMapper extends BaseMapper<ShoppingCart> {
     List<ShoppingCartDto>querySpCart(Integer userId);
     void deleteShoppingBatch(List<ShoppingCart> shoppingCarts);
+//#{orderNo},#{shoppState},#{prescriptionId}
+    void updateShoppingCar(@Param("shoppingCart") ShoppingCart shoppingCart);
 
 }

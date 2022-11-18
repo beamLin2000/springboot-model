@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxa.modules.myInfo.mapper.UserCouponMapper">
+    <resultMap id="coupon" type="com.gxa.modules.myInfo.entity.Coupon">
+        <result property="name" column="coupon_name"></result>
+        <result property="couponPrice" column="coupon_money"></result>
+        <result property="expirationDate" column="expiration_date"></result>
+        <result property="usableGoods" column="coupon_describe"></result>
+        <result property="usethreshold" column="use_threshold"></result>
+    </resultMap>
+    <select id="queryByStatus" resultMap="coupon">
+        select pcm.coupon_name,pcm.coupon_money,pcm.expiration_date,pcm.coupon_describe,pcm.use_threshold,pcUI.coupon_code
+        from promotion_coupon_management pcm,promotion_couponUsageInformation pcUI
+        where pcm.id=pcUI.coupon_management_id and pcUI.t_user_id=#{userId} and pcUI.current_state=#{status}
+    </select>
+</mapper>

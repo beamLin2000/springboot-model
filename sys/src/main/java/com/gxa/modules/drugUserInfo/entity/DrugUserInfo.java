@@ -73,4 +73,7 @@ public class DrugUserInfo {
     @ApiModelProperty(name = "version",value = "版本号",dataType = "Integer",required = false)
     @TableField("version")
     private Integer version;//版本号
+
+    @ApiModelProperty(name = "medical_record",value = "版本号",dataType = "String",required = false)
+    private String medicalRecord;//版本号
 }

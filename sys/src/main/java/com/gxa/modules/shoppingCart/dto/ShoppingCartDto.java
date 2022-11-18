@@ -15,12 +15,13 @@ public class ShoppingCartDto {
     private Integer id;
     @TableField("d_id")
     private Integer dId;
-    @ApiModelProperty(name = "id",value = "药品名称",dataType = "Integer")
+    @ApiModelProperty(name = "quantity",value = "药品数量",dataType = "String",required = false)
     private Integer quantity;
     @TableField("u_id")
     private Integer uId;
     @TableField("shopp_state")
     private Integer shoppState;
     private Drug drug;
+    private Integer prescriptionId;//处方表
 
 }

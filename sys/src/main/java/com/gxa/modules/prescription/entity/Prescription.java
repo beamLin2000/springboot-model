@@ -16,6 +16,7 @@ public class Prescription {
     @ApiModelProperty(name = "diagnosedDisease",value = "已确诊疾病",dataType = "String",required = true)
     private String diagnosedDisease;//已确诊疾病
 
+
     @ApiModelProperty(name = "usedDrug",value = "是否使用过该药品",dataType = "Integer",required = true)
     private Integer usedDrug;//是否使用过该药品
 

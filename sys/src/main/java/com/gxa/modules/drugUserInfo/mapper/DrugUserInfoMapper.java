@@ -5,6 +5,8 @@ import com.gxa.modules.drugUserInfo.entity.DrugUserInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 
 @Mapper
 public interface DrugUserInfoMapper extends BaseMapper<DrugUserInfo> {
@@ -12,5 +14,6 @@ public interface DrugUserInfoMapper extends BaseMapper<DrugUserInfo> {
     DrugUserInfo queryIdAndVersion(Integer id);
     int updateDrug(@Param("drugUserInfo") DrugUserInfo drugUserInfo);
     int id();
+    List<DrugUserInfo> selectDrugUserInfoP(Integer userId);
 
 }

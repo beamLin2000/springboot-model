@@ -44,6 +44,10 @@ public class ShoppingCartServiceImpl extends ServiceImpl<ShoppingMapper, Shoppin
 
     }
 
+    @Override
+    public void addShoppingCar(ShoppingCart shoppingCart) {
+        this.shoppingMapper.updateShoppingCar(shoppingCart);
+    }
 
 
 }
