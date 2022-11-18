@@ -609,11 +609,15 @@ public class GoodsController {
         return new Result().ok();
     }
 
-    @ApiOperation(value="药品管理，新增药品时返回id，接口")
+    @ApiOperation(value="药品管理，新增药品时返回id,返回药品编码，接口")
     @GetMapping("/drug/insertBackId")
     public Result drugInsertBackId(){
-        String string = UUID.randomUUID().toString();
-        return new Result().ok(string);
+        String id = UUID.randomUUID().toString();
+        String drugCode = UUID.randomUUID().toString();
+        List<String> a = new ArrayList<>();
+        a.add(id);
+        a.add(drugCode);
+        return new Result().ok(a);
     }
 
     @ApiOperation(value="药品管理，批量删除接口")
