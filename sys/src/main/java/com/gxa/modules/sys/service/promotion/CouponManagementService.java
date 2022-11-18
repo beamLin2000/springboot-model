@@ -15,8 +15,18 @@ import java.util.Map;
  * @Version 1.0
  */
 public interface CouponManagementService extends IService<CouponManagement> {
+    /**
+     * 根据条件查询所有，并且分页
+     * @param params
+     * @return
+     */
     PageUtils search(Map<String, Object> params);
 
+    /**
+     * 根据id查询CouponManagementAll
+     * @param id
+     * @return
+     */
     CouponManagementAll searchById(String id);
 
     void deleteByIds(List<String> ids);
@@ -26,6 +36,8 @@ public interface CouponManagementService extends IService<CouponManagement> {
     CouponManagementAll selectById(String id);
 
     void edit(CouponManagementAll couponManagementAll);
+
+    void updateStatus(String id);
 
      String addPre();
 }

@@ -31,6 +31,9 @@ public class ShoppingCart {
     @TableField("u_id")
     private Integer uId;
 
+//    @TableField("shopp_state")
+//    private Integer shoppState;
+
     @ApiModelProperty(name = "shopp_state",value = "商品状态",dataType = "Integer")
     @TableField("shopp_state")
     private Integer shoppState;

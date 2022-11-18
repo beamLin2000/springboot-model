@@ -12,11 +12,17 @@ import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponMan
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponManagementAll;
 import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponUsageInformation;
 import com.gxa.modules.sys.mapper.backStage.promotion.couponManagement.CouponInfoMapper;
+import com.gxa.modules.sys.mapper.backStage.promotion.couponManagement.CouponMapper;
 import com.gxa.modules.sys.service.promotion.CouponUsageInfoService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -31,6 +37,12 @@ public class CouponUsageInfoServiceImpl extends ServiceImpl<CouponInfoMapper, Co
 
     @Autowired
     private CouponInfoMapper couponInfoMapper;
+
+    @Autowired
+    private CouponMapper couponMapper;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     /**
      * @param params
@@ -80,10 +92,17 @@ public class CouponUsageInfoServiceImpl extends ServiceImpl<CouponInfoMapper, Co
      */
     @Override
     public void editCoupons(CouponUsageInformation couponUsageInformation) {
+        List<CouponManagement> couponManagements = couponUsageInformation.getCouponManagements();
+        for (int i = 0; i < couponManagements.size(); i++) {
+            if (couponManagements.get(i).getStatus().equals("已过期")){
+                couponUsageInformation.setCurrentState("已失效");
+                this.couponInfoMapper.editCoupons(couponUsageInformation);
+            }
+
+        }
         couponUsageInformation.setCurrentState("已使用");
         this.couponInfoMapper.editCoupons(couponUsageInformation);
     }
-
 
     /**
      * 查看所有优惠券

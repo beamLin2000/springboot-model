@@ -11,9 +11,16 @@ import com.gxa.modules.sys.mapper.backStage.promotion.couponManagement.CouponMap
 import com.gxa.modules.sys.service.promotion.CouponManagementService;
 import com.gxa.modules.sys.service.promotion.CouponUsageInfoService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -32,6 +39,9 @@ public class CouponManagementServiceImpl extends ServiceImpl<CouponMapper, Coupo
     @Autowired
     private CouponUsageInfoService couponUsageInfoService;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
     /**
      * 根据条件查询，分页查询，模糊查询
      *
@@ -43,7 +53,6 @@ public class CouponManagementServiceImpl extends ServiceImpl<CouponMapper, Coupo
         //获取条件
         String couponName = (String) params.get("couponName");
         String couponType = (String) params.get("couponType");
-
 
         IPage<CouponManagement> couponManagementIPage = this.page(new Query<CouponManagement>().getPage(params),
                 new QueryWrapper<CouponManagement>().like(StringUtils.isNotEmpty(couponName), "coupon_name", couponName)
@@ -89,6 +98,7 @@ public class CouponManagementServiceImpl extends ServiceImpl<CouponMapper, Coupo
         }
         //保存优惠券的表
         this.couponMapper.add(couponManagementAll);
+        updateStatus(couponManagementAll.getId());
 
     }
 
@@ -141,6 +151,52 @@ public class CouponManagementServiceImpl extends ServiceImpl<CouponMapper, Coupo
             List<CouponAddClass> specifyClassification = couponManagementAll.getSpecifyClassification();
             couponMapper.couponAddClass(specifyClassification,couponManagementAll.getId());
         }
+    }
+
+
+    /**
+     * 将失效时间放入mq中，然后判断是否已过期
+     * @param id
+     */
+    @Override
+    public void updateStatus(String id) {
+        CouponManagementAll couponManagementAll = this.couponMapper.queryById(id);
+        System.out.println("con=" + couponManagementAll );
+        String expirationDate = couponManagementAll.getExpirationDate();
+        System.out.println("ex=" + expirationDate);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String[] split = expirationDate.split(",");
+        System.out.println("split=" + split[0]);
+        //开始时间
+        String startTime = split[0];
+        //结束时间
+        String endTime = split[1];
+        MessageProperties messageProperties = new MessageProperties();
+        try {
+            Date sTime = simpleDateFormat.parse(startTime);
+            Date eTime = simpleDateFormat.parse(endTime);
+            Long time =  eTime.getTime() - sTime.getTime();
+
+            System.out.println("time=" + String.valueOf(time));
+            //将有效期时间放入mq中的message
+//            messageProperties.setExpiration("10000");
+            messageProperties.setExpiration(String.valueOf(time));
+            Message message = new Message(couponManagementAll.getId().getBytes(), messageProperties);
+            this.rabbitTemplate.convertAndSend("123","123",message);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RabbitListener(queues = "789")
+    public void listener(Message message){
+        String id = new String(message.getBody());
+        System.out.println("mes=" + message);
+        System.out.println("mesid=" + id);
+        CouponManagementAll couponManagementAll = this.couponMapper.queryById(id);
+        couponManagementAll.setStatus("已过期");
+        this.couponMapper.edit(couponManagementAll);
     }
 
     @Override

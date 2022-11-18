@@ -68,8 +68,13 @@ public class TimeLimitedSecondKillImpl extends ServiceImpl<TimeLimitedSecondKill
     @Transactional(rollbackFor = Exception.class)
     public Integer updateData(LimitedTimeFlashDeal limitedTimeFlashDeal) throws Exception {
         Integer i = timeLimitedSecondKillMapper.update(limitedTimeFlashDeal,
-                new QueryWrapper<LimitedTimeFlashDeal>().eq("version",limitedTimeFlashDeal.getVersion()));
-        Integer i2 = timeLimitedSecondKillMapper.updateVersion(limitedTimeFlashDeal.getId());
+                new QueryWrapper<LimitedTimeFlashDeal>().eq("version",limitedTimeFlashDeal.getVersion())
+                        .eq("id",limitedTimeFlashDeal.getId()));
+        Integer i2 = -1;
+        if(i==1){
+            i2 = timeLimitedSecondKillMapper.updateVersion(limitedTimeFlashDeal.getId());
+
+        }
         if(i==-1||i2==-1){
             throw new Exception("修改失败");
         }
