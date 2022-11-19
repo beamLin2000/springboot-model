@@ -86,14 +86,15 @@ public class FristPageController {
 
         String drugType = params.get("drugType").toString();
         System.out.println(drugType);
-        List<DrugDto> drugDtos = this.sysUserRedis.getDrugList(drugType,0,-1);
-        map.put("goods",drugDtos);
-        System.out.println(drugDtos);
-        if (drugDtos.size()==0||drugDtos==null){
+        List<Goods> goodDrugList = this.sysUserRedis.getGoodDrugList(drugType, 0, -1);
+        map.put("goods",goodDrugList);
+        System.out.println(goodDrugList);
+        if (goodDrugList.size()==0||goodDrugList==null){
             QueryWrapper<Goods> wrapper = new QueryWrapper<>();
             List<Goods> goods = this.goodsService.getBaseMapper().selectList(wrapper.like("main_function",drugType));
-
-            this.sysUserRedis.addAssortGoods(drugType,goods);
+            if (goods.size()!=0&&goods!=null){
+                this.sysUserRedis.addGoods(drugType,goods);
+            }
             map.put("goods",goods);
         }
 

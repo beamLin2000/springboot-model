@@ -25,4 +25,19 @@
     from drug d,t_shopping_cart sc
     where d.id = sc.d_id and sc.order_no=#{orderNo}
     </select>
+    <select id="queryOrderIdByName" resultType="java.lang.Integer">
+        select id
+        from drug
+        where drug_name like CONCAT('%',#{name},'%')
+    </select>
+    <select id="queryOrderNo" resultType="java.lang.String">
+        select order_no
+        from t_shopping_cart
+        where d_id=#{id} and u_id = #{userId}
+    </select>
+    <select id="queryByname" resultMap="waitpayorder">
+        select order_no,order_amount
+        from `order`
+        where order_no=#{id}
+    </select>
 </mapper>

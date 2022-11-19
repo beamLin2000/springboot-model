@@ -13,6 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @TableName("drug")
 public class GoodsInfo {
+    @TableField("id")
+    private Integer id;
     @TableField("detailed_introduction")
     private String imageUrl;
     @TableField("price")

@@ -24,6 +24,12 @@
     </resultMap>
 
 
+    <insert id="addDrugUserInfoForm">
+        INSERT INTO drug_user_info(id,user_id,drug_user_name,drug_user_relation,drug_user_idCard,gender,phone,allergy_history,family_history,liver_function,renal_function,pregnant_lactation,birthday,age,real_name,version)
+        VALUE (#{drugUserInfo.id},#{drugUserInfo.userId},#{drugUserInfo.drugUserName},#{drugUserInfo.drugUserRelation},#{drugUserInfo.drugUserIdCard},#{drugUserInfo.gender},#{drugUserInfo.phone}
+        ,#{drugUserInfo.allergyHistory},#{drugUserInfo.familyHistory},#{drugUserInfo.liverFunction},#{drugUserInfo.renalFunction},#{drugUserInfo.pregnantLactation},
+        #{drugUserInfo.birthday},#{drugUserInfo.age},#{drugUserInfo.realName},#{drugUserInfo.version})
+    </insert>
 
 
     <update id="update">

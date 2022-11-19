@@ -19,4 +19,6 @@ public class Goods {
     private String pictureUrl;
     @TableField("price")
     private Double price;
+    @TableField("id")
+    private Integer id;
 }

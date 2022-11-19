@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Api(tags = "分类查询")
+@Api(tags = "前台分类查询")
 @RestController
 @RequestMapping("/assort")
 public class AssortController {
@@ -96,9 +96,9 @@ public class AssortController {
 
         if (drugDtos1.size()==0){
             List<DrugDto> drugDtos = this.assortService.queryDrugByCondition(drugType,condition,sort);
-
-            this.sysUserRedis.addConditionAssortDrug(drugType,condition,sort,drugDtos);
-
+            if (drugDtos.size()!=0&&drugDtos!=null){
+                this.sysUserRedis.addConditionAssortDrug(drugType,condition,sort,drugDtos);
+            }
             map.put("drugDtos",drugDtos);
 
         }

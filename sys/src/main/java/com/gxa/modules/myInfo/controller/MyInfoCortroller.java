@@ -69,7 +69,7 @@ public class MyInfoCortroller {
         User user = this.userTokenService.validateUserToken(token);
         log.info(neam);
         System.out.println(user);
-        List<WaitPayOrder> waitPayOrders = this.myOrderService.queryOrderByName(user.getId(), neam);
+        List<WaitPayOrder> waitPayOrders = this.myOrderService.queryOrderByName(user.getId(),neam);
         return new Result().ok(waitPayOrders);
     }
     @ApiOperation("取消订单")

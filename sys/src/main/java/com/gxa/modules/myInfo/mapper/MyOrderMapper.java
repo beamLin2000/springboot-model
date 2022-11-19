@@ -10,4 +10,7 @@ import java.util.List;
 public interface MyOrderMapper {
     List<WaitPayOrder> queryByStatus(@Param("id") Integer id, @Param("status") String status);
     List<OrderTemp> queryByIdAndStatus(@Param("orderNo") String orderNo);
+    List<Integer> queryOrderIdByName(@Param("name")String name);
+    String queryOrderNo(@Param("userId") Integer userId,@Param("id") Integer id);
+    WaitPayOrder queryByname(@Param("id") String id);
 }

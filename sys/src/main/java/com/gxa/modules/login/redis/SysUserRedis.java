@@ -106,6 +106,16 @@ public class SysUserRedis {
 
         this.redisUtils.set(RedisKeys.getAssortDrugKey(drugType),list);
     }
+    public void addGoods(String drugType, List<Goods> goods){
+        List<String> list = new ArrayList<>();
+        for (Goods good:goods){
+            String drugStr = JsonUtils.toJsonString(good);
+            list.add(drugStr);
+        }
+
+
+        this.redisUtils.set(RedisKeys.getDrugKey(drugType),list);
+    }
 
     public void addConditionAssortDrug(String drugType,String condition,String sort, List<DrugDto> drugDtos){
         List<String> list = new ArrayList<>();
@@ -124,6 +134,18 @@ public class SysUserRedis {
             String s = o.toString();
             DrugDto drugDto = JsonUtils.parseObject(s,DrugDto.class);
             drugDtos.add(drugDto);
+        }
+        return drugDtos;
+
+    }
+    public List<Goods> getGoodDrugList(String key,Integer start,Integer end){
+        List<Object> list = this.redisUtils.getGoodList(RedisKeys.getDrugKey(key), start, end);
+        List<Goods> drugDtos = new ArrayList<>();
+        for (Object o :
+                list) {
+            String s = o.toString();
+            Goods goods = JsonUtils.parseObject(s,Goods.class);
+            drugDtos.add(goods);
         }
         return drugDtos;
 

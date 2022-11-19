@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -45,8 +46,8 @@ public class CouponUsageInformation {
     private String currentState;
 
     @TableField(value = "usage_time")
-    @ApiModelProperty(name = "usageTime",value = "使用时间",dataType = "String")
-    private String usageTime;
+    @ApiModelProperty(name = "usageTime",value = "使用时间",dataType = "Date")
+    private Date usageTime;
 
     @TableField(value = "order_number")
     @ApiModelProperty(name = "orderNumber",value = "订单号",dataType = "String")

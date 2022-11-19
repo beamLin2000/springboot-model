@@ -16,7 +16,7 @@ spring:
   redis:
     open: true  # 是否开启redis缓存  true开启   false关闭
     database: 0
-    password:
+    password: gxa123456
     host: 112.124.36.129
     timeout: 6000ms  # 连接超时时长（毫秒）
     jedis:

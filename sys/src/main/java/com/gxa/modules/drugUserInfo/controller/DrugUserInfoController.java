@@ -3,6 +3,7 @@ package com.gxa.modules.drugUserInfo.controller;
 
 import com.gxa.common.utils.Result;
 import com.gxa.modules.drugUserInfo.entity.DrugUserInfo;
+import com.gxa.modules.drugUserInfo.entity.DrugUserInfoForm;
 import com.gxa.modules.drugUserInfo.service.DrugUserInfoService;
 import com.gxa.modules.login.entity.User;
 import com.gxa.modules.login.service.UserTokenService;
@@ -39,7 +40,7 @@ public class DrugUserInfoController {
     @GetMapping("/drugUserInfo/list02")
     public Result drugUserInfoList02(HttpServletRequest request) {
         String token = request.getHeader("token");
-        User user = this.userTokenService.validateToken(token);
+        User user = this.userTokenService.validateUserToken(token);
         System.out.println("user==============="+user);
         List<DrugUserInfo> drugUserInfos = this.drugUserInfoService.selectDrugUserInfoP(user.getId());
 
@@ -57,12 +58,13 @@ public class DrugUserInfoController {
      */
     @ApiOperation("用药人添加接口")
     @PostMapping("/drugUserInfo/add")
-    public Result drugUserInfoAdd(@RequestBody DrugUserInfo drugUserInfo, HttpServletRequest request){
+    public Result drugUserInfoAdd(@RequestBody DrugUserInfoForm drugUserInfo){
+//        drugUserInfo.setUserId(6);
         drugUserInfo.setVersion(1);
-        String token = request.getHeader("token");
-        User user = this.userTokenService.validateToken(token);
-        drugUserInfo.setUserId(user.getId());
-        int i = this.drugUserInfoService.addDrugUserInfo(drugUserInfo);
+//        String token = request.getHeader("token");
+//        User user = this.userTokenService.validateToken(token);
+//        drugUserInfo.setUserId(user.getId());
+        int i = this.drugUserInfoService.addDrugUserInfoForm(drugUserInfo);
         if (i != 1){
             return new Result().error("添加失败！！！");
         }

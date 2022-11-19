@@ -5,6 +5,7 @@ import com.gxa.modules.confirmOrder.entity.ConfirmOrder;
 import com.gxa.modules.confirmOrder.entity.DrugUserInformation;
 import com.gxa.modules.confirmOrder.entity.Order;
 import com.gxa.modules.shoppingCart.entity.ShoppingCart;
+import com.gxa.modules.sys.entity.backStage.promotion.couponManagement.CouponUsageInformation;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,4 +30,7 @@ public class OrderForm {
 
     @ApiModelProperty(name = "prescriptionId",value = "把处方id放进来")
     private Integer prescriptionId;
+
+    @ApiModelProperty(name = "couponUsageInformation",value = "优惠券信息")
+    private CouponUsageInformation couponUsageInformation;
 }

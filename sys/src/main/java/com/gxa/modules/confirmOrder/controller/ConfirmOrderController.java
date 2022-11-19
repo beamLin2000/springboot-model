@@ -2,7 +2,7 @@ package com.gxa.modules.confirmOrder.controller;
 
 
 import com.gxa.common.utils.Result;
-import com.gxa.modules.confirmOrder.dto.OrderDto;
+
 import com.gxa.modules.confirmOrder.entity.*;
 import com.gxa.modules.confirmOrder.form.OrderForm;
 import com.gxa.modules.confirmOrder.service.ConfirmOrderService;
@@ -79,7 +79,7 @@ public class ConfirmOrderController {
             this.shoppingCartService.addShoppingCar(shoppingCart);
         }
 
-
+        this.couponUsageInfoService.editCoupons(form.getCouponUsageInformation());
 
         return new Result().ok();
     }

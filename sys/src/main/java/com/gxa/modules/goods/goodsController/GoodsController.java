@@ -136,7 +136,7 @@ public class GoodsController {
             @ApiImplicitParam(paramType = "query",name = "limit",value ="每页显示多少条",dataType ="int"),
             @ApiImplicitParam(paramType = "query",name = "order",value ="升序asc，降序填desc",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "sidx",value ="排序字段",dataType ="String"),
-            @ApiImplicitParam(paramType = "query",name = "id",value ="id",dataType ="String",required = true),
+            @ApiImplicitParam(paramType = "query",name = "id",value ="id",dataType ="String"),
     })
     @ApiResponses({
             @ApiResponse( code = 200,message = "ok",response = Medicinal.class)
@@ -154,7 +154,7 @@ public class GoodsController {
     @DeleteMapping("/medicinal/deleteMore")
     public Result medicinalDeleteMore(@RequestBody @ApiIgnore List<String> id){
         //删除Redis中的数据
-        for (int i=0;i<=id.size();i++){
+        for (int i=0;i<id.size();i++){
             List<Medicinal> medicinals = this.medicinalService.list(new QueryWrapper<Medicinal>().eq("higher_level", id.get(i)));
             for (Medicinal a:medicinals
             ) {
@@ -260,7 +260,7 @@ public class GoodsController {
     @DeleteMapping("/medicinal/two/deleteMore")
     public Result medicinalTwoDeleteMore(@RequestBody @ApiIgnore List<String> id){
         //删除Redis中的数据
-        for (int i=0;i<=id.size();i++){
+        for (int i=0;i<id.size();i++){
             List<Medicinal> medicinals = this.medicinalService.list(new QueryWrapper<Medicinal>().eq("id", id.get(i)));
             for (Medicinal a:medicinals
             ) {
@@ -376,7 +376,7 @@ public class GoodsController {
             @ApiImplicitParam(paramType = "query",name = "limit",value ="每页显示多少条",dataType ="int"),
             @ApiImplicitParam(paramType = "query",name = "order",value ="升序asc，降序填desc",dataType ="String"),
             @ApiImplicitParam(paramType = "query",name = "sidx",value ="排序字段",dataType ="String"),
-            @ApiImplicitParam(paramType = "query",name = "id",value ="id",dataType ="String",required = true)
+            @ApiImplicitParam(paramType = "query",name = "id",value ="id",dataType ="String")
     })
     @ApiResponses({
             @ApiResponse( code = 200,message = "ok",response = Symptom.class)
@@ -626,7 +626,7 @@ public class GoodsController {
         //删除Redis中的数据
         for (String i:id
         ) {
-            redisUtils.delete("Assort:"+ Base64Utils.encode(this.medicinalService.getById(i).getCategoryName()));
+            redisUtils.delete("Assort:"+ Base64Utils.encode(this.medicinalService.getById(this.drugService.getById(i).getMedicinalId()).getCategoryName()));
         }
 
         this.drugService.removeByIds(id);

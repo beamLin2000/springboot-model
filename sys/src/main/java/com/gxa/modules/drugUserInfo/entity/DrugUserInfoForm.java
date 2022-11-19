@@ -1,6 +1,5 @@
 package com.gxa.modules.drugUserInfo.entity;
 
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,16 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 
-
-//用药人信息
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("drug_user_info")
-
-public class DrugUserInfo {
+public class DrugUserInfoForm {
     @ApiModelProperty(name = "id",value = "id",dataType = "Integer",required = true)
     @TableField("id")
     private Integer id;
@@ -78,12 +73,8 @@ public class DrugUserInfo {
     @TableField("pregnant_lactation")
     private Integer pregnantLactation;//妊娠哺乳
 
-    @ApiModelProperty(name = "version",value = "版本号",dataType = "Integer",required = false)
+    @ApiModelProperty(name = "version",value = "版本号",dataType = "Integer",hidden = true)
     @TableField("version")
     private Integer version;//版本号
 
-
-    @ApiModelProperty(name = "medicalRecord",value = "处方单",dataType = "String")
-    @TableField("medical_record")
-    private String medicalRecord;//tupian
 }

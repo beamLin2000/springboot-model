@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.conditions.update.UpdateChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gxa.modules.drugUserInfo.entity.DrugUserInfo;
+import com.gxa.modules.drugUserInfo.entity.DrugUserInfoForm;
 import com.gxa.modules.drugUserInfo.mapper.DrugUserInfoMapper;
 import com.gxa.modules.drugUserInfo.service.DrugUserInfoService;
 import org.apache.ibatis.annotations.Param;
@@ -74,8 +75,18 @@ public class DrugUserInfoServiceImpl extends ServiceImpl<DrugUserInfoMapper, Dru
         return id;
     }
 
+    @Override
+    public int addDrugUserInfoForm(DrugUserInfoForm drugUserInfoForm) {
+        int id = this.drugUserInfoMapper.id() + 1;
+        int i = this.drugUserInfoMapper.addDrugUserInfoForm(drugUserInfoForm);
+        if (drugUserInfoForm.getId() == id){
 
 
+            return i;
+        }
+        return i;
+
+    }
 
 
     @Override

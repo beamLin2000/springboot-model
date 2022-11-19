@@ -12,6 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GoodsInfodto {
+    @ApiModelProperty("药品id")
+    private Integer id;
     @ApiModelProperty("轮播图图片地址")
     private String imageUrl;
     @ApiModelProperty("价格")
@@ -35,6 +37,7 @@ public class GoodsInfodto {
     @ApiModelProperty("说明书图片地址")
     private String detailsUrl;
    public GoodsInfodto(GoodsInfo goodsInfo){
+        this.id = goodsInfo.getId();
         this.imageUrl=goodsInfo.getImageUrl();
         this.price=goodsInfo.getPrice();
         this.num=goodsInfo.getNum();

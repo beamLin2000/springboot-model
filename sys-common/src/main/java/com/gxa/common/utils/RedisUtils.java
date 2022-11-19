@@ -86,6 +86,12 @@ public class RedisUtils {
 
         return range;
     }
+    public List<Object> getGoodList(String key,Integer start,Integer end){
+        System.out.println(key);
+        List<Object> range = listOperations.range(key,0,-1);
+
+        return range;
+    }
 
 
 

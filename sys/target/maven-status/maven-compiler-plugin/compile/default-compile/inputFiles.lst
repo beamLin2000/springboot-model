@@ -94,6 +94,7 @@ D:\git-demo\重试\sys\src\main\java\com\gxa\modules\prescription\controller\Pre
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\sys\controller\Reception\personal\MySettings.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\confirmOrder\entity\ConfirmOrder.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\myInfo\service\impl\CancelServiceImpl.java
+D:\git-demo\重试\sys\src\main\java\com\gxa\modules\drugUserInfo\entity\DrugUserInfoForm.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\sys\form\backstage\promotion\coupon\Search.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\goods\goodsEntity\Symptom.java
 D:\git-demo\重试\sys\src\main\java\com\gxa\modules\sys\mapper\backStage\user\AddressMapper.java
