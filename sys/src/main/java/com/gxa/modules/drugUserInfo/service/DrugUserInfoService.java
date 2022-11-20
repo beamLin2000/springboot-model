@@ -17,4 +17,8 @@ public interface DrugUserInfoService extends IService<DrugUserInfo> {
 
     List<DrugUserInfo> selectDrugUserInfoP(Integer userId);
 
+
+
+    List<DrugUserInfoForm> selectAll(Integer userId);
+
 }

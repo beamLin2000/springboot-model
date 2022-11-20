@@ -3,6 +3,8 @@ package com.gxa.modules.shoppingCart.cotroller;
 import com.gxa.common.utils.PageUtils;
 import com.gxa.common.utils.Result;
 import com.gxa.modules.content.carousel.service.CarouselService;
+import com.gxa.modules.login.entity.User;
+import com.gxa.modules.login.service.UserTokenService;
 import com.gxa.modules.shoppingCart.dto.ShoppingCartDto;
 import com.gxa.modules.shoppingCart.entity.ShoppingCart;
 import com.gxa.modules.shoppingCart.service.ShoppingCartService;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +25,9 @@ import java.util.Map;
 @RestController
 @Slf4j
 public class SoppingCartController {
+
+    @Autowired
+    private UserTokenService userTokenService;
 
     @Autowired
     private ShoppingCartService shoppingCartService;
@@ -53,14 +59,17 @@ public class SoppingCartController {
 
     /**
      *
-     * @param userId
+     * @param
      * @return
      */
     @ApiOperation("购物车详情接口")
     @GetMapping("/shoppingcart/list01")
-    public Result shoppingCartSelect(@RequestParam("userId") Integer userId){
+    public Result shoppingCartSelect(HttpServletRequest request){
+        String token = request.getHeader("token");
+        User user = this.userTokenService.validateUserToken(token);
+        System.out.println("user===================="+user);
 
-        List<ShoppingCartDto> shoppingCarts = this.shoppingCartService.querySpCart(userId);
+        List<ShoppingCartDto> shoppingCarts = this.shoppingCartService.querySpCart(user.getId());
         return new Result().ok(shoppingCarts);
     }
 

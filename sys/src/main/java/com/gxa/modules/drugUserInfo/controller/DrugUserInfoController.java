@@ -30,6 +30,21 @@ public class DrugUserInfoController {
     private UserTokenService userTokenService;
 
 
+    @ApiOperation("添加过后的用药人")
+    @GetMapping("/drugUserInfo/list0001")
+    public Result drugUserInfoList0001(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        User user = this.userTokenService.validateUserToken(token);
+        System.out.println("user==============="+user);
+        List<DrugUserInfoForm> drugUserInfoForms = this.drugUserInfoService.selectAll(user.getId());
+
+
+
+        return new Result().ok(drugUserInfoForms);
+    }
+
+
+
 
     /**
      *
@@ -58,12 +73,12 @@ public class DrugUserInfoController {
      */
     @ApiOperation("用药人添加接口")
     @PostMapping("/drugUserInfo/add")
-    public Result drugUserInfoAdd(@RequestBody DrugUserInfoForm drugUserInfo){
+    public Result drugUserInfoAdd(HttpServletRequest request,@RequestBody DrugUserInfoForm drugUserInfo){
 //        drugUserInfo.setUserId(6);
         drugUserInfo.setVersion(1);
-//        String token = request.getHeader("token");
-//        User user = this.userTokenService.validateToken(token);
-//        drugUserInfo.setUserId(user.getId());
+        String token = request.getHeader("token");
+        User user = this.userTokenService.validateUserToken(token);
+        drugUserInfo.setUserId(user.getId());
         int i = this.drugUserInfoService.addDrugUserInfoForm(drugUserInfo);
         if (i != 1){
             return new Result().error("添加失败！！！");
@@ -90,6 +105,7 @@ public class DrugUserInfoController {
     @ApiOperation("用药人修改接口")
     @PutMapping("/drugUserInfo/update")
     public Result drugUserInfoUpdate(@RequestBody DrugUserInfo drugUserInfo){
+
         int i = this.drugUserInfoService.updateDrugUserInfo(drugUserInfo);
         if (i != 1){
             return  new Result().error("修改失败!!!");

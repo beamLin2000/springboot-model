@@ -80,13 +80,17 @@ public class HomePageController {
     @ApiOperation(value="交易统计的查询接口")
      @GetMapping("/getTransactionStatistics")
     public Result getTransactionStatistics(@RequestParam("date") String date){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date today = null;
         try {
+
+            System.out.println(date
+            );
             today = format.parse(date);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+        System.out.println(today);
         List<TransactionStatistics> transactionStatistics = this.transactionStatisticsService.queryTransaction(today);
         Map map = new HashMap();
         map.put("list",transactionStatistics);

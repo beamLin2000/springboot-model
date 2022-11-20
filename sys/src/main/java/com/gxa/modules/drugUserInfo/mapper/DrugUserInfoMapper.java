@@ -20,4 +20,8 @@ public interface DrugUserInfoMapper extends BaseMapper<DrugUserInfo> {
 
     List<DrugUserInfo> selectDrugUserInfoP(Integer userId);
 
+
+
+    List<DrugUserInfoForm> selectAll(Integer userId);
+
 }

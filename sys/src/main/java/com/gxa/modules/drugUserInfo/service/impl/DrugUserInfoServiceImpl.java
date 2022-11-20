@@ -95,5 +95,11 @@ public class DrugUserInfoServiceImpl extends ServiceImpl<DrugUserInfoMapper, Dru
         return drugUserInfos;
     }
 
+    @Override
+    public List<DrugUserInfoForm> selectAll(Integer userId) {
+        List<DrugUserInfoForm> drugUserInfoForms = this.drugUserInfoMapper.selectAll(userId);
+        return drugUserInfoForms;
+    }
+
 
 }

@@ -23,6 +23,7 @@ public class TransactionStatisticsServiceImpl implements TransactionStatisticsSe
             time1= time-24*60*60*1000;
             today.setTime(time1);
             tomorrow.setTime(time);
+            System.out.println(today);
             Double aDouble = this.transactionStatisticsMapper.queryTransaction(today, tomorrow);
             if (aDouble==null){
                 aDouble=0.0;

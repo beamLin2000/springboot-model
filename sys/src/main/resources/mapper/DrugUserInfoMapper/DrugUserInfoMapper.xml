@@ -40,9 +40,7 @@
 
     <update id="updateDrug">
         UPDATE drug_user_info
-        SET user_id=#{drugUserInfo.userId},drug_user_name=#{drugUserInfo.drugUserName},drug_user_relation=#{drugUserInfo.drugUserRelation},drug_user_idCard=#{drugUserInfo.drugUserIdCard},
-        gender=#{drugUserInfo.gender},phone=#{drugUserInfo.phone},allergy_history=#{drugUserInfo.allergyHistory},family_history=#{drugUserInfo.familyHistory},liver_function=#{drugUserInfo.liverFunction},
-        renal_function=#{drugUserInfo.renalFunction},pregnant_lactation=#{drugUserInfo.pregnantLactation},birthday=#{drugUserInfo.birthday},age=#{drugUserInfo.age},real_name=#{drugUserInfo.realName}
+        SET user_id=#{drugUserInfo.userId},drug_user_name=#{drugUserInfo.drugUserName},drug_user_relation=#{drugUserInfo.drugUserRelation},drug_user_idCard=#{drugUserInfo.drugUserIdCard},gender=#{drugUserInfo.gender},phone=#{drugUserInfo.phone},allergy_history=#{drugUserInfo.allergyHistory},family_history=#{drugUserInfo.familyHistory},liver_function=#{drugUserInfo.liverFunction},renal_function=#{drugUserInfo.renalFunction},pregnant_lactation=#{drugUserInfo.pregnantLactation},birthday=#{drugUserInfo.birthday},age=#{drugUserInfo.age},real_name=#{drugUserInfo.realName}
         WHERE id=#{drugUserInfo.id} and version=#{drugUserInfo.version}
     </update>
 
@@ -62,6 +60,12 @@
         d.family_history,d.liver_function,d.renal_function,d.pregnant_lactation,d.birthday,d.version,p.medical_record
         FROM prescription p,drug_user_info d
         WHERE d.id=p.drug_user_info_id and d.user_id = #{userId}
+    </select>
+
+    <select id="selectAll" resultType="com.gxa.modules.drugUserInfo.entity.DrugUserInfoForm">
+        SELECT *
+        FROM drug_user_info
+        WHERE user_id=#{userId}
     </select>
 
 </mapper>

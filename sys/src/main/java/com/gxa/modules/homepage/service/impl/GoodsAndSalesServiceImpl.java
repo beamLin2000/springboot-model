@@ -17,6 +17,9 @@ public class GoodsAndSalesServiceImpl extends ServiceImpl<GoodsAndSalesMapper,Go
     public GoodsAndSales queryGoodsAndSalesByToday(Date today,Date tomorrow) {
         GoodsAndSales goodsAndSales = this.goodsAndSalesMapper.queryGoodsAndSalesByToday(today,tomorrow);
         GoodsAndSales goodsAndSales1 = this.goodsAndSalesMapper.queryGoodsAndSales();
+        if (goodsAndSales.getTodaySaleMoney()==null){
+            goodsAndSales.setTodaySaleMoney(0.0);
+        }
         GoodsAndSales goodsAndSales2 = new GoodsAndSales(goodsAndSales1.getGoodNum(),goodsAndSales1.getTotalSaleMoney()
         ,goodsAndSales.getTodayOrder(),goodsAndSales.getTodaySaleMoney());
         return goodsAndSales2;

@@ -25,9 +25,9 @@ import java.util.List;
 @ApiModel("优惠券使用信息")
 @TableName("promotion_couponUsageInformation")
 public class CouponUsageInformation {
-    @TableId(value = "id")
+    @TableId(value = "id",type = IdType.AUTO)
     @ApiModelProperty(name = "id",value = "id",dataType = "Integer")
-    private String id;
+    private Integer id;
 
     @TableField(value = "member")
     @ApiModelProperty(name = "member",value = "会员",dataType = "String")
